@@ -39,14 +39,24 @@ void ShaderManager::SetActiveVertexShader(int t_vertexShaderIndex)
 
 QOpenGLShaderProgram* ShaderManager::SetUpShaderProgram(int t_vertexShaderIndex, int t_fragmentShaderIndex)
 {
-    m_shaderProgram->removeAllShaders();
-    SetActiveVertexShader(t_vertexShaderIndex);
-    SetActiveFragmentShader(t_fragmentShaderIndex);
-    m_shaderProgram->link();
-    return m_shaderProgram;
+    QOpenGLShaderProgram * tmpProgram = new QOpenGLShaderProgram();
+    tmpProgram->addShader(m_vertexShaders[t_vertexShaderIndex]);
+    tmpProgram->addShader(m_fragmentShaders[t_fragmentShaderIndex]);
+    tmpProgram->link();
+    m_shaderPrograms.push_back(tmpProgram);
+//    m_shaderProgram->removeAllShaders();
+//    SetActiveVertexShader(t_vertexShaderIndex);
+//    SetActiveFragmentShader(t_fragmentShaderIndex);
+//    m_shaderProgram->link();
+    return tmpProgram;
 }
 
 QOpenGLShaderProgram* ShaderManager::GetCurrentShaderProgram()
 {
-    return m_shaderProgram;
+    return m_shaderPrograms.last();
+}
+
+QOpenGLShaderProgram* ShaderManager::GetShaderProgram(int t_index)
+{
+    return m_shaderPrograms[t_index];
 }

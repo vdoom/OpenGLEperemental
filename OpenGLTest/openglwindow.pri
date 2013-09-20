@@ -10,4 +10,6 @@ HEADERS += $$PWD/openglwindow.h \
     shadermanager.h \
     boxtextured.h \
     common.h \
-    plane.h
+    plane.h \
+    shaders.h \
+    light_test.h

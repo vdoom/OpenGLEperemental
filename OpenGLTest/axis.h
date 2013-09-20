@@ -18,6 +18,7 @@ private:
     GLfloat *coordsArray;
     QMatrix3x3 m_matrix;
     ShaderManager * m_shaderManager;
+    QOpenGLShaderProgram * m_currentShaderProgram;
 
     GLuint posAtribLoc;
     GLuint colorAtribLoc;
@@ -28,6 +29,7 @@ private:
 public:
     explicit Axis(QVector3D t_axisVector, QVector3D t_axisColor, ShaderManager * t_shaderManager);
     ~Axis();
+    void InitShaders();
     void Draw(QMatrix4x4);
     
 //signals:

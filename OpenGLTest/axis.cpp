@@ -11,14 +11,19 @@ Axis::Axis(QVector3D t_axisVector, QVector3D t_axisColor, ShaderManager * t_shad
     SetUpColor(m_axisColor);
 }
 
+void Axis::InitShaders()
+{
+    m_currentShaderProgram = m_shaderManager->SetUpShaderProgram(0, 0);
+
+    posAtribLoc = m_currentShaderProgram->attributeLocation("posAttr");
+    colorAtribLoc = m_currentShaderProgram->attributeLocation("colAttr");
+    matrixUniform = m_currentShaderProgram->uniformLocation("matrix");
+}
+
 void Axis::Draw(QMatrix4x4 t_projectionMatrix)
 {
-    m_shaderManager->SetUpShaderProgram(0, 0);
-    posAtribLoc = m_shaderManager->GetCurrentShaderProgram()->attributeLocation("posAttr");
-    colorAtribLoc = m_shaderManager->GetCurrentShaderProgram()->attributeLocation("colAttr");
-    matrixUniform = m_shaderManager->GetCurrentShaderProgram()->uniformLocation("matrix");
-    m_shaderManager->GetCurrentShaderProgram()->bind();
-    m_shaderManager->GetCurrentShaderProgram()->setUniformValue(matrixUniform, t_projectionMatrix);
+    m_currentShaderProgram->bind();
+    m_currentShaderProgram->setUniformValue(matrixUniform, t_projectionMatrix);
     glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, coordsArray);
     glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, colorsArray);
 
@@ -30,7 +35,7 @@ void Axis::Draw(QMatrix4x4 t_projectionMatrix)
     glDisableVertexAttribArray(colorAtribLoc);
     glDisableVertexAttribArray(posAtribLoc);
 
-    m_shaderManager->GetCurrentShaderProgram()->release();
+    m_currentShaderProgram->release();
 }
 
 void Axis::SetUpCoords(QVector3D t_axisVector)

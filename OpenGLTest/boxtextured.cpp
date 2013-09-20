@@ -57,14 +57,9 @@ void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
 //        0.3f, 0.3f, 1.0f
 //    };
 
-    m_shaderManager->SetUpShaderProgram(1, 1);//(1, 1);
-    posAtribLoc = m_shaderManager->GetCurrentShaderProgram()->attributeLocation("position");
-    colorAtribLoc = m_shaderManager->GetCurrentShaderProgram()->attributeLocation("texcoord");
-    matrixUniform = m_shaderManager->GetCurrentShaderProgram()->uniformLocation("modelViewProjectionMatrix");
-    textureLocation = m_shaderManager->GetCurrentShaderProgram()->uniformLocation("colorTexture");
-    m_shaderManager->GetCurrentShaderProgram()->bind();
-    m_shaderManager->GetCurrentShaderProgram()->setUniformValue(textureLocation, 0);
-    m_shaderManager->GetCurrentShaderProgram()->setUniformValue(matrixUniform, t_projectionMatrix);
+    m_currentShaderProgram->bind();
+    m_currentShaderProgram->setUniformValue(textureLocation, 0);
+    m_currentShaderProgram->setUniformValue(matrixUniform, t_projectionMatrix);
 
     glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, cubePositions);
     glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE, 0, cubeTexcoords);
@@ -72,14 +67,22 @@ void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
     glEnableVertexAttribArray(posAtribLoc);
     glEnableVertexAttribArray(colorAtribLoc);
 
-   // glDrawElements(GL_TRIANGLES,36, GL_UNSIGNED_INT, cubeIndices);
     glDrawElements(GL_TRIANGLES, cubeIndicesCount, GL_UNSIGNED_INT, cubeIndices);
 
     glDisableVertexAttribArray(colorAtribLoc);
     glDisableVertexAttribArray(posAtribLoc);
 
-    m_shaderManager->GetCurrentShaderProgram()->release();
+    m_currentShaderProgram->release();
 
+}
+
+void BoxTextured::InitShaderProgram()
+{
+    m_currentShaderProgram = m_shaderManager->SetUpShaderProgram(1, 1);
+    posAtribLoc = m_currentShaderProgram->attributeLocation("position");
+    colorAtribLoc = m_currentShaderProgram->attributeLocation("texcoord");
+    matrixUniform = m_currentShaderProgram->uniformLocation("modelViewProjectionMatrix");
+    textureLocation = m_currentShaderProgram->uniformLocation("colorTexture");
 }
 
 GLuint BoxTextured::TextureCreateFromTGA(const char *fileName)
@@ -158,43 +161,43 @@ GLuint BoxTextured::TextureCreateFromTGA(const char *fileName)
         return texture;
 }
 
-//GLuint BoxTextured::TextureCreateFromTGA(const char *fileName = 0)
-//{
-//    GLint     format, internalFormat;
-//    GLuint    texture;
+/*GLuint BoxTextured::TextureCreateFromTGA(const char *fileName = 0)
+{
+    GLint     format, internalFormat;
+    GLuint    texture;
 
-//    // получим формат текстуры
-//    format = 0x80E0;
-//    internalFormat = 0x8051;
+    // получим формат текстуры
+    format = 0x80E0;
+    internalFormat = 0x8051;
 
-//    uint8_t buffer[] = {255,255,255,255};
-//    // запросим у OpenGL свободный индекс текстуры
-//    glGenTextures(1, &texture);
+    uint8_t buffer[] = {255,255,255,255};
+    // запросим у OpenGL свободный индекс текстуры
+    glGenTextures(1, &texture);
 
-//    // сделаем текстуру активной
-//    glBindTexture(GL_TEXTURE_2D, texture);
+    // сделаем текстуру активной
+    glBindTexture(GL_TEXTURE_2D, texture);
 
-//    // установим параметры фильтрации текстуры - линейная фильтрация
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // установим параметры фильтрации текстуры - линейная фильтрация
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-//    // установим параметры "оборачивания" текстуры - отсутствие оборачивания
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    // установим параметры "оборачивания" текстуры - отсутствие оборачивания
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-//    // загрузим данные о цвете в текущую автивную текстуру
-//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 4, 4, 0, format,
-//            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer));
+    // загрузим данные о цвете в текущую автивную текстуру
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 4, 4, 0, format,
+            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer));
 
-//    // после загрузки в текстуру данные о цвете в памяти нам больше не нужны
-//    //delete[] buffer;
+    // после загрузки в текстуру данные о цвете в памяти нам больше не нужны
+    //delete[] buffer;
 
-//    // проверим на наличие ошибок
-//    //OPENGL_CHECK_FOR_ERRORS();
+    // проверим на наличие ошибок
+    //OPENGL_CHECK_FOR_ERRORS();
 
-//    return texture;
-//        return texture;
-//}
+    return texture;
+        return texture;
+}*/
 
 void BoxTextured::LoadTexture(const char * t_textureFileName)
 {

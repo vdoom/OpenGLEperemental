@@ -50,6 +50,8 @@
 #include "shadermanager.h"
 #include "axis.h"
 #include "boxtextured.h"
+#include "plane.h"
+#include "shaders.h"
 
 class TriangleWindow : public OpenGLWindow
 {
@@ -70,6 +72,7 @@ private:
     int m_frame;
     Axis** axis;
     BoxTextured* box;
+    Plane* plane;
 };
 
 TriangleWindow::TriangleWindow()
@@ -78,39 +81,6 @@ TriangleWindow::TriangleWindow()
 {
 }
 
-static const char *vertexShaderSource =
-    "attribute highp vec4 posAttr;\n"
-    "attribute lowp vec4 colAttr;\n"
-    "varying lowp vec4 col;\n"
-    "uniform lowp mat4 matrix;\n"
-    "void main() {\n"
-    "   col = colAttr;\n"
-    "   gl_Position = matrix * posAttr;\n"
-    "}\n";
-
-static const char *fragmentShaderSource =
-    "varying lowp vec4 col;\n"
-    "void main() {\n"
-    "   gl_FragColor = col;\n"
-    "}\n";
-
-static const char * texturedVertexShaderSource =
-        "attribute lowp vec4 position;\n"
-        "attribute lowp vec2 texcoord;\n"
-        "varying lowp vec2 textureCoord;\n"
-        "uniform lowp mat4 modelViewProjectionMatrix;\n"
-        "void main() {\n"
-        "       gl_Position = modelViewProjectionMatrix * position;\n"/*vec4(position, 1.0);\n"*/
-        "        textureCoord = texcoord;\n"
-        "}\n";
-
-static const char * texturedFragmentShaderSource =
-        "uniform lowp sampler2D colorTexture;\n"
-        "varying lowp vec2 textureCoord;\n"
-        "void main() {\n"
-        "        gl_FragColor = texture2D(colorTexture, textureCoord );\n"
-        "}\n";
-
 void TriangleWindow::initialize()
 {
     m_shaderManager = new ShaderManager();
@@ -118,6 +88,8 @@ void TriangleWindow::initialize()
     m_shaderManager->AddVertexShader(vertexShaderSource);
     m_shaderManager->AddFragmentShader(texturedFragmentShaderSource);
     m_shaderManager->AddVertexShader(texturedVertexShaderSource);
+    m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
+   // m_shaderManager->AddVertexShader(materialVertexShaderSource);
 
     //m_shaderManager->SetUpShaderProgram(0, 0);
     //m_matrixUniform = m_shaderManager->GetCurrentShaderProgram()->uniformLocation("matrix");
@@ -125,8 +97,15 @@ void TriangleWindow::initialize()
     axis[0] = new Axis(QVector3D(2.0f, 0.0f, 0.0f), QVector3D(1.0f, 0.3f, 0.3f), m_shaderManager);
     axis[1] = new Axis(QVector3D(0.0f, 2.0f, 0.0f), QVector3D(0.3f, 1.0f, 0.3f), m_shaderManager);
     axis[2] = new Axis(QVector3D(0.0f, 0.0f, 2.0f), QVector3D(0.3f, 0.3f, 1.0f), m_shaderManager);
+    axis[0]->InitShaders();
+    axis[1]->InitShaders();
+    axis[2]->InitShaders();
     box = new BoxTextured(m_shaderManager);
     box->LoadTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
+    box->InitShaderProgram();
+    plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    plane->InitShader();
+    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     //glClearDepth(1.0f);
     //glClearDepth(2000.0);
@@ -135,7 +114,7 @@ void TriangleWindow::initialize()
 //    glShadeModel(GL_SMOOTH);  // Enables Smooth Color Shading
 //     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     glViewport(0, 0, width(), height());
 }
 
@@ -153,6 +132,7 @@ void TriangleWindow::render()
     {
         axis[i]->Draw(matrix);
     }
+    plane->Draw(matrix);
 
     ++m_frame;
 }

@@ -24,7 +24,7 @@ private:
             uint8_t  bitperpel;
             uint8_t  description;
     };
-GLint textureLocation = -1;
+    GLuint textureLocation = -1;
     bool LoadFile(const char *fileName, bool binary, uint8_t **buffer, quint32 *size)
     {
         //ASSERT(fileName);
@@ -83,9 +83,11 @@ GLint textureLocation = -1;
     GLuint matrixUniform;
 
     ShaderManager * m_shaderManager;
+    QOpenGLShaderProgram * m_currentShaderProgram;
 public:
     BoxTextured(ShaderManager * t_shaderManager);
     void Draw(QMatrix4x4);
+    void InitShaderProgram();
     void LoadTexture(const char * t_textureFileName);
 };
 
