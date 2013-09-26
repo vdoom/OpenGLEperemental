@@ -16,13 +16,16 @@ private:
     QVector3D m_axisColor;
     GLfloat *colorsArray;
     GLfloat *coordsArray;
+    GLfloat *allBuffer;
     QMatrix3x3 m_matrix;
     ShaderManager * m_shaderManager;
     QOpenGLShaderProgram * m_currentShaderProgram;
 
-    GLuint posAtribLoc;
-    GLuint colorAtribLoc;
+    GLint posAtribLoc;
+    GLint colorAtribLoc;
     GLuint matrixUniform;
+
+    GLuint meshVAO = 0, meshVBO = 0, colorVBO = 0;
 
     void SetUpCoords(QVector3D t_axisVector);
     void SetUpColor(QVector3D t_axisColor);

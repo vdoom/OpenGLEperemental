@@ -2,8 +2,8 @@
 #define SHADERS_H
 static const char *vertexShaderSource =
     "attribute highp vec4 posAttr;\n"
-    "attribute lowp vec4 colAttr;\n"
-    "varying lowp vec4 col;\n"
+    "attribute lowp vec3 colAttr;\n"
+    "varying lowp vec3 col;\n"
     "uniform lowp mat4 matrix;\n"
     "void main() {\n"
     "   col = colAttr;\n"
@@ -11,9 +11,9 @@ static const char *vertexShaderSource =
     "}\n";
 
 static const char *fragmentShaderSource =
-    "varying lowp vec4 col;\n"
+    "varying lowp vec3 col;\n"
     "void main() {\n"
-    "   gl_FragColor = col;\n"
+        "   gl_FragColor = vec4(col, 1.0);;\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
 static const char * texturedVertexShaderSource =
