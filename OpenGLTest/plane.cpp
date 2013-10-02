@@ -3,6 +3,7 @@
 
 Plane::Plane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
+    meshVBO = 0;
     textureIndex = 0;
     m_currentType = t_type;
     m_AA = t_AA;
@@ -10,6 +11,29 @@ Plane::Plane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, Pla
     m_shaderManager = t_shaderManager;
     SetupPlaneCoords(t_AA, t_BB);
     SetColor(QVector3D(1,255,1));
+}
+
+//Only For Texrtured Plane
+void Plane::GenerateCompleteBuffer() // call only after shader init
+{
+    const int positionsOffset = 12;
+    const int texCoordOffset = 8;
+    float * completeBuffer = new float[positionsOffset + texCoordOffset]; // positions count + texture coord count
+    for(int i = 0; i < positionsOffset; ++i)
+    {
+        completeBuffer[i] = planePositions[i];
+    }
+    for(int i = 0; i < texCoordOffset; ++i)
+    {
+        completeBuffer[positionsOffset + i] = planeTextureCoords[i];
+    }
+
+    glGenBuffers(1, &meshVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+
+    glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
+        completeBuffer, GL_STATIC_DRAW);
+
 }
 
 GLuint Plane::TextureCreateFromTGA(const char* fileName)
@@ -48,8 +72,8 @@ GLuint Plane::TextureCreateFromTGA(const char* fileName)
             return 0;
     }
 
-    format = (header->bitperpel == 24 ? GL_BGR : GL_BGRA);
-    internalFormat = (format == GL_BGR ? GL_RGB8 : GL_RGBA8);
+    format = (header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+    internalFormat = (format == GL_RGB ? GL_RGB : GL_RGBA);
 
     glGenTextures(1, &texture);
 
@@ -74,7 +98,10 @@ void Plane::SetTexture(const char* t_textureFileName)
     textureIndex = TextureCreateFromTGA(t_textureFileName);
 
     if (!textureIndex)
-            return;
+    {
+        qDebug()<<"BadTextureIndex";
+        return;
+    }
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureIndex);
@@ -116,22 +143,23 @@ void Plane::SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB)
     //SetupIndexes
     planeIndexes = new uint32_t[6];
 
-    planeIndexes[0] = 0;
+    planeIndexes[0] = 2;
     planeIndexes[1] = 1;
-    planeIndexes[2] = 3;
+    planeIndexes[2] = 0;
 
     planeIndexes[3] = 3;
-    planeIndexes[4] = 1;
-    planeIndexes[5] = 2;
+    planeIndexes[4] = 2;
+    planeIndexes[5] = 0;
+
 
     planeTextureCoords = new float[8];
     planeTextureCoords[0] = 1;
     planeTextureCoords[1] = 1;
     planeTextureCoords[2] = 0;
     planeTextureCoords[3] = 1;
-    planeTextureCoords[4] = 1;
+    planeTextureCoords[4] = 0;
     planeTextureCoords[5] = 0;
-    planeTextureCoords[6] = 0;
+    planeTextureCoords[6] = 1;
     planeTextureCoords[7] = 0;
 }
 
@@ -167,20 +195,34 @@ void Plane::DrawColored(QMatrix4x4 t_projectionMatrix)
 
 void Plane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
+    const int positionsOffset = 12 * sizeof(float);
+
+    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+
+    if (posAtribLoc != -1)
+    {
+        glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+            (3 * sizeof(float)), (const GLvoid*)0);
+        glEnableVertexAttribArray(posAtribLoc);
+    }
+    else
+    {qDebug()<<"isShit pos!!!";}
+    if (colorAtribLoc != -1)
+    {
+        glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
+                              (2 * sizeof(float)), (const GLvoid*)positionsOffset);
+        glEnableVertexAttribArray(colorAtribLoc);
+    }
+    else
+    {qDebug()<<"isShit color!!!";}
+
     m_currentShader->bind();
     m_currentShader->setUniformValue(textureLocation, 0);
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
 
-    glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
-    glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE, 0, planeTextureCoords);
-
-    glEnableVertexAttribArray(posAtribLoc);
-    glEnableVertexAttribArray(colorAtribLoc);
-
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-    glDisableVertexAttribArray(colorAtribLoc);
-    glDisableVertexAttribArray(posAtribLoc);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     m_currentShader->release();
 }

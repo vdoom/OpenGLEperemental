@@ -6,6 +6,9 @@
 BoxTextured::BoxTextured(ShaderManager * t_shaderManager)
 {
     m_shaderManager = t_shaderManager;
+    tmp = new float[36];
+    cof = 0;
+    ttt = -0.2;
 }
 
 void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
@@ -48,6 +51,20 @@ void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
             20,23,21, 21,23,22  // right
     };
 
+    cof+=ttt;
+    if(cof<=-1)
+    {
+        cof = -1;
+        ttt*=-1;
+    }
+    else if(cof >=5)
+    {
+        cof = 5;
+        ttt*=-1;
+    }
+    //qDebug()<<tmp[0];
+
+
 //    GLfloat colors[] = {
 //        1.0f, 0.3f, 0.3f,
 //        1.0f, 0.3f, 0.3f,
@@ -57,9 +74,12 @@ void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
 //        0.3f, 0.3f, 1.0f
 //    };
 
+
+
     m_currentShaderProgram->bind();
     m_currentShaderProgram->setUniformValue(textureLocation, 0);
     m_currentShaderProgram->setUniformValue(matrixUniform, t_projectionMatrix);
+    m_currentShaderProgram->setUniformValue(cofAtribLoc, cof);
 
     glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, cubePositions);
     glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE, 0, cubeTexcoords);
@@ -83,6 +103,7 @@ void BoxTextured::InitShaderProgram()
     colorAtribLoc = m_currentShaderProgram->attributeLocation("texcoord");
     matrixUniform = m_currentShaderProgram->uniformLocation("modelViewProjectionMatrix");
     textureLocation = m_currentShaderProgram->uniformLocation("colorTexture");
+    cofAtribLoc = m_currentShaderProgram->uniformLocation("cof");
 }
 
 GLuint BoxTextured::TextureCreateFromTGA(const char *fileName)

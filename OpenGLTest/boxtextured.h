@@ -80,10 +80,15 @@ private:
 
     GLuint posAtribLoc;
     GLuint colorAtribLoc;
+    GLuint cofAtribLoc;
     GLuint matrixUniform;
 
     ShaderManager * m_shaderManager;
     QOpenGLShaderProgram * m_currentShaderProgram;
+
+    float * tmp;
+    float cof;
+    float ttt;
 public:
     BoxTextured(ShaderManager * t_shaderManager);
     void Draw(QMatrix4x4);

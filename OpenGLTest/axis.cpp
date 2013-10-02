@@ -32,7 +32,7 @@ Axis::Axis(QVector3D t_axisVector, QVector3D t_axisColor, ShaderManager * t_shad
 }
 
 void Axis::InitShaders()
-{static const int VERTEX_COLOR_OFFSET    = 6 * sizeof(GLfloat);
+{//static const int VERTEX_COLOR_OFFSET    = 3 * sizeof(GLfloat);
     m_currentShaderProgram = m_shaderManager->SetUpShaderProgram(0, 0);
 
     posAtribLoc = m_currentShaderProgram->attributeLocation("posAttr");
@@ -52,36 +52,36 @@ void Axis::InitShaders()
         allBuffer, GL_STATIC_DRAW);
 
     //positionLocation = glGetAttribLocation(shaderProgram, "position");
-    if (posAtribLoc != -1)
-    {
-        // назначим на атрибут параметры доступа к VBO
-        glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
-            (3 * sizeof(float)), (const GLvoid*)0);
-        // разрешим использование атрибута
-        glEnableVertexAttribArray(posAtribLoc);
-    }
-    else
-    {qDebug()<<"isShit pos!!!";}
-//    //glBindVertexArray(0);
-//    glBindBuffer(GL_ARRAY_BUFFER, 0);
-////------------------------------------------------------
-//    glGenBuffers(1, &colorVBO);
-//    glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
-//    // заполним VBO данными треугольника
-//    glBufferData(GL_ARRAY_BUFFER, 2 * (3 * sizeof(float)),
-//        coordsArray, GL_STATIC_DRAW);
-//    // получим позицию атрибута 'color' из шейдера
-//    //colorLocation = glGetAttribLocation(shaderProgram, "colAttr");
-    if (colorAtribLoc != -1)
-    {
-        // назначим на атрибут параметры доступа к VBO
-        glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE,
-                              (3 * sizeof(float)), (const GLvoid*)VERTEX_COLOR_OFFSET);
-        // разрешим использование атрибута
-        glEnableVertexAttribArray(colorAtribLoc);
-    }
-    else
-    {qDebug()<<"isShit color!!!";}
+//    if (posAtribLoc != -1)
+//    {
+//        // назначим на атрибут параметры доступа к VBO
+//        glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+//            (3 * sizeof(float)), (const GLvoid*)0);
+//        // разрешим использование атрибута
+//        glEnableVertexAttribArray(posAtribLoc);
+//    }
+//    else
+//    {qDebug()<<"isShit pos!!!";}
+////    //glBindVertexArray(0);
+////    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//////------------------------------------------------------
+////    glGenBuffers(1, &colorVBO);
+////    glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+////    // заполним VBO данными треугольника
+////    glBufferData(GL_ARRAY_BUFFER, 2 * (3 * sizeof(float)),
+////        coordsArray, GL_STATIC_DRAW);
+////    // получим позицию атрибута 'color' из шейдера
+////    //colorLocation = glGetAttribLocation(shaderProgram, "colAttr");
+//    if (colorAtribLoc != -1)
+//    {
+//        // назначим на атрибут параметры доступа к VBO
+//        glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE,
+//                              (3 * sizeof(float)), (const GLvoid*)VERTEX_COLOR_OFFSET);
+//        // разрешим использование атрибута
+//        glEnableVertexAttribArray(colorAtribLoc);
+//    }
+//    else
+//    {qDebug()<<"isShit color!!!";}
     //glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -104,16 +104,6 @@ void Axis::Draw(QMatrix4x4 t_projectionMatrix)
     }
     else
     {qDebug()<<"isShit pos!!!";}
-//    //glBindVertexArray(0);
-//    glBindBuffer(GL_ARRAY_BUFFER, 0);
-////------------------------------------------------------
-//    glGenBuffers(1, &colorVBO);
-//    glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
-//    // заполним VBO данными треугольника
-//    glBufferData(GL_ARRAY_BUFFER, 2 * (3 * sizeof(float)),
-//        coordsArray, GL_STATIC_DRAW);
-//    // получим позицию атрибута 'color' из шейдера
-//    //colorLocation = glGetAttribLocation(shaderProgram, "colAttr");
     if (colorAtribLoc != -1)
     {
         // назначим на атрибут параметры доступа к VBO
@@ -124,27 +114,13 @@ void Axis::Draw(QMatrix4x4 t_projectionMatrix)
     }
     else
     {qDebug()<<"isShit color!!!";}
-    //glBindVertexArray(0);
-    //glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     m_currentShaderProgram->bind();
     m_currentShaderProgram->setUniformValue(matrixUniform, t_projectionMatrix);
-    //glBindVertexArray(meshVBO);
-   // glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, coordsArray);
-    //glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, colorsArray);
 
-    //glEnableVertexAttribArray(posAtribLoc);
-    //glEnableVertexAttribArray(colorAtribLoc);
-
-
-//    glDrawArrays(GL_LINES, 0, 2);
-//    glBindVertexArray(colorVBO);
     glDrawArrays(GL_LINES, 0, 2);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    //glBindVertexArray(0);
-    //glDisableVertexAttribArray(colorAtribLoc);
-    //glDisableVertexAttribArray(posAtribLoc);
 
     m_currentShaderProgram->release();
 }

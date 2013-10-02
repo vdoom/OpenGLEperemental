@@ -88,7 +88,7 @@ void TriangleWindow::initialize()
     m_shaderManager->AddVertexShader(vertexShaderSource);
     m_shaderManager->AddFragmentShader(texturedFragmentShaderSource);
     m_shaderManager->AddVertexShader(texturedVertexShaderSource);
-    m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
+    //m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
    // m_shaderManager->AddVertexShader(materialVertexShaderSource);
 
     //m_shaderManager->SetUpShaderProgram(0, 0);
@@ -106,7 +106,8 @@ void TriangleWindow::initialize()
     plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     plane->InitShader();
     plane->SetTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    plane->GenerateCompleteBuffer();
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     //glClearDepth(1.0f);
     //glClearDepth(2000.0);
 //    glEnable(GL_DEPTH_TEST);  // Enables Depth Testing
@@ -132,6 +133,10 @@ void TriangleWindow::render()
     {
         axis[i]->Draw(matrix);
     }
+    //axis[0]->Draw(matrix);
+
+    //axis[0]->Draw(matrix);
+
     plane->Draw(matrix);
 
     ++m_frame;

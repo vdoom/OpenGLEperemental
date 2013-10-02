@@ -13,24 +13,31 @@ static const char *vertexShaderSource =
 static const char *fragmentShaderSource =
     "varying lowp vec3 col;\n"
     "void main() {\n"
-        "   gl_FragColor = vec4(col, 1.0);;\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
+        "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
 static const char * texturedVertexShaderSource =
         "attribute lowp vec4 position;\n"
         "attribute lowp vec2 texcoord;\n"
+        "attribute lowp float entrcof;\n"
         "varying lowp vec2 textureCoord;\n"
+        //"varying lowp float cof;\n"
         "uniform lowp mat4 modelViewProjectionMatrix;\n"
         "void main() {\n"
         "       gl_Position = modelViewProjectionMatrix * position;\n"/*vec4(position, 1.0);\n"*/
-        "        textureCoord = texcoord;\n"
+        "       textureCoord = texcoord;\n"
+       // "       cof = entrcof;\n"
         "}\n";
 
 static const char * texturedFragmentShaderSource =
         "uniform lowp sampler2D colorTexture;\n"
         "varying lowp vec2 textureCoord;\n"
-        "void main() {\n"
-        "        gl_FragColor = texture2D(colorTexture, textureCoord );\n"
+        "uniform lowp float cof;\n"
+        "void main()\n"
+        "{\n"
+        "        vec4 tmp = texture2D(colorTexture, textureCoord );\n"
+        //"        tmp = vec4(tmp.z * cof, tmp.y * cof, tmp.x * cof, tmp.w * cof);\n"
+        "        gl_FragColor = tmp;\n"
         "}\n";
 
 static const char * materialVertexShaderSource =

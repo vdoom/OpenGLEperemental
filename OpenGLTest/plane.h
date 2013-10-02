@@ -3,6 +3,7 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 #include "shadermanager.h"
+#include <QtGui/QOpenGLFunctions>
 class Plane
 {
 public:
@@ -35,10 +36,12 @@ private:
     GLuint textureLocation;
     GLuint matrixUniform;
     GLuint textureIndex;
+    GLuint meshVBO;
     float* planePositions;
     uint32_t* planeIndexes;
     float* planeTextureCoords;
     float* planeColor;
+    //float* planeCompleteBuffer;
     GLuint TextureCreateFromTGA(const char *fileName);
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
 public:
@@ -50,6 +53,7 @@ public:
     void Draw(QMatrix4x4);
     void DrawTextured(QMatrix4x4);
     void DrawColored(QMatrix4x4);
+    void GenerateCompleteBuffer();
 };
 
 #endif // PLANE_H
