@@ -105,7 +105,8 @@ void TriangleWindow::initialize()
     box->InitShaderProgram();
     plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     plane->InitShader();
-    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
+    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/tmp.jpg");
+    //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     plane->GenerateCompleteBuffer();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     //glClearDepth(1.0f);

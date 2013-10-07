@@ -54,6 +54,7 @@ public:
     void DrawTextured(QMatrix4x4);
     void DrawColored(QMatrix4x4);
     void GenerateCompleteBuffer();
+    GLuint CreateTexture(const char *fileName, const char *fileFormat);
 };
 
 #endif // PLANE_H

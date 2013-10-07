@@ -1,5 +1,8 @@
 #include "plane.h"
 #include <QFile>
+#include <QImage>
+#include <QVector>
+#include <QColor>
 
 Plane::Plane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
@@ -38,6 +41,7 @@ void Plane::GenerateCompleteBuffer() // call only after shader init
 
 GLuint Plane::TextureCreateFromTGA(const char* fileName)
 {
+    return CreateTexture(fileName, "JPG");
     TGAHeader *header;
     uint8_t   *buffer;
     uint32_t  size;
@@ -87,6 +91,62 @@ GLuint Plane::TextureCreateFromTGA(const char* fileName)
 
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, header->width, header->height, 0, format,
             GL_UNSIGNED_BYTE, (const GLvoid*)(buffer + sizeof(TGAHeader) + header->idlength));
+
+    delete[] buffer;
+
+    return texture;
+}
+
+GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
+{
+    QString strFileName(fileName);
+    QString strFileFormat(fileFormat);
+    QImage * image = new QImage(strFileName, fileFormat);
+    *image = image->convertToFormat(QImage::Format_RGB888);
+    qDebug()<<"ByteCount: "<<image->byteCount();
+    qDebug()<<"Forma: "<< image->format();
+
+    uint8_t   *buffer;
+    uint32_t  size;
+    GLint     format, internalFormat;
+    GLuint    texture;
+
+    buffer = new uint8_t[image->byteCount()];
+
+    QVector<uint8_t> * m_rgbdata = new QVector<uint8_t>();
+
+    qDebug()<<"ColorTable size"<<image->colorTable().size();
+
+    for(int i = 0; i < image->colorTable().size(); ++i)
+    {
+        QColor tcolor(image->colorTable()[i]);
+        //tcolor.red();
+        m_rgbdata->push_back(tcolor.red());
+        m_rgbdata->push_back(tcolor.green());
+        m_rgbdata->push_back(tcolor.blue());
+    }
+
+    qDebug()<<"Count: "<<m_rgbdata->size();
+
+    for(int i = 0; i < image->byteCount(); ++i)
+    {
+        buffer[i] = image->bits()[i];
+    }
+    format = GL_RGB;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+    internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
+
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
+            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer));
 
     delete[] buffer;
 
