@@ -115,7 +115,10 @@ void TriangleWindow::initialize()
 //    glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
 //    glShadeModel(GL_SMOOTH);  // Enables Smooth Color Shading
 //     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+   // glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     glViewport(0, 0, width(), height());
 }
@@ -129,7 +132,9 @@ void TriangleWindow::render()
     matrix.translate(0, -1.5f , -5);
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
+
     box->Draw(matrix);
+
     for(int i = 0; i < 3; ++i)
     {
         axis[i]->Draw(matrix);
@@ -137,8 +142,9 @@ void TriangleWindow::render()
     //axis[0]->Draw(matrix);
 
     //axis[0]->Draw(matrix);
-
+ //glDisable(GL_DEPTH_TEST);
     plane->Draw(matrix);
+    //glEnable(GL_DEPTH_TEST);
 
     ++m_frame;
 }

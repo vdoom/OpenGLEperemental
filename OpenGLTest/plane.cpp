@@ -101,7 +101,7 @@ GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
 {
     QString strFileName(fileName);
     QString strFileFormat(fileFormat);
-    QImage * image = new QImage(strFileName, fileFormat);
+    QImage * image = new QImage(strFileName);//, fileFormat);
     *image = image->convertToFormat(QImage::Format_RGB888);
     qDebug()<<"ByteCount: "<<image->byteCount();
     qDebug()<<"Forma: "<< image->format();
@@ -128,10 +128,10 @@ GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
 
     qDebug()<<"Count: "<<m_rgbdata->size();
 
-    for(int i = 0; i < image->byteCount(); ++i)
-    {
-        buffer[i] = image->bits()[i];
-    }
+//    for(int i = 0; i < image->byteCount(); ++i)
+//    {
+//        buffer[i] = image->bits()[i];
+//    }
     format = GL_RGB;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
     internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
 
@@ -146,9 +146,11 @@ GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
-            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer));
+            GL_UNSIGNED_BYTE, (const GLvoid*)(image->bits()));
 
     delete[] buffer;
+
+    delete image;
 
     return texture;
 }

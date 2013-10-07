@@ -38,6 +38,7 @@ static const char * texturedFragmentShaderSource =
         "        vec4 tmp = texture2D(colorTexture, textureCoord );\n"
         //"        tmp = vec4(tmp.z * cof, tmp.y * cof, tmp.x * cof, tmp.w * cof);\n"
         "        gl_FragColor = tmp;\n"
+        "gl_FragColor.a *= 0.5;\n"
         "}\n";
 
 static const char * materialVertexShaderSource =
