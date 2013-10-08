@@ -75,6 +75,10 @@ void BoxTextured::Draw(QMatrix4x4 t_projectionMatrix)
 //    };
 
 
+    glActiveTexture(GL_TEXTURE0);
+
+    // назначаем текстуру на активный текстурный юнит
+    glBindTexture(GL_TEXTURE_2D, colorTexture);
 
     m_currentShaderProgram->bind();
     m_currentShaderProgram->setUniformValue(textureLocation, 0);
@@ -223,7 +227,7 @@ GLuint BoxTextured::TextureCreateFromTGA(const char *fileName)
 void BoxTextured::LoadTexture(const char * t_textureFileName)
 {
     // переменная для хранения индекса текстуры
-    GLuint colorTexture = 0;
+
 
     // создадим и загрузим текстуру
     colorTexture = TextureCreateFromTGA(t_textureFileName);

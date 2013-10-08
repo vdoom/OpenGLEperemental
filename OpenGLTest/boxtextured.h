@@ -82,6 +82,7 @@ private:
     GLuint colorAtribLoc;
     GLuint cofAtribLoc;
     GLuint matrixUniform;
+    GLuint colorTexture;
 
     ShaderManager * m_shaderManager;
     QOpenGLShaderProgram * m_currentShaderProgram;

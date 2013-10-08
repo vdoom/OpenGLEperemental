@@ -41,7 +41,7 @@ void Plane::GenerateCompleteBuffer() // call only after shader init
 
 GLuint Plane::TextureCreateFromTGA(const char* fileName)
 {
-    return CreateTexture(fileName, "JPG");
+    return CreateTexture(fileName, 0);
     TGAHeader *header;
     uint8_t   *buffer;
     uint32_t  size;
@@ -102,7 +102,7 @@ GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
     QString strFileName(fileName);
     QString strFileFormat(fileFormat);
     QImage * image = new QImage(strFileName);//, fileFormat);
-    *image = image->convertToFormat(QImage::Format_RGB888);
+    //*image = image->convertToFormat(QImage::Format_RGB444);//(QImage::Format_ARGB6666_Premultiplied);//(QImage::Format_RGB888);
     qDebug()<<"ByteCount: "<<image->byteCount();
     qDebug()<<"Forma: "<< image->format();
 
@@ -132,7 +132,7 @@ GLuint Plane::CreateTexture(const char *fileName, const char *fileFormat)
 //    {
 //        buffer[i] = image->bits()[i];
 //    }
-    format = GL_RGB;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+    format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
     internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
 
     glGenTextures(1, &texture);
@@ -257,6 +257,8 @@ void Plane::DrawColored(QMatrix4x4 t_projectionMatrix)
 
 void Plane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureIndex);
     const int positionsOffset = 12 * sizeof(float);
 
     glBindBuffer(GL_ARRAY_BUFFER, meshVBO);

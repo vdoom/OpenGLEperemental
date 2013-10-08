@@ -105,7 +105,7 @@ void TriangleWindow::initialize()
     box->InitShaderProgram();
     plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     plane->InitShader();
-    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/tmp.jpg");
+    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     plane->GenerateCompleteBuffer();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -115,10 +115,10 @@ void TriangleWindow::initialize()
 //    glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
 //    glShadeModel(GL_SMOOTH);  // Enables Smooth Color Shading
 //     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    glDisable(GL_DEPTH_TEST);
+    //glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-   // glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     glViewport(0, 0, width(), height());
 }
@@ -132,19 +132,13 @@ void TriangleWindow::render()
     matrix.translate(0, -1.5f , -5);
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
-
     box->Draw(matrix);
+    plane->Draw(matrix);
 
     for(int i = 0; i < 3; ++i)
     {
         axis[i]->Draw(matrix);
     }
-    //axis[0]->Draw(matrix);
-
-    //axis[0]->Draw(matrix);
- //glDisable(GL_DEPTH_TEST);
-    plane->Draw(matrix);
-    //glEnable(GL_DEPTH_TEST);
 
     ++m_frame;
 }
