@@ -62,16 +62,16 @@ void Axis::InitShaders()
 //    }
 //    else
 //    {qDebug()<<"isShit pos!!!";}
-////    //glBindVertexArray(0);
-////    glBindBuffer(GL_ARRAY_BUFFER, 0);
-//////------------------------------------------------------
-////    glGenBuffers(1, &colorVBO);
-////    glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
-////    // заполним VBO данными треугольника
-////    glBufferData(GL_ARRAY_BUFFER, 2 * (3 * sizeof(float)),
-////        coordsArray, GL_STATIC_DRAW);
-////    // получим позицию атрибута 'color' из шейдера
-////    //colorLocation = glGetAttribLocation(shaderProgram, "colAttr");
+//    //glBindVertexArray(0);
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
+////------------------------------------------------------
+//    glGenBuffers(1, &colorVBO);
+//    glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+//    // заполним VBO данными треугольника
+//    glBufferData(GL_ARRAY_BUFFER, 2 * (3 * sizeof(float)),
+//        coordsArray, GL_STATIC_DRAW);
+//    // получим позицию атрибута 'color' из шейдера
+//    //colorLocation = glGetAttribLocation(shaderProgram, "colAttr");
 //    if (colorAtribLoc != -1)
 //    {
 //        // назначим на атрибут параметры доступа к VBO

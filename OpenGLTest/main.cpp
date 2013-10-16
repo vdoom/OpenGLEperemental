@@ -52,6 +52,7 @@
 #include "boxtextured.h"
 #include "plane.h"
 #include "shaders.h"
+#include "ctPlane.h"
 
 class TriangleWindow : public OpenGLWindow
 {
@@ -73,6 +74,7 @@ private:
     Axis** axis;
     BoxTextured* box;
     Plane* plane;
+    ctPlane * trPlane;
 };
 
 TriangleWindow::TriangleWindow()
@@ -88,6 +90,7 @@ void TriangleWindow::initialize()
     m_shaderManager->AddVertexShader(vertexShaderSource);
     m_shaderManager->AddFragmentShader(texturedFragmentShaderSource);
     m_shaderManager->AddVertexShader(texturedVertexShaderSource);
+    m_shaderManager->AddVertexShader(texturedModelVertexShaderSource);
     //m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
    // m_shaderManager->AddVertexShader(materialVertexShaderSource);
 
@@ -106,6 +109,9 @@ void TriangleWindow::initialize()
     plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     plane->InitShader();
     plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    trPlane->InitShader();
+    trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     plane->GenerateCompleteBuffer();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -133,12 +139,13 @@ void TriangleWindow::render()
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
     box->Draw(matrix);
-    plane->Draw(matrix);
+    //plane->Draw(matrix);
 
     for(int i = 0; i < 3; ++i)
     {
         axis[i]->Draw(matrix);
     }
+    trPlane->Draw(matrix);
 
     ++m_frame;
 }
@@ -150,7 +157,7 @@ int main(int argc, char **argv)
     QSurfaceFormat format;
     format.setSamples(16);
     format.setDepthBufferSize(24);
-    format.setStereo(true);
+    //format.setStereo(true);
 
     TriangleWindow window;
     window.setFormat(format);

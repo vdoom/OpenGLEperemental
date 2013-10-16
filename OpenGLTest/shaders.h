@@ -29,6 +29,18 @@ static const char * texturedVertexShaderSource =
        // "       cof = entrcof;\n"
         "}\n";
 
+static const char * texturedModelVertexShaderSource =
+        "attribute lowp vec4 position;\n"
+        "attribute lowp vec2 texcoord;\n"
+        "attribute lowp float entrcof;\n"
+        "varying lowp vec2 textureCoord;\n"
+        "uniform lowp mat4 modelMatrix;\n"
+        "uniform lowp mat4 viewProjectionMatrix;\n"
+        "void main() {\n"
+        "       gl_Position = (modelMatrix * viewProjectionMatrix) * position;\n"
+        "       textureCoord = texcoord;\n"
+        "}\n";
+
 static const char * texturedFragmentShaderSource =
         "uniform lowp sampler2D colorTexture;\n"
         "varying lowp vec2 textureCoord;\n"
