@@ -33,8 +33,8 @@ public:
 
     QUuid GetUuid() const;
     QString GetName() const;
-    ctMatrix4 GetLocalTransformMatrix() const;
-    ctMatrix4 GetGlobalTransformMatrix() const;
+    ctMatrix4 GetLocalTransformMatrix();// const;
+    ctMatrix4 GetGlobalTransformMatrix();// const;
 
     //TODO: Need retation, move & scale methods!!!
 

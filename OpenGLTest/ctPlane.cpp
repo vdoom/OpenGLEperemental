@@ -289,7 +289,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->bind();
     m_currentShader->setUniformValue(textureLocation, 0);
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    m_currentShader->setUniformValue(transformMatrixUniform, m_transform.GetGlobalTransformMatrix().GetMatrix());
+    m_currentShader->setUniformValue(transformMatrixUniform, m_transform.GetLocalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
@@ -317,4 +317,22 @@ void ctPlane::InitShader()
         qDebug()<<transformMatrixUniform;
         textureLocation = m_currentShader->uniformLocation("colorTexture");
     }
+}
+
+void ctPlane::Init()
+{
+    InitShader();
+    GenerateCompleteBuffer();
+    //StartUpInit
+}
+
+void ctPlane::Draw()
+{
+    Draw(m_projectionMatrix.GetMatrix());
+    //SelfDrawing
+}
+
+void ctPlane::Update()
+{
+    //Update Some States
 }

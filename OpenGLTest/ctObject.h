@@ -22,10 +22,10 @@ public:
     virtual void Unfreez(){}
     //-----------------
 
-    ctTransform GetTransform() const;
-    ctMatrix4 GetProjectionMatrix() const;
-    void SetProjectionMatrix(const ctMatrix4 & t_projMat);
-    void SetProjectionMatrix(const QMatrix4x4 & t_projMat);
+    ctTransform GetTransform();// const;
+    ctMatrix4 GetProjectionMatrix();// const;
+    void SetProjectionMatrix(ctMatrix4 & t_projMat);
+    void SetProjectionMatrix(QMatrix4x4 & t_projMat);
 };
 
 //#endif // CTOBJECT_H

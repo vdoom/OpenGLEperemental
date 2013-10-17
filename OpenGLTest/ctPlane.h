@@ -8,7 +8,7 @@
 #include <QtGui/QOpenGLFunctions>
 #include "ctTransform.h"
 
-class ctPlane// : public ctObject
+class ctPlane : public ctObject
 {
 public:
     enum PlaneType
@@ -16,7 +16,7 @@ public:
         Colored,
         Textured
     };
-//private:
+private:
     struct TGAHeader
     {
             uint8_t  idlength;
@@ -51,17 +51,13 @@ public:
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
     //();
     //-------------------------------------------------------
-    ctTransform m_transform;
+    //ctTransform m_transform;
     //-------------------------------------------------------
-//public:
+public:
     //ctPlane(){}
-    //ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
-
     ~ctPlane();
-//    {
-//        qDebug()<<"fff\n";
-//    }
+
     void InitShader();
     void SetColor(QVector3D t_color);
     void SetTexture(const char * t_textureFileName);
@@ -70,6 +66,12 @@ public:
     void DrawColored(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
+
+    //----Overload-functions----
+    virtual void Update();
+    virtual void Draw();
+    virtual void Init();
+    //--------------------------
 };
 
 #endif // CTPLANE_H
