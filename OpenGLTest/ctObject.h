@@ -8,7 +8,8 @@ class ctObject : public ctEntity
 {
 private:
 protected:
-    ctTransform * m_transform;
+    ctTransform m_transform;
+    ctMatrix4 m_projectionMatrix;
 public:
     ctObject();
     virtual ~ctObject(){}
@@ -21,6 +22,10 @@ public:
     virtual void Unfreez(){}
     //-----------------
 
+    ctTransform GetTransform() const;
+    ctMatrix4 GetProjectionMatrix() const;
+    void SetProjectionMatrix(const ctMatrix4 & t_projMat);
+    void SetProjectionMatrix(const QMatrix4x4 & t_projMat);
 };
 
 //#endif // CTOBJECT_H

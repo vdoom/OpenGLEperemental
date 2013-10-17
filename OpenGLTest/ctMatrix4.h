@@ -20,7 +20,7 @@ public:
     void Multiply(QMatrix4x4);
     void Multiply(ctMatrix4);
 
-    QMatrix4x4 GetMatrix();
+    QMatrix4x4 GetMatrix() const;
     void SetMatrix(QMatrix4x4);
 
     ctMatrix4 operator *(ctMatrix4 & t_mat)

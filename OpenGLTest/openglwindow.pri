@@ -5,11 +5,11 @@ SOURCES += $$PWD/openglwindow.cpp \
     boxtextured.cpp \
     common.cpp \
     plane.cpp \
-    ctentity.cpp \
     ctMatrix4.cpp \
     ctPlane.cpp \
     ctObject.cpp \
-    ctTransform.cpp
+    ctTransform.cpp \
+    ctEntity.cpp
 HEADERS += $$PWD/openglwindow.h \
     axis.h \
     shadermanager.h \
@@ -18,8 +18,8 @@ HEADERS += $$PWD/openglwindow.h \
     plane.h \
     shaders.h \
     light_test.h \
-    ctentity.h \
     ctMatrix4.h \
     ctPlane.h \
     ctObject.h \
-    ctTransform.h
+    ctTransform.h \
+    ctEntity.h

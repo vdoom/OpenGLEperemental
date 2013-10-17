@@ -53,7 +53,13 @@
 #include "plane.h"
 #include "shaders.h"
 #include "ctPlane.h"
-
+void ShowMatrix(QMatrix4x4 t_mat)
+{
+    qDebug()<<t_mat(0,0)<<" "<<t_mat(0,1)<<" "<<t_mat(0,2)<<" "<<t_mat(0,3);
+    qDebug()<<t_mat(1,0)<<" "<<t_mat(1,1)<<" "<<t_mat(1,2)<<" "<<t_mat(1,3);
+    qDebug()<<t_mat(2,0)<<" "<<t_mat(2,1)<<" "<<t_mat(2,2)<<" "<<t_mat(2,3);
+    qDebug()<<t_mat(3,0)<<" "<<t_mat(3,1)<<" "<<t_mat(3,2)<<" "<<t_mat(3,3);
+}
 class TriangleWindow : public OpenGLWindow
 {
 public:
@@ -106,14 +112,17 @@ void TriangleWindow::initialize()
     box = new BoxTextured(m_shaderManager);
     box->LoadTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
     box->InitShaderProgram();
-    plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
-    plane->InitShader();
-    plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    //plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    //plane->InitShader();
+    //plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     trPlane->InitShader();
     trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    trPlane->m_transform.Move(QVector3D(2,3,2));
+    ::ShowMatrix(trPlane->m_transform.GetGlobalTransformMatrix().GetMatrix());
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
-    plane->GenerateCompleteBuffer();
+    //plane->GenerateCompleteBuffer();
+    trPlane->GenerateCompleteBuffer();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     //glClearDepth(1.0f);
     //glClearDepth(2000.0);
@@ -138,7 +147,7 @@ void TriangleWindow::render()
     matrix.translate(0, -1.5f , -5);
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
-    box->Draw(matrix);
+    //box->Draw(matrix);
     //plane->Draw(matrix);
 
     for(int i = 0; i < 3; ++i)
@@ -168,3 +177,5 @@ int main(int argc, char **argv)
 
     return app.exec();
 }
+
+

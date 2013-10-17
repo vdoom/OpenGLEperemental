@@ -9,7 +9,7 @@ ctMatrix4::ctMatrix4()
 ctMatrix4::ctMatrix4(QMatrix4x4 t_matrix)
 {SetMatrix(t_matrix);}
 
-QMatrix4x4 ctMatrix4::GetMatrix()
+QMatrix4x4 ctMatrix4::GetMatrix() const
 {return m_matrix;}
 
 void ctMatrix4::Translate(QVector3D t_pos)
@@ -20,7 +20,8 @@ void ctMatrix4::Translate(QVector3D t_pos)
     tmp(0, 3) = t_pos.x();
     tmp(1, 3) = t_pos.y();
     tmp(2, 3) = t_pos.z();
-    m_matrix *= tmp;
+    //m_matrix.translate(t_pos.x(),t_pos.y(),t_pos.z());
+    m_matrix = tmp * m_matrix;
 }
 
 void ctMatrix4::Scale(QVector3D t_scl)

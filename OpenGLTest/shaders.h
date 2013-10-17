@@ -37,7 +37,7 @@ static const char * texturedModelVertexShaderSource =
         "uniform lowp mat4 modelMatrix;\n"
         "uniform lowp mat4 viewProjectionMatrix;\n"
         "void main() {\n"
-        "       gl_Position = (modelMatrix * viewProjectionMatrix) * position;\n"
+        "       gl_Position = (viewProjectionMatrix * modelMatrix) * position;\n"
         "       textureCoord = texcoord;\n"
         "}\n";
 

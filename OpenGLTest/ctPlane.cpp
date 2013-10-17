@@ -10,17 +10,17 @@
 //    qDebug()<<"dddd\n";
 //}
 
-ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
-{
-    meshVBO = 0;
-    textureIndex = 0;
-    m_currentType = t_type;
-    m_AA = t_AA;
-    m_BB = t_BB;
-    m_shaderManager = t_shaderManager;
-    SetupPlaneCoords(t_AA, t_BB);
-    SetColor(QVector3D(1,255,1));
-}
+//ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
+//{
+//    meshVBO = 0;
+//    textureIndex = 0;
+//    m_currentType = t_type;
+//    m_AA = t_AA;
+//    m_BB = t_BB;
+//    m_shaderManager = t_shaderManager;
+//    SetupPlaneCoords(t_AA, t_BB);
+//    SetColor(QVector3D(1,255,1));
+//}
 
 //ctPlane::~ctPlane()
 //{
@@ -319,6 +319,7 @@ void ctPlane::InitShader()
         colorAtribLoc = m_currentShader->attributeLocation("texcoord");
         matrixUniform = m_currentShader->uniformLocation("viewProjectionMatrix");
         transformMatrixUniform = m_currentShader->uniformLocation("modelMatrix");
+        qDebug()<<transformMatrixUniform;
         textureLocation = m_currentShader->uniformLocation("colorTexture");
     }
 }

@@ -5,6 +5,9 @@ ctTransform::ctTransform()
     SetDefault();
 }
 
+ctTransform::~ctTransform()
+{}
+
 void ctTransform::SetDefault()
 {
     m_uuid = QUuid::createUuid();
