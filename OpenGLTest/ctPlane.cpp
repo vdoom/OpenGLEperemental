@@ -5,27 +5,22 @@
 #include <QColor>
 #include <QDebug>
 
-//ctPlane::ctPlane()
-//{
-//    qDebug()<<"dddd\n";
-//}
+ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
+{
+    meshVBO = 0;
+    textureIndex = 0;
+    m_currentType = t_type;
+    m_AA = t_AA;
+    m_BB = t_BB;
+    m_shaderManager = t_shaderManager;
+    SetupPlaneCoords(t_AA, t_BB);
+    SetColor(QVector3D(1,255,1));
+}
 
-//ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
-//{
-//    meshVBO = 0;
-//    textureIndex = 0;
-//    m_currentType = t_type;
-//    m_AA = t_AA;
-//    m_BB = t_BB;
-//    m_shaderManager = t_shaderManager;
-//    SetupPlaneCoords(t_AA, t_BB);
-//    SetColor(QVector3D(1,255,1));
-//}
-
-//ctPlane::~ctPlane()
-//{
-//    qDebug()<<"fggg\n";
-//}
+ctPlane::~ctPlane()
+{
+    qDebug()<<"ctPlane Destroyed\n";
+}
 
 //Only For Texrtured Plane
 void ctPlane::GenerateCompleteBuffer() // call only after shader init
