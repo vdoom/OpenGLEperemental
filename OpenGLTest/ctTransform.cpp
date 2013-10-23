@@ -49,6 +49,7 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix()// const
 
 ctMatrix4 ctTransform::GetGlobalTransformMatrix()// const
 {
+   // return GetLocalTransformMatrix();
     if(!m_parent)
     {return GetLocalTransformMatrix();}
     else
