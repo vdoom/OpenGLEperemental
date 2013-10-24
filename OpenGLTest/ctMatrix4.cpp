@@ -1,6 +1,6 @@
 #include "ctMatrix4.h"
 #include <math.h>
-
+#include <QDebug>
 ctMatrix4::ctMatrix4()
 {
     m_matrix.setToIdentity();
@@ -20,8 +20,9 @@ void ctMatrix4::Translate(QVector3D t_pos)
     tmp(0, 3) = t_pos.x();
     tmp(1, 3) = t_pos.y();
     tmp(2, 3) = t_pos.z();
-    //m_matrix.translate(t_pos.x(),t_pos.y(),t_pos.z());
-    m_matrix = tmp * m_matrix;
+    m_matrix.translate(t_pos.x(),t_pos.y(),t_pos.z());
+    //m_matrix = tmp * m_matrix;
+    qDebug() << m_matrix(0, 3);
 }
 
 void ctMatrix4::Scale(QVector3D t_scl)

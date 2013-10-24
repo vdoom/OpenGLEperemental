@@ -4,11 +4,11 @@
 #include "ctTransform.h"
 #include "ctentity.h"
 
-class ctObject : public ctEntity
+class ctObject// : public ctEntity
 {
 private:
 protected:
-    ctTransform m_transform;
+    ctTransform * m_transform;
     ctMatrix4 m_projectionMatrix;
 public:
     ctObject();
@@ -22,7 +22,7 @@ public:
     virtual void Unfreez(){}
     //-----------------
 
-    ctTransform GetTransform();// const;
+    ctTransform * GetTransform();// const;
     ctMatrix4 GetProjectionMatrix();// const;
     void SetProjectionMatrix(ctMatrix4 & t_projMat);
     void SetProjectionMatrix(QMatrix4x4 & t_projMat);

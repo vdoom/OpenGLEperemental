@@ -15,6 +15,7 @@ ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB,
     m_shaderManager = t_shaderManager;
     SetupPlaneCoords(t_AA, t_BB);
     SetColor(QVector3D(1,255,1));
+    m_transform = new ctTransform();
 }
 
 ctPlane::~ctPlane()
@@ -289,7 +290,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->bind();
     m_currentShader->setUniformValue(textureLocation, 0);
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    m_currentShader->setUniformValue(transformMatrixUniform, m_transform.GetLocalTransformMatrix().GetMatrix());
+    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetLocalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
@@ -336,3 +337,19 @@ void ctPlane::Update()
 {
     //Update Some States
 }
+
+//ctTransform * ctPlane::GetTransform()// const
+//{return m_transform;}
+
+//ctMatrix4 ctPlane::GetProjectionMatrix()// const
+//{return m_projectionMatrix;}
+
+//void ctPlane::SetProjectionMatrix(ctMatrix4 &t_projMat)
+//{
+//    m_projectionMatrix.SetMatrix(t_projMat.GetMatrix());
+//}
+
+//void ctPlane::SetProjectionMatrix(QMatrix4x4 &t_projMat)
+//{
+//    m_projectionMatrix.SetMatrix(t_projMat);
+//}

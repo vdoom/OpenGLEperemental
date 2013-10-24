@@ -12,7 +12,7 @@ void ctTransform::SetDefault()
 {
     m_uuid = QUuid::createUuid();
     m_name = QString("transform");
-    //m_localTransform.setToIdentity();
+    //m_localTransform.();
     m_parent = 0;
     m_childrens = new QVector<ctTransform * >();
 }
@@ -20,6 +20,7 @@ void ctTransform::SetDefault()
 void ctTransform::Move(QVector3D t_pos)
 {
     m_localTransform.Translate(t_pos);
+    //m_localTransform.GetMatrix().translate(t_pos);
 }
 
 void ctTransform::Scale(QVector3D t_scl)
@@ -49,16 +50,16 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix()// const
 
 ctMatrix4 ctTransform::GetGlobalTransformMatrix()// const
 {
-   // return GetLocalTransformMatrix();
-    if(!m_parent)
-    {return GetLocalTransformMatrix();}
-    else
-    {
-        ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
-        ctMatrix4 tmpMat1(m_localTransform);
-        //tmpMat = m_localTransform.Multiply(tmpMat);
-        return tmpMat1 * tmpMat;
-    }
+    return GetLocalTransformMatrix();
+//    if(!m_parent)
+//    {return GetLocalTransformMatrix();}
+//    else
+//    {
+//        ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
+//        ctMatrix4 tmpMat1(m_localTransform);
+//        //tmpMat = m_localTransform.Multiply(tmpMat);
+//        return tmpMat1 * tmpMat;
+//    }
 }
 
 ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)

@@ -7,12 +7,15 @@
 class Plane
 {
 public:
+
     enum PlaneType
     {
         Colored,
         Textured
     };
+
 private:
+
     struct TGAHeader
     {
             uint8_t  idlength;
@@ -26,6 +29,7 @@ private:
             uint8_t  bitperpel;
             uint8_t  description;
     };
+
     ShaderManager * m_shaderManager;
     QOpenGLShaderProgram * m_currentShader;
     QVector3D m_AA;
@@ -44,7 +48,9 @@ private:
     //float* planeCompleteBuffer;
     GLuint TextureCreateFromTGA(const char *fileName);
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
+
 public:
+
     Plane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     ~Plane();
     void InitShader();
@@ -55,6 +61,7 @@ public:
     void DrawColored(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
+
 };
 
 #endif // PLANE_H

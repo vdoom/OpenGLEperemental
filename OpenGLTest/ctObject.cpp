@@ -2,9 +2,10 @@
 
 ctObject::ctObject()
 {
+    m_transform = new ctTransform();
 }
 
-ctTransform ctObject::GetTransform()// const
+ctTransform * ctObject::GetTransform()// const
 {return m_transform;}
 
 ctMatrix4 ctObject::GetProjectionMatrix()// const

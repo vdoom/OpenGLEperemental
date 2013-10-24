@@ -52,7 +52,10 @@ private:
     //();
     //-------------------------------------------------------
     //ctTransform m_transform;
+//    ctTransform * m_transform;
+//    ctMatrix4 m_projectionMatrix;
     //-------------------------------------------------------
+
 public:
     //ctPlane(){}
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
@@ -72,6 +75,10 @@ public:
     virtual void Draw();
     virtual void Init();
     //--------------------------
+//    ctTransform * GetTransform();// const;
+//    ctMatrix4 GetProjectionMatrix();// const;
+//    void SetProjectionMatrix(ctMatrix4 & t_projMat);
+//    void SetProjectionMatrix(QMatrix4x4 & t_projMat);
 };
 
 #endif // CTPLANE_H
