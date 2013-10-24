@@ -338,18 +338,3 @@ void ctPlane::Update()
     //Update Some States
 }
 
-//ctTransform * ctPlane::GetTransform()// const
-//{return m_transform;}
-
-//ctMatrix4 ctPlane::GetProjectionMatrix()// const
-//{return m_projectionMatrix;}
-
-//void ctPlane::SetProjectionMatrix(ctMatrix4 &t_projMat)
-//{
-//    m_projectionMatrix.SetMatrix(t_projMat.GetMatrix());
-//}
-
-//void ctPlane::SetProjectionMatrix(QMatrix4x4 &t_projMat)
-//{
-//    m_projectionMatrix.SetMatrix(t_projMat);
-//}

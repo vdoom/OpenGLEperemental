@@ -4,7 +4,7 @@
 #include "ctTransform.h"
 #include "ctentity.h"
 
-class ctObject// : public ctEntity
+class ctObject : public ctEntity
 {
 private:
 protected:

@@ -49,12 +49,6 @@ private:
     //float* planeCompleteBuffer;
     GLuint TextureCreateFromTGA(const char *fileName);
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
-    //();
-    //-------------------------------------------------------
-    //ctTransform m_transform;
-//    ctTransform * m_transform;
-//    ctMatrix4 m_projectionMatrix;
-    //-------------------------------------------------------
 
 public:
     //ctPlane(){}
@@ -75,10 +69,7 @@ public:
     virtual void Draw();
     virtual void Init();
     //--------------------------
-//    ctTransform * GetTransform();// const;
-//    ctMatrix4 GetProjectionMatrix();// const;
-//    void SetProjectionMatrix(ctMatrix4 & t_projMat);
-//    void SetProjectionMatrix(QMatrix4x4 & t_projMat);
+
 };
 
 #endif // CTPLANE_H

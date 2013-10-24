@@ -9,14 +9,19 @@
 
 #include "ctMatrix4.h"
 
+class ctEntity;
+
 class ctTransform
 {
 private:
     QVector<ctTransform * > * m_childrens;
     ctTransform * m_parent;
     ctMatrix4 m_localTransform;
+    ctEntity * m_entity;
+    //TODO: move to ctEntity;
     QString m_name;
     QUuid m_uuid;
+    //-----------------------
 public:
     ctTransform();
     ~ctTransform();
