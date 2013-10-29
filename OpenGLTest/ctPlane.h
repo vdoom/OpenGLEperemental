@@ -68,6 +68,7 @@ public:
     virtual void Update();
     virtual void Draw();
     virtual void Init();
+    virtual QString GetTypeName();
     //--------------------------
 
 };

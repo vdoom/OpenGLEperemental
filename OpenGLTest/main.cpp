@@ -120,11 +120,12 @@ void TriangleWindow::initialize()
     trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //ctTransform tmp;
     //trPlane->GetTransform().GetGlobalTransformMatrix();
-    ::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix()); //GetGlobalTransformMatrix().GetMatrix());
+    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix()); //GetGlobalTransformMatrix().GetMatrix());
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     trPlane->GetTransform()->RotateByX(0.2f);
+    trPlane->GetTransform()->Move(QVector3D(2,2,3));
     //tmp.Move(QVector3D(2,3,2));
-    ::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
+    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     //plane->GenerateCompleteBuffer();
     //trPlane->GenerateCompleteBuffer();
@@ -133,7 +134,7 @@ void TriangleWindow::initialize()
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     //trPlane->GetTransform()->RotateByX(0.2f);
     //tmp.Move(QVector3D(2,3,2));
-    ::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
+    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     //glClearDepth(1.0f);
     //glClearDepth(2000.0);

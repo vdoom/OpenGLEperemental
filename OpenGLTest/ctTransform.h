@@ -10,6 +10,7 @@
 #include "ctMatrix4.h"
 
 class ctEntity;
+class ctObject;
 
 class ctTransform
 {
@@ -19,11 +20,12 @@ private:
     ctMatrix4 m_localTransform;
     ctEntity * m_entity;
     //TODO: move to ctEntity;
-    QString m_name;
-    QUuid m_uuid;
+    //QString m_name;
+    //QUuid m_uuid;
     //-----------------------
 public:
     ctTransform();
+    ctTransform(ctEntity * t_entity);
     ~ctTransform();
 
     void SetDefault();
@@ -36,8 +38,8 @@ public:
     void DeleteChild(QUuid);
     void DeleteChild(QString);
 
-    QUuid GetUuid() const;
-    QString GetName() const;
+    //QUuid GetUuid() const;
+    //QString GetName() const;
     ctMatrix4 GetLocalTransformMatrix();// const;
     ctMatrix4 GetGlobalTransformMatrix();// const;
 

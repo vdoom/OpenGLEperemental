@@ -2,7 +2,7 @@
 
 ctObject::ctObject()
 {
-    m_transform = new ctTransform();
+    m_transform = new ctTransform(this);
 }
 
 ctTransform * ctObject::GetTransform()// const
@@ -19,4 +19,9 @@ void ctObject::SetProjectionMatrix(ctMatrix4 &t_projMat)
 void ctObject::SetProjectionMatrix(QMatrix4x4 &t_projMat)
 {
     m_projectionMatrix.SetMatrix(t_projMat);
+}
+
+QString ctObject::GetTypeName()
+{
+    return QString("ctObject");
 }

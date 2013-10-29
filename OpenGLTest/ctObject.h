@@ -2,7 +2,7 @@
 //#define CTOBJECT_H
 
 #include "ctTransform.h"
-#include "ctentity.h"
+#include "ctEntity.h"
 
 class ctObject : public ctEntity
 {
@@ -20,6 +20,7 @@ public:
     virtual void Init()=0;
     virtual void Freeze(){}
     virtual void Unfreez(){}
+    virtual QString GetTypeName();
     //-----------------
 
     ctTransform * GetTransform();// const;

@@ -338,3 +338,7 @@ void ctPlane::Update()
     //Update Some States
 }
 
+QString ctPlane::GetTypeName()
+{
+    return QString("ctPlane");
+}
