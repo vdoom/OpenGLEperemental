@@ -32,7 +32,7 @@ void ctEntity::Freeze()
     m_isFreeze = true;
 }
 
-void ctEntity::Unfreez()
+void ctEntity::Unfreeze()
 {
     m_isFreeze = false;
 }

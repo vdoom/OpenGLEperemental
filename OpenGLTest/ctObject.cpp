@@ -33,5 +33,5 @@ void ctObject::Freeze()
 
 void ctObject::Unfreez()
 {
-    ctEntity::Unfreez();
+    ctEntity::Unfreeze();
 }
