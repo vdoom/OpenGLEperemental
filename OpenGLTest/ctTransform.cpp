@@ -49,12 +49,12 @@ void ctTransform::RotateByZ(float t_angle)
     m_localTransform.RotateZ(t_angle);
 }
 
-ctMatrix4 ctTransform::GetLocalTransformMatrix()// const
+ctMatrix4 ctTransform::GetLocalTransformMatrix() const
 {
     return m_localTransform;
 }
 
-ctMatrix4 ctTransform::GetGlobalTransformMatrix()// const
+ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
 {
 //    return GetLocalTransformMatrix();
     if(!m_parent)
@@ -73,4 +73,9 @@ ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
     ctMatrix4 tmp(t_mat1);
     tmp.Multiply(t_mat2);
     return tmp;
+}
+
+ctEntity * ctTransform::GetEntity()
+{
+    return m_entity;
 }

@@ -6,6 +6,8 @@
 
 class ctEntity
 {
+private:
+    bool m_isFreeze;
 protected:
     QString m_name;
     QUuid m_uuid;
@@ -17,13 +19,15 @@ public:
     virtual void Update() = 0;
     virtual void Draw() = 0;
     virtual void Init() = 0;
-    virtual void Freeze() = 0;
-    virtual void Unfreez() = 0;
+    virtual void Freeze();
+    virtual void Unfreeze();
     //---NEW-EXPERIMETAL-FUNCTIONAL---
     virtual QString GetTypeName() = 0;
     QString GetName() const;
+    void SetName(QString t_newName);
     QUuid GetUuid() const;
     bool IsFreezable() const;
+    bool IsFreezed() const;
     //--------------------------------
 };
 

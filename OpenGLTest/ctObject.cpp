@@ -25,3 +25,13 @@ QString ctObject::GetTypeName()
 {
     return QString("ctObject");
 }
+
+void ctObject::Freeze()
+{
+    ctEntity::Freeze();
+}
+
+void ctObject::Unfreez()
+{
+    ctEntity::Unfreez();
+}
