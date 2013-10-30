@@ -3,7 +3,6 @@ SOURCES += $$PWD/openglwindow.cpp \
     axis.cpp \
     shadermanager.cpp \
     boxtextured.cpp \
-    common.cpp \
     plane.cpp \
     ctMatrix4.cpp \
     ctPlane.cpp \
@@ -14,7 +13,6 @@ HEADERS += $$PWD/openglwindow.h \
     axis.h \
     shadermanager.h \
     boxtextured.h \
-    common.h \
     plane.h \
     shaders.h \
     light_test.h \

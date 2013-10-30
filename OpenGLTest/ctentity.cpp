@@ -41,3 +41,18 @@ void ctEntity::SetName(QString t_newName)
 {
     m_name = t_newName;
 }
+
+void ctEntity::Show()
+{
+    m_isVisible = true;
+}
+
+void ctEntity::Hide()
+{
+    m_isVisible = false;
+}
+
+bool ctEntity::IsVisible() const
+{
+    return m_isVisible;
+}

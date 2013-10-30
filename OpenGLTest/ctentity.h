@@ -8,10 +8,12 @@ class ctEntity
 {
 private:
     bool m_isFreeze;
-protected:
+    bool m_isVisible;
+    bool m_isFreezable;
     QString m_name;
     QUuid m_uuid;
-    bool m_isFreezable;
+protected:
+
 public:
     ctEntity();
     virtual ~ctEntity(){}
@@ -19,6 +21,8 @@ public:
     virtual void Update() = 0;
     virtual void Draw() = 0;
     virtual void Init() = 0;
+    virtual void Hide();
+    virtual void Show();
     virtual void Freeze();
     virtual void Unfreeze();
     //---NEW-EXPERIMETAL-FUNCTIONAL---
@@ -28,6 +32,7 @@ public:
     QUuid GetUuid() const;
     bool IsFreezable() const;
     bool IsFreezed() const;
+    bool IsVisible() const;
     //--------------------------------
 };
 

@@ -1,6 +1,5 @@
 #include "boxtextured.h"
 #include <QDebug>
-#include "common.h"
 #include <QFile>
 
 BoxTextured::BoxTextured(ShaderManager * t_shaderManager)

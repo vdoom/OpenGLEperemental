@@ -45,69 +45,69 @@ void ctPlane::GenerateCompleteBuffer() // call only after shader init
         completeBuffer, GL_STATIC_DRAW);
 
 }
+//TODO: Need Refine, CleanUp from TGA parser-code
+//GLuint ctPlane::TextureCreateFromTGA(const char* fileName)
+//{
+//    return CreateTexture(fileName, 0);
+//    TGAHeader *header;
+//    uint8_t   *buffer;
+//    uint32_t  size;
+//    GLint     format, internalFormat;
+//    GLuint    texture;
 
-GLuint ctPlane::TextureCreateFromTGA(const char* fileName)
-{
-    return CreateTexture(fileName, 0);
-    TGAHeader *header;
-    uint8_t   *buffer;
-    uint32_t  size;
-    GLint     format, internalFormat;
-    GLuint    texture;
+//    QString fileNametmp(fileName);
+//    QFile * m_file = new QFile(fileNametmp);
+//    size = m_file->size();
+//    m_file->open(QFile::ReadOnly);
+//    m_file->seek(0);
+//    QByteArray tmp = m_file->readAll();
+//    buffer = new uint8_t[size];
 
-    QString fileNametmp(fileName);
-    QFile * m_file = new QFile(fileNametmp);
-    size = m_file->size();
-    m_file->open(QFile::ReadOnly);
-    m_file->seek(0);
-    QByteArray tmp = m_file->readAll();
-    buffer = new uint8_t[size];
+//    for(int i = 0; i< size; ++i)
+//    {
+//        buffer[i] = (uint8_t)tmp.data()[i];
+//    }
+//    if (size <= sizeof(TGAHeader))
+//    {
+//        qDebug()<<"Too small file '%s'\n";
+//            delete[] buffer;
+//            return 0;
+//    }
 
-    for(int i = 0; i< size; ++i)
-    {
-        buffer[i] = (uint8_t)tmp.data()[i];
-    }
-    if (size <= sizeof(TGAHeader))
-    {
-        qDebug()<<"Too small file '%s'\n";
-            delete[] buffer;
-            return 0;
-    }
+//    header = (TGAHeader*)buffer;
 
-    header = (TGAHeader*)buffer;
+//    if (header->datatype != 2 || (header->bitperpel != 24 && header->bitperpel != 32))
+//    {
+//        qDebug()<<"Wrong TGA format '%s'\n";
+//            delete[] buffer;
+//            return 0;
+//    }
 
-    if (header->datatype != 2 || (header->bitperpel != 24 && header->bitperpel != 32))
-    {
-        qDebug()<<"Wrong TGA format '%s'\n";
-            delete[] buffer;
-            return 0;
-    }
+//    format = (header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+//    internalFormat = (format == GL_RGB ? GL_RGB : GL_RGBA);
 
-    format = (header->bitperpel == 24 ? GL_RGB : GL_RGBA);
-    internalFormat = (format == GL_RGB ? GL_RGB : GL_RGBA);
+//    glGenTextures(1, &texture);
 
-    glGenTextures(1, &texture);
+//    glBindTexture(GL_TEXTURE_2D, texture);
 
-    glBindTexture(GL_TEXTURE_2D, texture);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, header->width, header->height, 0, format,
+//            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer + sizeof(TGAHeader) + header->idlength));
 
-    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, header->width, header->height, 0, format,
-            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer + sizeof(TGAHeader) + header->idlength));
+//    delete[] buffer;
 
-    delete[] buffer;
+//    return texture;
+//}
 
-    return texture;
-}
-
-GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat)
+GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 {
     QString strFileName(fileName);
-    QString strFileFormat(fileFormat);
+    //QString strFileFormat(fileFormat);
     QImage * image = new QImage(strFileName);//, fileFormat);
     //*image = image->convertToFormat(QImage::Format_RGB444);//(QImage::Format_ARGB6666_Premultiplied);//(QImage::Format_RGB888);
     qDebug()<<"ByteCount: "<<image->byteCount();
@@ -164,7 +164,7 @@ GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat)
 
 void ctPlane::SetTexture(const char* t_textureFileName)
 {
-    textureIndex = TextureCreateFromTGA(t_textureFileName);
+    textureIndex = CreateTexture(t_textureFileName);
 
     if (!textureIndex)
     {

@@ -6,7 +6,6 @@
 #include <QMatrix3x3>
 #include <QMatrix4x4>
 #include "shadermanager.h"
-#include "common.h"
 
 class BoxTextured
 {
