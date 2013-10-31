@@ -16,9 +16,6 @@ ctTransform::~ctTransform()
 
 void ctTransform::SetDefault()
 {
-    //m_uuid = QUuid::createUuid();
-    //m_name = QString("transform");
-    //m_localTransform.();
     m_parent = 0;
     m_childrens = new QVector<ctTransform * >();
 }
@@ -26,7 +23,6 @@ void ctTransform::SetDefault()
 void ctTransform::Move(QVector3D t_pos)
 {
     m_localTransform.Translate(t_pos);
-    //m_localTransform.GetMatrix().translate(t_pos);
 }
 
 void ctTransform::Scale(QVector3D t_scl)

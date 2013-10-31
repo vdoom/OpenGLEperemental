@@ -19,10 +19,6 @@ private:
     ctTransform * m_parent;
     ctMatrix4 m_localTransform;
     ctEntity * m_entity;
-    //TODO: move to ctEntity;
-    //QString m_name;
-    //QUuid m_uuid;
-    //-----------------------
 public:
     ctTransform();
     ctTransform(ctEntity * t_entity);
@@ -38,12 +34,10 @@ public:
     void DeleteChild(QUuid);
     void DeleteChild(QString);
 
-    //QUuid GetUuid() const;
-    //QString GetName() const;
     ctMatrix4 GetLocalTransformMatrix() const;
     ctMatrix4 GetGlobalTransformMatrix() const;
 
-    //TODO: Need retation, move & scale methods!!!
+    //TODO: Need rotation, move & scale methods!!!
 
     void Move(QVector3D);
     void Scale(QVector3D);

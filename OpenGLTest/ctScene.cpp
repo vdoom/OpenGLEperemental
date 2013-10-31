@@ -14,11 +14,27 @@ ctScene::~ctScene()
 void ctScene::Freeze()
 {
     ctObject::Freeze();
+    for(int i = 0; i < m_objects->size(); ++i)
+    {
+        (*m_objects)[i]->Freeze();
+    }
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        (*m_components)[i]->Freeze();
+    }
 }
 
 void ctScene::Unfreeze()
 {
     ctObject::Unfreeze();
+    for(int i = 0; i < m_objects->size(); ++i)
+    {
+        (*m_objects)[i]->Unfreeze();
+    }
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        (*m_components)[i]->Unfreeze();
+    }
 }
 
 void ctScene::Init()
@@ -111,4 +127,32 @@ QVector<ctEntity*> ctScene::GetComponentByName(QString t_name)
     return tmp;
 }
 
-//TODO: NEED DEFINE FUNCTIONS GETING BY TYPE!!!!
+//TODO: NEED TEST!!!
+
+template<class T> QVector<T*> ctScene::GetObjectsByType()
+{
+    QVector<T*> tmp;
+    for(int i = 0; i < m_objects->size(); ++i)
+    {
+        T* tmpVar = dynamic_cast<T*>((*m_objects)[i]);
+        if(tmpVar)
+        {
+            tmp.append(tmpVar);
+        }
+    }
+    return tmp;
+}
+
+template<class T> QVector<T*> ctScene::GetComponnetsByType()
+{
+    QVector<T*> tmp;
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        T* tmpVar = dynamic_cast<T*>((*m_components)[i]);
+        if(tmp)
+        {
+            tmp.append(tmpVar);
+        }
+    }
+    return tmp;
+}

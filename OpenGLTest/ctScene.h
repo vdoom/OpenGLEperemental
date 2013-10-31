@@ -16,21 +16,22 @@ public:
 
     void AddObject(ctObject*);
     void AddComponnent(ctEntity*);
+    //TODO: ADD FUNCTIONS FOR DELETING OBJECTS !!!
 
     virtual void Update();
     virtual void Draw();
     virtual void Init();
     virtual void Freeze();
     virtual void Unfreeze();
-    //TODO: add method for getting objrcts & components by UUID, Name & Types
+
     ctObject* GetObjectByUUID(QUuid t_uuid);
     ctEntity* GetComponentByUUID(QUuid t_uuid);
 
     QVector<ctObject*> GetObjectsByName(QString t_name);
     QVector<ctEntity*> GetComponentByName(QString t_name);
-
-    template<class T> QVector< T *> GetObjectsByType();// GetObjectByType<ctPlane>();
-    template<class T> QVector< T *> GetComponnetsByType();
+    //TODO: NEED TEST!!!
+    template<class T> QVector<T*> GetObjectsByType();// GetObjectByType<ctPlane>();
+    template<class T> QVector<T*> GetComponnetsByType();
 };
 
 #endif // CTSCENE_H
