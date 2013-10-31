@@ -17,19 +17,6 @@ public:
         Textured
     };
 private:
-//    struct TGAHeader
-//    {
-//            uint8_t  idlength;
-//            uint8_t  colormap;
-//            uint8_t  datatype;
-//            uint8_t  colormapinfo[5];
-//            uint16_t xorigin;
-//            uint16_t yorigin;
-//            uint16_t width;
-//            uint16_t height;
-//            uint8_t  bitperpel;
-//            uint8_t  description;
-//    };
     ShaderManager * m_shaderManager;
     QOpenGLShaderProgram * m_currentShader;
     QVector3D m_AA;
@@ -46,8 +33,6 @@ private:
     uint32_t* planeIndexes;
     float* planeTextureCoords;
     float* planeColor;
-    //float* planeCompleteBuffer;
-    //GLuint TextureCreateFromTGA(const char *fileName);
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
 
 public:

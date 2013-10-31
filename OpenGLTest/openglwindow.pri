@@ -8,7 +8,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctPlane.cpp \
     ctObject.cpp \
     ctTransform.cpp \
-    ctEntity.cpp
+    ctEntity.cpp \
+    ctScene.cpp
 HEADERS += $$PWD/openglwindow.h \
     axis.h \
     shadermanager.h \
@@ -20,4 +21,5 @@ HEADERS += $$PWD/openglwindow.h \
     ctPlane.h \
     ctObject.h \
     ctTransform.h \
-    ctEntity.h
+    ctEntity.h \
+    ctScene.h

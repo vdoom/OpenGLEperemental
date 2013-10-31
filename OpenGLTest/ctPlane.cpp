@@ -315,7 +315,6 @@ void ctPlane::InitShader()
         colorAtribLoc = m_currentShader->attributeLocation("texcoord");
         matrixUniform = m_currentShader->uniformLocation("viewProjectionMatrix");
         transformMatrixUniform = m_currentShader->uniformLocation("modelMatrix");
-        qDebug()<<transformMatrixUniform;
         textureLocation = m_currentShader->uniformLocation("colorTexture");
     }
 }

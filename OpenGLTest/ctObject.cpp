@@ -5,6 +5,11 @@ ctObject::ctObject()
     m_transform = new ctTransform(this);
 }
 
+ctObject::~ctObject()
+{
+    delete m_transform;
+}
+
 ctTransform * ctObject::GetTransform()// const
 {return m_transform;}
 
@@ -31,7 +36,7 @@ void ctObject::Freeze()
     ctEntity::Freeze();
 }
 
-void ctObject::Unfreez()
+void ctObject::Unfreeze()
 {
     ctEntity::Unfreeze();
 }

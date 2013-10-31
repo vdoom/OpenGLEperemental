@@ -19,7 +19,7 @@ public:
     virtual void Draw()=0;
     virtual void Init()=0;
     virtual void Freeze();
-    virtual void Unfreez();
+    virtual void Unfreeze();
     virtual QString GetTypeName();
     //-----------------
 
