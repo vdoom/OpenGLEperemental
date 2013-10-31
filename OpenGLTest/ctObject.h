@@ -12,7 +12,7 @@ protected:
     ctMatrix4 m_projectionMatrix;
 public:
     ctObject();
-    virtual ~ctObject(){}
+    virtual ~ctObject();
 
     //----Override-----
     virtual void Update()=0;
