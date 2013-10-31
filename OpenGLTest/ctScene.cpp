@@ -21,11 +21,6 @@ void ctScene::Unfreeze()
     ctObject::Unfreeze();
 }
 
-QString ctScene::GetTypeName()
-{
-    return QString("ctScene");
-}
-
 void ctScene::Init()
 {
     for(int i = 0; i < m_objects->size(); ++i)

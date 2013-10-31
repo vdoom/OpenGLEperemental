@@ -1,4 +1,6 @@
 #include "ctEntity.h"
+#include <typeinfo>
+using namespace std;
 
 ctEntity::ctEntity()
 {
@@ -55,4 +57,10 @@ void ctEntity::Hide()
 bool ctEntity::IsVisible() const
 {
     return m_isVisible;
+}
+
+QString ctEntity::GetTypeName() const
+{
+    QString tmp(typeid(*this).name());
+    return tmp;
 }

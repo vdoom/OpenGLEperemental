@@ -26,13 +26,13 @@ public:
     virtual void Freeze();
     virtual void Unfreeze();
     //---NEW-EXPERIMETAL-FUNCTIONAL---
-    virtual QString GetTypeName() = 0;
     QString GetName() const;
     void SetName(QString t_newName);
     QUuid GetUuid() const;
     bool IsFreezable() const;
     bool IsFreezed() const;
     bool IsVisible() const;
+    QString GetTypeName() const;
     //--------------------------------
 };
 

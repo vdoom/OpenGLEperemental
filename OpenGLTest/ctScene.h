@@ -22,7 +22,6 @@ public:
     virtual void Init();
     virtual void Freeze();
     virtual void Unfreeze();
-    virtual QString GetTypeName();
     //TODO: add method for getting objrcts & components by UUID, Name & Types
     ctObject* GetObjectByUUID(QUuid t_uuid);
     ctEntity* GetComponentByUUID(QUuid t_uuid);

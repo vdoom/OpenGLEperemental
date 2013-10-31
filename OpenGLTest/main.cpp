@@ -131,6 +131,8 @@ void TriangleWindow::initialize()
     //trPlane->GenerateCompleteBuffer();
     trPlane->Init();
 
+    qDebug()<<trPlane->GetTypeName();
+
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     //trPlane->GetTransform()->RotateByX(0.2f);
     //tmp.Move(QVector3D(2,3,2));

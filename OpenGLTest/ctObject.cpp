@@ -26,11 +26,6 @@ void ctObject::SetProjectionMatrix(QMatrix4x4 &t_projMat)
     m_projectionMatrix.SetMatrix(t_projMat);
 }
 
-QString ctObject::GetTypeName()
-{
-    return QString("ctObject");
-}
-
 void ctObject::Freeze()
 {
     ctEntity::Freeze();
