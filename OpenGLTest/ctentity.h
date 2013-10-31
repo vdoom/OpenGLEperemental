@@ -9,6 +9,7 @@ class ctEntity
 private:
     bool m_isFreeze;
     bool m_isVisible;
+    bool m_isIgnoreParentvisibility;
     bool m_isFreezable;
     QString m_name;
     QUuid m_uuid;
@@ -32,6 +33,8 @@ public:
     bool IsFreezable() const;
     bool IsFreezed() const;
     bool IsVisible() const;
+    bool IsIgnoreParentVisibility();
+    void SetIgnoreParentVisibility();
     QString GetTypeName() const;
     //--------------------------------
 };

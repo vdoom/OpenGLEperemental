@@ -1,4 +1,5 @@
 #include "ctTransform.h"
+#include "ctEntity.h"
 
 ctTransform::ctTransform()
 {
@@ -52,7 +53,6 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix() const
 
 ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
 {
-//    return GetLocalTransformMatrix();
     if(!m_parent)
     {return GetLocalTransformMatrix();}
     else
@@ -74,4 +74,29 @@ ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
 ctEntity * ctTransform::GetEntity()
 {
     return m_entity;
+}
+//TODO: NEED TEST !!!
+bool ctTransform::GetParentsVisibility()
+{
+    if(!m_parent)
+    {
+        return m_entity->IsVisible();
+    }
+    else
+    {
+        ctTransform * parent = m_parent;
+        while(parent)
+        {
+            parent = parent->GetParent();
+            if(!parent->GetEntity()->IsVisible())
+            {return false;}
+            if(!parent->GetParent()) return parent->GetEntity()->IsVisible();
+        }
+        parent->GetEntity()->IsVisible();
+    }
+}
+
+ctTransform * ctTransform::GetParent() const
+{
+    return m_parent;
 }

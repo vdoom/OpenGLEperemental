@@ -29,6 +29,7 @@ public:
     ctTransform * GetChild(int);
     ctTransform * GetChild(QUuid);
     ctTransform * GetChild(QString);
+    ctTransform * GetParent() const;
     void AddChild(ctTransform *);
     void DeleteChild(int);
     void DeleteChild(QUuid);
@@ -46,6 +47,8 @@ public:
     void RotateByZ(float);
 
     ctEntity * GetEntity();
+
+    bool GetParentsVisibility();
 };
 
 #endif // CTTRANSFORM_H
