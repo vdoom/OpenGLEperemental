@@ -53,6 +53,8 @@
 #include "plane.h"
 #include "shaders.h"
 #include "ctPlane.h"
+#include "ctTime.h"
+
 void ShowMatrix(QMatrix4x4 t_mat)
 {
     qDebug()<<t_mat(0,0)<<" "<<t_mat(0,1)<<" "<<t_mat(0,2)<<" "<<t_mat(0,3);
@@ -81,6 +83,7 @@ private:
     BoxTextured* box;
     Plane* plane;
     ctPlane * trPlane;
+    ctTime time;
 };
 
 TriangleWindow::TriangleWindow()
@@ -150,10 +153,13 @@ void TriangleWindow::initialize()
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     glViewport(0, 0, width(), height());
+    qDebug()<<time.DateTimeToStr();
+    time.Update();
 }
 
 void TriangleWindow::render()
 {
+    qDebug()<<time.GetDeltaTime();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QMatrix4x4 matrix;
@@ -171,6 +177,7 @@ void TriangleWindow::render()
     trPlane->Draw(matrix);
 
     ++m_frame;
+    time.Update();
 }
 
 int main(int argc, char **argv)

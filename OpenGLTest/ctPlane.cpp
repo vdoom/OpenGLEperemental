@@ -43,75 +43,16 @@ void ctPlane::GenerateCompleteBuffer() // call only after shader init
 
     glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
         completeBuffer, GL_STATIC_DRAW);
+    delete[] completeBuffer;
 
 }
-//TODO: Need Refine, CleanUp from TGA parser-code
-//GLuint ctPlane::TextureCreateFromTGA(const char* fileName)
-//{
-//    return CreateTexture(fileName, 0);
-//    TGAHeader *header;
-//    uint8_t   *buffer;
-//    uint32_t  size;
-//    GLint     format, internalFormat;
-//    GLuint    texture;
 
-//    QString fileNametmp(fileName);
-//    QFile * m_file = new QFile(fileNametmp);
-//    size = m_file->size();
-//    m_file->open(QFile::ReadOnly);
-//    m_file->seek(0);
-//    QByteArray tmp = m_file->readAll();
-//    buffer = new uint8_t[size];
-
-//    for(int i = 0; i< size; ++i)
-//    {
-//        buffer[i] = (uint8_t)tmp.data()[i];
-//    }
-//    if (size <= sizeof(TGAHeader))
-//    {
-//        qDebug()<<"Too small file '%s'\n";
-//            delete[] buffer;
-//            return 0;
-//    }
-
-//    header = (TGAHeader*)buffer;
-
-//    if (header->datatype != 2 || (header->bitperpel != 24 && header->bitperpel != 32))
-//    {
-//        qDebug()<<"Wrong TGA format '%s'\n";
-//            delete[] buffer;
-//            return 0;
-//    }
-
-//    format = (header->bitperpel == 24 ? GL_RGB : GL_RGBA);
-//    internalFormat = (format == GL_RGB ? GL_RGB : GL_RGBA);
-
-//    glGenTextures(1, &texture);
-
-//    glBindTexture(GL_TEXTURE_2D, texture);
-
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-//    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, header->width, header->height, 0, format,
-//            GL_UNSIGNED_BYTE, (const GLvoid*)(buffer + sizeof(TGAHeader) + header->idlength));
-
-//    delete[] buffer;
-
-//    return texture;
-//}
 
 GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 {
     QString strFileName(fileName);
     //QString strFileFormat(fileFormat);
     QImage * image = new QImage(strFileName);//, fileFormat);
-    //*image = image->convertToFormat(QImage::Format_RGB444);//(QImage::Format_ARGB6666_Premultiplied);//(QImage::Format_RGB888);
-    qDebug()<<"ByteCount: "<<image->byteCount();
-    qDebug()<<"Forma: "<< image->format();
 
     uint8_t   *buffer;
     uint32_t  size;
@@ -120,25 +61,7 @@ GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 
     buffer = new uint8_t[image->byteCount()];
 
-    QVector<uint8_t> * m_rgbdata = new QVector<uint8_t>();
 
-    qDebug()<<"ColorTable size"<<image->colorTable().size();
-
-    for(int i = 0; i < image->colorTable().size(); ++i)
-    {
-        QColor tcolor(image->colorTable()[i]);
-        //tcolor.red();
-        m_rgbdata->push_back(tcolor.red());
-        m_rgbdata->push_back(tcolor.green());
-        m_rgbdata->push_back(tcolor.blue());
-    }
-
-    qDebug()<<"Count: "<<m_rgbdata->size();
-
-//    for(int i = 0; i < image->byteCount(); ++i)
-//    {
-//        buffer[i] = image->bits()[i];
-//    }
     format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
     internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
 

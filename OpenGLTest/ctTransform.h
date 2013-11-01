@@ -4,7 +4,6 @@
 #include <QVector>
 #include <QMatrix3x3>
 #include <QString>
-#include <QUuid>
 #include <QVector3D>
 
 #include "ctMatrix4.h"
