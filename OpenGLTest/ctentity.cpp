@@ -64,3 +64,13 @@ QString ctEntity::GetTypeName() const
     QString tmp(typeid(*this).name());
     return tmp;
 }
+
+bool ctEntity::IsInitialized() const
+{
+    return m_isInitialized;
+}
+
+bool ctEntity::IsLoaded()
+{
+    return m_isLoaded;
+}

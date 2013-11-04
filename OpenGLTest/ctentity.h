@@ -14,7 +14,8 @@ private:
     QString m_name;
     QUuid m_uuid;
 protected:
-
+    bool m_isInitialized;
+    bool m_isLoaded;
 public:
     ctEntity();
     virtual ~ctEntity(){}
@@ -36,6 +37,8 @@ public:
     bool IsIgnoreParentVisibility();
     void SetIgnoreParentVisibility();
     QString GetTypeName() const;
+    bool IsInitialized() const;
+    bool IsLoaded() const;
     //--------------------------------
 };
 
