@@ -1,12 +1,15 @@
 #ifndef CTAPP_H
 #define CTAPP_H
 
-#include "ctWindow.h"
+//#include "ctWindow.h"
+class ctWindow;
+class ctScene;
 
 class ctApp
 {
 private:
     ctWindow * m_mainGameWindow;
+    ctScene * m_mainScene;
     //Q_OBJECT
 public:
     ctApp();

@@ -1,5 +1,7 @@
 #include "ctWindow.h"
 
+#include "ctScene.h"
+
 #include <QtCore/QCoreApplication>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLPaintDevice>
@@ -53,6 +55,7 @@ void ctWindow::render()
     m_device->setSize(size());
     QPainter painter(m_device);
     render(&painter);
+
 }
 
 void ctWindow::render(QPainter *painter)
@@ -124,5 +127,16 @@ void ctWindow::renderNow()
     if (m_animating)
         renderLater();
 }
+
+void ctWindow::SetScene(ctScene* t_scene)
+{
+    m_scene = t_scene;
+}
+
+ctScene * ctWindow::GetScene() const
+{
+    return m_scene;
+}
+
 
 

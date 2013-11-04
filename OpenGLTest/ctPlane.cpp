@@ -246,6 +246,7 @@ void ctPlane::Init()
 {
     InitShader();
     GenerateCompleteBuffer();
+    m_isInitialized = true;
     //StartUpInit
 }
 

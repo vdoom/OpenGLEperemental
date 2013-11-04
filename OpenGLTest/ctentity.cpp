@@ -2,7 +2,7 @@
 #include <typeinfo>
 using namespace std;
 
-ctEntity::ctEntity()
+ctEntity::ctEntity() : m_isInitialized(false), m_isLoaded(false)
 {
     m_name = QString("NewEntity");
     m_uuid = QUuid::createUuid();

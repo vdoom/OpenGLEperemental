@@ -10,10 +10,13 @@ class QOpenGLContext;
 class QOpenGLPaintDevice;
 QT_END_NAMESPACE
 
+class ctScene;
+
 class ctWindow : public QWindow, protected QOpenGLFunctions
 {
     Q_OBJECT
 private:
+    ctScene * m_scene;
 protected:
     QOpenGLContext * m_context;
     QOpenGLPaintDevice *m_device;
@@ -30,6 +33,9 @@ public:
     virtual void initialize();
 
     QOpenGLContext * GetOpenGLContext() const;
+
+    void SetScene(ctScene* t_scene);
+    ctScene * GetScene() const;
 
 public slots:
     void renderLater();
