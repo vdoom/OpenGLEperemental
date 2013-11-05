@@ -71,12 +71,12 @@ ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
     return tmp;
 }
 
-ctEntity * ctTransform::GetEntity()
+ctEntity * ctTransform::GetEntity() const
 {
     return m_entity;
 }
 //TODO: NEED TEST !!!
-bool ctTransform::GetParentsVisibility()
+bool ctTransform::GetParentsVisibility() const
 {
     if(!m_parent)
     {
@@ -99,4 +99,17 @@ bool ctTransform::GetParentsVisibility()
 ctTransform * ctTransform::GetParent() const
 {
     return m_parent;
+}
+
+bool ctTransform::IsVisible() const
+{
+    if(!m_entity) return false;
+    return m_entity->IsVisible();
+}
+
+void ctTransform::SetVisible(bool t_visible)
+{
+    if(!m_entity) return;
+    if(t_visible) m_entity->Show();
+    else m_entity->Hide();
 }

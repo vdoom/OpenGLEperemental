@@ -45,9 +45,12 @@ public:
     void RotateByY(float);
     void RotateByZ(float);
 
-    ctEntity * GetEntity();
+    ctEntity * GetEntity() const;
 
-    bool GetParentsVisibility();
+    bool GetParentsVisibility() const;
+
+    bool IsVisible() const;
+    bool SetVisible(bool t_visible);
 };
 
 #endif // CTTRANSFORM_H
