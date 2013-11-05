@@ -50,7 +50,7 @@ public:
     bool GetParentsVisibility() const;
 
     bool IsVisible() const;
-    bool SetVisible(bool t_visible);
+    void SetVisible(bool t_visible);
 };
 
 #endif // CTTRANSFORM_H
