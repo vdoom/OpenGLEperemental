@@ -6,6 +6,15 @@ ctTime::ctTime()
     m_prevUpdateTime = m_dateTime->toMSecsSinceEpoch();
 }
 
+ctTime::ctTime(const ctTime &t_time)
+{
+    m_dateTime = new QDateTime(QDateTime::currentDateTime());
+    m_prevUpdateTime = m_dateTime->toMSecsSinceEpoch();
+}
+
+void ctTime::operator = (ctTime t_time)
+{}
+
 ctTime::~ctTime()
 {
     delete m_dateTime;

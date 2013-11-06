@@ -83,7 +83,7 @@ private:
     BoxTextured* box;
     Plane* plane;
     ctPlane * trPlane;
-    ctTime time;
+    //ctTime time;
 };
 
 TriangleWindow::TriangleWindow()
@@ -153,13 +153,15 @@ void TriangleWindow::initialize()
     glEnable(GL_DEPTH_TEST);
     //glEnable(GL_CULL_FACE);
     glViewport(0, 0, width(), height());
-    qDebug()<<time.DateTimeToStr();
-    time.Update();
+    if(!ctTime::GetTime())
+    {qDebug()<<"Fuck\n";}
+    qDebug()<<ctTime::GetTime()->DateTimeToStr();
+    //ctTime::GetTime()->Update();
 }
 
 void TriangleWindow::render()
-{
-    qDebug()<<time.GetDeltaTime();
+{//ctTime::GetTime();
+    qDebug()<<ctTime::GetTime()->GetDeltaTime();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QMatrix4x4 matrix;
@@ -177,7 +179,9 @@ void TriangleWindow::render()
     trPlane->Draw(matrix);
 
     ++m_frame;
-    time.Update();
+    ctTime::GetTime()->Update();
+    //ctTime::s_instance = 0;
+    //if(ctTime::s_instance){}
 }
 
 int main(int argc, char **argv)

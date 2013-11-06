@@ -3,19 +3,37 @@
 
 #include <QDateTime>
 #include <QString>
-//TODO: NEED MAKE LIKE SINGLTON
 class ctTime
 {
+private:
+//static ctTime* s_instance;
     quint64 m_prevUpdateTime;
     QDateTime* m_dateTime;
-public:
+
     ctTime();
+    ctTime(const ctTime & t_time);
+    void operator = (ctTime t_time);
+
+public:
+//
+    //static int s_instance;
     ~ctTime();
     //TODO: in future need make to privet an cal by friend method(update) of class ctApp
     void Update(); //need for update delta-time
     quint64 GetMiliSecsSinceEpoch() const;
     QString DateTimeToStr() const;
     quint64 GetDeltaTime() const;
+
+    static ctTime* GetTime()
+    {
+        static ctTime* s_instance = 0;
+        //s_instance = 0;
+        if(!s_instance)
+        {
+            s_instance = new ctTime();
+        }
+        return s_instance;
+    }
 };
 
 #endif // CTTIME_H

@@ -70,7 +70,7 @@ bool ctEntity::IsInitialized() const
     return m_isInitialized;
 }
 
-bool ctEntity::IsLoaded()
+bool ctEntity::IsLoaded() const
 {
     return m_isLoaded;
 }

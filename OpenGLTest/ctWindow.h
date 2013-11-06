@@ -17,6 +17,7 @@ class ctWindow : public QWindow, protected QOpenGLFunctions
     Q_OBJECT
 private:
     ctScene * m_scene;
+    bool m_update_pending;
 protected:
     QOpenGLContext * m_context;
     QOpenGLPaintDevice *m_device;

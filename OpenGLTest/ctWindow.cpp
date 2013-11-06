@@ -124,8 +124,8 @@ void ctWindow::renderNow()
 
     m_context->swapBuffers(this);
 
-    if (m_animating)
-        renderLater();
+    //if (m_animating)
+    //    renderLater();
 }
 
 void ctWindow::SetScene(ctScene* t_scene)

@@ -2,4 +2,8 @@
 
 ctApp::ctApp()
 {
+
 }
+
+ctApp::~ctApp()
+{}
