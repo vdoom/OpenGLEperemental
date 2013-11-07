@@ -3,13 +3,13 @@
 ctTime::ctTime()
 {
     m_dateTime = new QDateTime(QDateTime::currentDateTime());
-    m_prevUpdateTime = m_dateTime->toMSecsSinceEpoch();
+    m_prevUpdateTime = GetMiliSecsSinceEpoch();
 }
 
 ctTime::ctTime(const ctTime &t_time)
 {
     m_dateTime = new QDateTime(QDateTime::currentDateTime());
-    m_prevUpdateTime = m_dateTime->toMSecsSinceEpoch();
+    m_prevUpdateTime = GetMiliSecsSinceEpoch();
 }
 
 void ctTime::operator = (ctTime t_time)
@@ -22,12 +22,12 @@ ctTime::~ctTime()
 
 void ctTime::Update()
 {
-    m_prevUpdateTime = m_dateTime->toMSecsSinceEpoch();
+    m_prevUpdateTime = GetMiliSecsSinceEpoch();
 }
 
 quint64 ctTime::GetMiliSecsSinceEpoch() const
 {
-    return m_dateTime->toMSecsSinceEpoch();
+    return m_dateTime->currentMSecsSinceEpoch();
 }
 
 QString ctTime::DateTimeToStr() const
@@ -37,5 +37,5 @@ QString ctTime::DateTimeToStr() const
 
 quint64 ctTime::GetDeltaTime() const
 {
-    return m_dateTime->toMSecsSinceEpoch() - m_prevUpdateTime;
+    return GetMiliSecsSinceEpoch() - m_prevUpdateTime;
 }

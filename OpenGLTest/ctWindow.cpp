@@ -55,7 +55,6 @@ void ctWindow::render()
     m_device->setSize(size());
     QPainter painter(m_device);
     render(&painter);
-
 }
 
 void ctWindow::render(QPainter *painter)
@@ -136,6 +135,12 @@ void ctWindow::SetScene(ctScene* t_scene)
 ctScene * ctWindow::GetScene() const
 {
     return m_scene;
+}
+
+void ctWindow::RenderScene()
+{
+    if(m_scene)
+        m_scene->Draw();
 }
 
 

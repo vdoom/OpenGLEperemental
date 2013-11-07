@@ -12,7 +12,9 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctScene.cpp \
     ctTime.cpp \
     ctApp.cpp \
-    ctWindow.cpp
+    ctWindow.cpp \
+    testappwindow.cpp \
+    ctShaderManager.cpp
 HEADERS += $$PWD/openglwindow.h \
     axis.h \
     shadermanager.h \
@@ -28,4 +30,6 @@ HEADERS += $$PWD/openglwindow.h \
     ctScene.h \
     ctTime.h \
     ctApp.h \
-    ctWindow.h
+    ctWindow.h \
+    testappwindow.h \
+    ctShaderManager.h

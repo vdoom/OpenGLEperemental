@@ -83,12 +83,14 @@ private:
     BoxTextured* box;
     Plane* plane;
     ctPlane * trPlane;
+    int frameCounter;
+    int msecsCounter;
     //ctTime time;
 };
 
 TriangleWindow::TriangleWindow()
     : m_program(0)
-    , m_frame(0)
+    , m_frame(0), msecsCounter(0), frameCounter(0)
 {
 }
 
@@ -155,13 +157,16 @@ void TriangleWindow::initialize()
     glViewport(0, 0, width(), height());
     if(!ctTime::GetTime())
     {qDebug()<<"Fuck\n";}
-    qDebug()<<ctTime::GetTime()->DateTimeToStr();
+   // qDebug()<<ctTime::GetTime()->DateTimeToStr();
     //ctTime::GetTime()->Update();
 }
 
 void TriangleWindow::render()
-{//ctTime::GetTime();
-    qDebug()<<ctTime::GetTime()->GetDeltaTime();
+{
+    ++frameCounter;
+    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
+    else {qDebug()<<"FPS: "<<frameCounter; msecsCounter = 0;frameCounter=0;}
+   // qDebug()<<ctTime::GetTime()->GetMiliSecsSinceEpoch();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QMatrix4x4 matrix;
@@ -180,8 +185,6 @@ void TriangleWindow::render()
 
     ++m_frame;
     ctTime::GetTime()->Update();
-    //ctTime::s_instance = 0;
-    //if(ctTime::s_instance){}
 }
 
 int main(int argc, char **argv)

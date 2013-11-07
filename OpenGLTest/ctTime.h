@@ -15,8 +15,6 @@ private:
     void operator = (ctTime t_time);
 
 public:
-//
-    //static int s_instance;
     ~ctTime();
     //TODO: in future need make to privet an cal by friend method(update) of class ctApp
     void Update(); //need for update delta-time
@@ -27,7 +25,6 @@ public:
     static ctTime* GetTime()
     {
         static ctTime* s_instance = 0;
-        //s_instance = 0;
         if(!s_instance)
         {
             s_instance = new ctTime();

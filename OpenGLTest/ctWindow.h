@@ -33,6 +33,8 @@ public:
     virtual void render();
     virtual void initialize();
 
+    void RenderScene();
+
     QOpenGLContext * GetOpenGLContext() const;
 
     void SetScene(ctScene* t_scene);
