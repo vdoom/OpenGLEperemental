@@ -32,6 +32,9 @@ public:
     virtual void render(QPainter *painter);
     virtual void render();
     virtual void initialize();
+    virtual void BeginRender() = 0;
+    virtual void EndRender() = 0;
+    virtual void Draw();
 
     void RenderScene();
 

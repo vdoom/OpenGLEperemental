@@ -143,5 +143,14 @@ void ctWindow::RenderScene()
         m_scene->Draw();
 }
 
+void ctWindow::Draw()
+{
+    BeginRender();
+
+    if(m_scene)
+    {m_scene->Draw();}
+
+    EndRender();
+}
 
 
