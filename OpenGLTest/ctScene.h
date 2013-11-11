@@ -5,11 +5,14 @@
 
 #include "ctObject.h"
 
+class ctShaderManager;
+
 class ctScene : public ctObject
 {
 protected:
     QVector<ctObject*>* m_objects;
     QVector<ctEntity*>* m_components;
+    ctShaderManager* m_shaderManager;
 public:
     ctScene();
     virtual ~ctScene();
@@ -32,6 +35,9 @@ public:
     //TODO: NEED TEST!!!
     template<class T> QVector<T*> GetObjectsByType();// GetObjectByType<ctPlane>();
     template<class T> QVector<T*> GetComponnetsByType();
+
+    void SetShaderManager(ctShaderManager * t_shaderManager);
+    ctShaderManager * GetShaderManager() const;
 };
 
 #endif // CTSCENE_H

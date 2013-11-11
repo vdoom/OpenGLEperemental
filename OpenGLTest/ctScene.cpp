@@ -128,7 +128,7 @@ QVector<ctEntity*> ctScene::GetComponentByName(QString t_name)
 }
 
 //TODO: NEED TEST!!!
-
+//----------------------------------------------------------
 template<class T> QVector<T*> ctScene::GetObjectsByType()
 {
     QVector<T*> tmp;
@@ -155,4 +155,14 @@ template<class T> QVector<T*> ctScene::GetComponnetsByType()
         }
     }
     return tmp;
+}
+//------------------------------------------------------------
+void ctScene::SetShaderManager(ctShaderManager *t_shaderManager)
+{
+    m_shaderManager = t_shaderManager;
+}
+
+ctShaderManager * ctScene::GetShaderManager() const
+{
+    return m_shaderManager;
 }

@@ -35,3 +35,23 @@ void ctObject::Unfreeze()
 {
     ctEntity::Unfreeze();
 }
+
+void ctObject::SetScene(ctScene *t_scene)
+{
+    m_scene = t_scene;
+}
+
+ctScene * ctObject::GetScene() const
+{
+    return m_scene;
+}
+
+void ctObject::SetShaderManager(ctShaderManager *t_shaderManager)
+{
+    m_scene = t_shaderManager;
+}
+
+ctShaderManager * ctObject::GetShaderManager() const
+{
+    return m_shaderManager;
+}

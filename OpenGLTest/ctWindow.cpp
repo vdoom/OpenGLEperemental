@@ -149,8 +149,7 @@ void ctWindow::Draw()
 {
     BeginRender();
 
-    if(m_scene)
-    {m_scene->Draw();}
+    RenderScene();
 
     EndRender();
 }

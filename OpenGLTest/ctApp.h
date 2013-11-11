@@ -16,6 +16,7 @@ public:
     virtual ~ctApp();
     void Init();
     void Update();
+    void Start();
     //TODO: need create Update method (perheps in parallel thread)
 };
 

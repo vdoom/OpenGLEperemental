@@ -26,7 +26,9 @@ protected:
 
     bool event(QEvent *event);
     void exposeEvent(QExposeEvent *event);
-    void SetDefault(QOpenGLContext *t_context = 0);
+    virtual void SetDefault(QOpenGLContext *t_context = 0);
+    virtual void BeginRender() = 0;
+    virtual void EndRender() = 0;
 public:
     explicit ctWindow(QWindow *parent = 0);
     explicit ctWindow(QOpenGLContext * t_context, QWindow *parent = 0);
@@ -35,8 +37,6 @@ public:
     virtual void render(QPainter *painter);
     virtual void render();
     virtual void initialize();
-    virtual void BeginRender() = 0;
-    virtual void EndRender() = 0;
     virtual void Draw();
 
     void RenderScene();
