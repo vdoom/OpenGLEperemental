@@ -1,5 +1,5 @@
 #include "ctWindow.h"
-
+#include "ctShaderManager.h"
 #include "ctScene.h"
 
 #include <QtCore/QCoreApplication>
@@ -12,12 +12,14 @@
 
 ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0)
 {
-    setSurfaceType(QWindow::OpenGLSurface);
+    //setSurfaceType(QWindow::OpenGLSurface);
+    SetDefault();
 }
 
 ctWindow::ctWindow(QOpenGLContext *t_context, QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0)
 {
-    setSurfaceType(QWindow::OpenGLSurface);
+    //setSurfaceType(QWindow::OpenGLSurface);
+    SetDefault(t_context);
 }
 
 ctWindow::~ctWindow()
@@ -153,4 +155,22 @@ void ctWindow::Draw()
     EndRender();
 }
 
+void ctWindow::SetShaderManager(ctShaderManager *t_shaderManager)
+{
+    m_shaderManager = t_shaderManager;
+}
+
+ctShaderManager* ctWindow::GetShaderManager() const
+{
+    return m_shaderManager;
+}
+
+void ctWindow::SetDefault(QOpenGLContext *t_context)
+{
+    setSurfaceType(QWindow::OpenGLSurface);
+    if(!t_context)
+        m_shaderManager = new ctShaderManager();
+    else
+        m_shaderManager = new ctShaderManager(t_context);
+}
 
