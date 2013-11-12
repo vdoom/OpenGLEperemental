@@ -27,11 +27,11 @@ void testAppWindow::SetDefault(QOpenGLContext *t_context)
 {
     ctWindow::SetDefault(t_context);
 
-    m_shaderManager->AddFragmentShader(fragmentShaderSource, "fragmentColored");
-    m_shaderManager->AddVertexShader(vertexShaderSource, "vertexColored");
-    m_shaderManager->AddFragmentShader(texturedFragmentShaderSource, "fragmentTextured");
-    m_shaderManager->AddVertexShader(texturedVertexShaderSource, "vertexTextured");
-    m_shaderManager->AddVertexShader(texturedModelVertexShaderSource, "vertexTexturedModel");
+    GetShaderManager()->AddFragmentShader(fragmentShaderSource, "fragmentColored");
+    GetShaderManager()->AddVertexShader(vertexShaderSource, "vertexColored");
+    GetShaderManager()->AddFragmentShader(texturedFragmentShaderSource, "fragmentTextured");
+    GetShaderManager()->AddVertexShader(texturedVertexShaderSource, "vertexTextured");
+    GetShaderManager()->AddVertexShader(texturedModelVertexShaderSource, "vertexTexturedModel");
 }
 
 void testAppWindow::BeginRender()

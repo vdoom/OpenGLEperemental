@@ -1,8 +1,24 @@
 #include "ctObject.h"
+#include <QOpenGLContext>
 
 ctObject::ctObject()
 {
-    m_transform = new ctTransform(this);
+    SetDefault(0,0,0);
+}
+
+ctObject::ctObject(ctShaderManager * t_shaderManager)
+{
+    SetDefault(t_shaderManager, 0, 0);
+}
+
+ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene)
+{
+    SetDefault(t_shaderManager, t_scene, 0);
+}
+
+ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+{
+    SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 }
 
 ctObject::~ctObject()
@@ -48,10 +64,23 @@ ctScene * ctObject::GetScene() const
 
 void ctObject::SetShaderManager(ctShaderManager *t_shaderManager)
 {
-    m_scene = t_shaderManager;
+    m_shaderManager = t_shaderManager;
 }
 
 ctShaderManager * ctObject::GetShaderManager() const
 {
     return m_shaderManager;
+}
+
+QOpenGLContext * ctObject::GetOpenGLContext() const
+{
+    return m_OpenGLContext;
+}
+
+void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+{
+    m_shaderManager = t_shaderManager;
+    m_scene = t_scene;
+    m_OpenGLContext = t_OpenGLContext;
+    m_transform = new ctTransform(this);
 }

@@ -9,12 +9,16 @@ class ctShaderManager;
 
 class ctScene : public ctObject
 {
+private:
+    //TODO: make m_scene as privat in this class
 protected:
     QVector<ctObject*>* m_objects;
     QVector<ctEntity*>* m_components;
-    ctShaderManager* m_shaderManager;
+    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
     ctScene();
+    explicit ctScene(ctShaderManager *);
+    ctScene(ctShaderManager *, QOpenGLContext *);
     virtual ~ctScene();
 
     void AddObject(ctObject*);
@@ -35,9 +39,6 @@ public:
     //TODO: NEED TEST!!!
     template<class T> QVector<T*> GetObjectsByType();// GetObjectByType<ctPlane>();
     template<class T> QVector<T*> GetComponnetsByType();
-
-    void SetShaderManager(ctShaderManager * t_shaderManager);
-    ctShaderManager * GetShaderManager() const;
 };
 
 #endif // CTSCENE_H

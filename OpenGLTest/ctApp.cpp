@@ -10,10 +10,10 @@ ctApp::ctApp()
 ctApp::~ctApp()
 {}
 
-ctApp::Init()
+void ctApp::Init()
 {}
 
-ctApp::Update()
+void ctApp::Update()
 {
     m_mainScene->Update();
 }

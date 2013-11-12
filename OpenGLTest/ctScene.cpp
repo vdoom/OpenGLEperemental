@@ -2,8 +2,17 @@
 
 ctScene::ctScene()
 {
-    m_objects = new QVector<ctObject*>();
-    m_components = new QVector<ctEntity*>();
+    SetDefault(0,0,0);
+}
+
+ctScene::ctScene(ctShaderManager * t_shaderManager)
+{
+    SetDefault(t_shaderManager, 0, 0);
+}
+
+ctScene::ctScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext)
+{
+    SetDefault(t_shaderManager, 0, t_OpenGLContext);
 }
 
 ctScene::~ctScene()
@@ -84,6 +93,8 @@ void ctScene::AddComponnent(ctEntity * t_entity)
 
 void ctScene::AddObject(ctObject * t_objects)
 {
+    t_objects->SetScene(this);
+    t_objects->SetShaderManager(m_shaderManager);
     m_objects->append(t_objects);
 }
 
@@ -157,12 +168,10 @@ template<class T> QVector<T*> ctScene::GetComponnetsByType()
     return tmp;
 }
 //------------------------------------------------------------
-void ctScene::SetShaderManager(ctShaderManager *t_shaderManager)
-{
-    m_shaderManager = t_shaderManager;
-}
 
-ctShaderManager * ctScene::GetShaderManager() const
+void ctScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
 {
-    return m_shaderManager;
+    ctObject::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
+    m_objects = new QVector<ctObject*>();
+    m_components = new QVector<ctEntity*>();
 }
