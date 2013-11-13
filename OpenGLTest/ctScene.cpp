@@ -94,7 +94,7 @@ void ctScene::AddComponnent(ctEntity * t_entity)
 void ctScene::AddObject(ctObject * t_objects)
 {
     t_objects->SetScene(this);
-    t_objects->SetShaderManager(m_shaderManager);
+    if(m_shaderManager) t_objects->SetShaderManager(m_shaderManager);
     m_objects->append(t_objects);
 }
 

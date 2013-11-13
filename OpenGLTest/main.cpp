@@ -54,6 +54,7 @@
 #include "shaders.h"
 #include "ctPlane.h"
 #include "ctTime.h"
+#include "ctShaderManager.h"
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -72,6 +73,7 @@ public:
 
 private:
     ShaderManager *m_shaderManager;
+    ctShaderManager *m_newShaderManager;
 
     GLuint m_posAttr;
     GLuint m_colAttr;
@@ -83,6 +85,7 @@ private:
     BoxTextured* box;
     Plane* plane;
     ctPlane * trPlane;
+    ctPlane * secondPlane;
     int frameCounter;
     int msecsCounter;
     //ctTime time;
@@ -96,11 +99,17 @@ TriangleWindow::TriangleWindow()
 
 void TriangleWindow::initialize()
 {
+    m_newShaderManager = new ctShaderManager(m_context);
     m_shaderManager = new ShaderManager();
+    m_newShaderManager->AddFragmentShader(fragmentShaderSource, "fragmentShaderSource");
     m_shaderManager->AddFragmentShader(fragmentShaderSource);
+    m_newShaderManager->AddVertexShader(vertexShaderSource, "vertexShaderSource");
     m_shaderManager->AddVertexShader(vertexShaderSource);
+    m_newShaderManager->AddFragmentShader(texturedFragmentShaderSource, "texturedFragmentShaderSource");
     m_shaderManager->AddFragmentShader(texturedFragmentShaderSource);
+    m_newShaderManager->AddVertexShader(texturedVertexShaderSource, "texturedVertexShaderSource");
     m_shaderManager->AddVertexShader(texturedVertexShaderSource);
+    m_newShaderManager->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
     m_shaderManager->AddVertexShader(texturedModelVertexShaderSource);
     //m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
    // m_shaderManager->AddVertexShader(materialVertexShaderSource);
@@ -121,20 +130,25 @@ void TriangleWindow::initialize()
     //plane->InitShader();
     //plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    secondPlane = new ctPlane(m_newShaderManager, 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     //trPlane->InitShader();
     trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    secondPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //ctTransform tmp;
     //trPlane->GetTransform().GetGlobalTransformMatrix();
     //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix()); //GetGlobalTransformMatrix().GetMatrix());
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     trPlane->GetTransform()->RotateByX(0.2f);
+    secondPlane->GetTransform()->RotateByZ(0.2f);
     trPlane->GetTransform()->Move(QVector3D(2,2,3));
+    secondPlane->GetTransform()->Move(QVector3D(2,2,3));
     //tmp.Move(QVector3D(2,3,2));
     //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     //plane->GenerateCompleteBuffer();
     //trPlane->GenerateCompleteBuffer();
     trPlane->Init();
+    secondPlane->Init();
 
     qDebug()<<trPlane->GetTypeName();
 

@@ -68,14 +68,14 @@ public slots:
 
 protected:
     bool event(QEvent *event);
-
+    QOpenGLContext *m_context;
     void exposeEvent(QExposeEvent *event);
 
 private:
     bool m_update_pending;
     bool m_animating;
 
-    QOpenGLContext *m_context;
+    //QOpenGLContext *m_context;
     QOpenGLPaintDevice *m_device;
 
 

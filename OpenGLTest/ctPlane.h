@@ -34,13 +34,17 @@ private:
     float* planeTextureCoords;
     float* planeColor;
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
-
+    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
     //ctPlane(){}
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
+    explicit ctPlane(ctShaderManager *){}
+    ctPlane(ctShaderManager *, ctScene *){}
+    ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *){}
+    ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     ~ctPlane();
 
-    void InitShader();
+    void InitShader(int t=0);
     void SetColor(QVector3D t_color);
     void SetTexture(const char * t_textureFileName);
     void Draw(QMatrix4x4);

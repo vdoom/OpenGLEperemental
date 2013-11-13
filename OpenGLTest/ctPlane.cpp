@@ -15,7 +15,17 @@ ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB,
     m_shaderManager = t_shaderManager;
     SetupPlaneCoords(t_AA, t_BB);
     SetColor(QVector3D(1,255,1));
-    m_transform = new ctTransform();
+    //SetDefault(t_shaderManager,0,0);
+    //m_transform = new ctTransform();
+}
+
+ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
+{
+    SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
+    m_currentType = t_type;
+    m_AA = t_AA;
+    m_BB = t_BB;
+    SetupPlaneCoords(t_AA, t_BB);
 }
 
 ctPlane::~ctPlane()
@@ -222,8 +232,10 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
-void ctPlane::InitShader()
+void ctPlane::InitShader(int r)
 {
+    if(r==0)
+    {
     if(m_currentType == Colored)
     {
         m_currentShader = m_shaderManager->SetUpShaderProgram(0, 0);
@@ -239,6 +251,11 @@ void ctPlane::InitShader()
         matrixUniform = m_currentShader->uniformLocation("viewProjectionMatrix");
         transformMatrixUniform = m_currentShader->uniformLocation("modelMatrix");
         textureLocation = m_currentShader->uniformLocation("colorTexture");
+    }
+    }
+    else
+    {
+        //TODO: need refine!!!
     }
 }
 
@@ -259,4 +276,11 @@ void ctPlane::Draw()
 void ctPlane::Update()
 {
     //Update Some States
+}
+
+void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContex)
+{
+    ctObject::SetDefault(t_shaderManager, t_scene, t_OpenGLContex);
+    meshVBO = 0;
+    textureIndex = 0;
 }
