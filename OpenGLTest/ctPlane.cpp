@@ -4,7 +4,7 @@
 #include <QVector>
 #include <QColor>
 #include <QDebug>
-
+#include "ctShaderManager.h"
 ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
     meshVBO = 0;
@@ -12,7 +12,7 @@ ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB,
     m_currentType = t_type;
     m_AA = t_AA;
     m_BB = t_BB;
-    m_shaderManager = t_shaderManager;
+    m_shaderManagerOld = t_shaderManager;
     SetupPlaneCoords(t_AA, t_BB);
     SetColor(QVector3D(1,255,1));
     //SetDefault(t_shaderManager,0,0);
@@ -232,30 +232,73 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
+void ctPlane::DrawTexturedNew(QMatrix4x4 t_projectionMatrix)
+{
+    GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
+    //glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, textureIndex);
+    const int positionsOffset = 12 * sizeof(float);
+
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+
+    if (posAtribLoc != -1)
+    {
+        GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+            (3 * sizeof(float)), (const GLvoid*)0);
+        GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
+    }
+    else
+    {qDebug()<<"isShit pos!!!";}
+    if (colorAtribLoc != -1)
+    {
+        GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
+                              (2 * sizeof(float)), (const GLvoid*)positionsOffset);
+        GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
+    }
+    else
+    {qDebug()<<"isShit color!!!";}
+
+    m_currentShader->bind();
+    m_currentShader->setUniformValue(textureLocation, 0);
+    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
+    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetLocalTransformMatrix().GetMatrix());
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
+
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    m_currentShader->release();
+}
+
 void ctPlane::InitShader(int r)
 {
     if(r==0)
     {
-    if(m_currentType == Colored)
-    {
-        m_currentShader = m_shaderManager->SetUpShaderProgram(0, 0);
-        posAtribLoc = m_currentShader->attributeLocation("posAttr");
-        colorAtribLoc = m_currentShader->attributeLocation("colAttr");
-        matrixUniform = m_currentShader->uniformLocation("matrix");
+        if(m_currentType == Colored)
+        {
+            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(0, 0);
+            posAtribLoc = m_currentShader->attributeLocation("posAttr");
+            colorAtribLoc = m_currentShader->attributeLocation("colAttr");
+            matrixUniform = m_currentShader->uniformLocation("matrix");
+        }
+        else if(m_currentType == Textured)
+        {
+            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(2, 1);
+            posAtribLoc = m_currentShader->attributeLocation("position");
+            colorAtribLoc = m_currentShader->attributeLocation("texcoord");
+            matrixUniform = m_currentShader->uniformLocation("viewProjectionMatrix");
+            transformMatrixUniform = m_currentShader->uniformLocation("modelMatrix");
+            textureLocation = m_currentShader->uniformLocation("colorTexture");
+        }
     }
-    else if(m_currentType == Textured)
+    else
     {
-        m_currentShader = m_shaderManager->SetUpShaderProgram(2, 1);
+        m_currentShader = m_shaderManager->SetUpShaderProgram("texturedVertexShaderSource", "texturedModelVertexShaderSource", "texturedPlaneShader");
         posAtribLoc = m_currentShader->attributeLocation("position");
         colorAtribLoc = m_currentShader->attributeLocation("texcoord");
         matrixUniform = m_currentShader->uniformLocation("viewProjectionMatrix");
         transformMatrixUniform = m_currentShader->uniformLocation("modelMatrix");
         textureLocation = m_currentShader->uniformLocation("colorTexture");
-    }
-    }
-    else
-    {
-        //TODO: need refine!!!
     }
 }
 

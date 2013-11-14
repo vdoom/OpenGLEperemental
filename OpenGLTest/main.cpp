@@ -148,7 +148,9 @@ void TriangleWindow::initialize()
     //plane->GenerateCompleteBuffer();
     //trPlane->GenerateCompleteBuffer();
     trPlane->Init();
-    secondPlane->Init();
+    //secondPlane->Init();
+    secondPlane->InitShader(1);
+    secondPlane->GenerateCompleteBuffer();
 
     qDebug()<<trPlane->GetTypeName();
 
@@ -196,6 +198,7 @@ void TriangleWindow::render()
         axis[i]->Draw(matrix);
     }
     trPlane->Draw(matrix);
+    secondPlane->DrawTexturedNew(matrix);
 
     ++m_frame;
     ctTime::GetTime()->Update();

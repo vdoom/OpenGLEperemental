@@ -17,7 +17,7 @@ public:
         Textured
     };
 private:
-    ShaderManager * m_shaderManager;
+    ShaderManager * m_shaderManagerOld;
     QOpenGLShaderProgram * m_currentShader;
     QVector3D m_AA;
     QVector3D m_BB;
@@ -50,6 +50,7 @@ public:
     void Draw(QMatrix4x4);
     void DrawTextured(QMatrix4x4);
     void DrawColored(QMatrix4x4);
+    void DrawTexturedNew(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
 

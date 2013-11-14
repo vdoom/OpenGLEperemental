@@ -32,4 +32,5 @@ HEADERS += $$PWD/openglwindow.h \
     ctApp.h \
     ctWindow.h \
     testappwindow.h \
-    ctShaderManager.h
+    ctShaderManager.h \
+    test.h
