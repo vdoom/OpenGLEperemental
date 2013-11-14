@@ -57,6 +57,28 @@ void ctPlane::GenerateCompleteBuffer() // call only after shader init
 
 }
 
+void ctPlane::GenerateCompleteBufferNew()
+{
+    const int positionsOffset = 12;
+    const int texCoordOffset = 8;
+    float * completeBuffer = new float[positionsOffset + texCoordOffset]; // positions count + texture coord count
+    for(int i = 0; i < positionsOffset; ++i)
+    {
+        completeBuffer[i] = planePositions[i];
+    }
+    for(int i = 0; i < texCoordOffset; ++i)
+    {
+        completeBuffer[positionsOffset + i] = planeTextureCoords[i];
+    }
+
+    GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBO);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+
+    GetOpenGLContext()->functions()->glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
+        completeBuffer, GL_STATIC_DRAW);
+    delete[] completeBuffer;
+
+}
 
 GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 {

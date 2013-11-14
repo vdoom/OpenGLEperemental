@@ -150,7 +150,7 @@ void TriangleWindow::initialize()
     trPlane->Init();
     //secondPlane->Init();
     secondPlane->InitShader(1);
-    secondPlane->GenerateCompleteBuffer();
+    secondPlane->GenerateCompleteBufferNew();
 
     qDebug()<<trPlane->GetTypeName();
 

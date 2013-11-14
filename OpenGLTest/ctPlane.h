@@ -52,6 +52,7 @@ public:
     void DrawColored(QMatrix4x4);
     void DrawTexturedNew(QMatrix4x4);
     void GenerateCompleteBuffer();
+    void GenerateCompleteBufferNew();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
 
     //----Overload-functions----
