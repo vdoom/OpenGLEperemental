@@ -35,6 +35,7 @@ private:
     float* planeColor;
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    void GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram = m_currentShader);
 public:
     //ctPlane(){}
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
@@ -45,6 +46,9 @@ public:
     ~ctPlane();
 
     void InitShader(int t=0);
+    void InitShader(QOpenGLShaderProgram * t_initedShader);
+    void InitShader(const char * t_shaderProgrammName);
+    void InitShader(QString t_shaderProgrammName);
     void SetColor(QVector3D t_color);
     void SetTexture(const char * t_textureFileName);
     void Draw(QMatrix4x4);
