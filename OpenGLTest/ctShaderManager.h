@@ -24,12 +24,6 @@ public:
     int AddVertexShader(QString t_shaderTxt, QString t_name);
     int AddFragmentShader(const char * t_shaderTxt, const char * t_name);
     int AddFragmentShader(QString t_shaderTxt, QString t_name);
-    //int GetCountVertexShaders();
-    //int GetCountFragmentShaders();
-    //void SetActiveVertexShader(const char * t_name);//(int t_vertexShaderIndex);
-    //void SetActiveVertexShader(QString t_name);
-    //void SetActiveFragmentShader(const char * t_name);//(int t_fragmentShaderIndex);
-    //void SetActiveFragmentShader(QString t_name);
     QOpenGLShaderProgram* SetUpShaderProgram(const char * t_vertexShaderName, const char * t_fragmentShaderName, const char * t_name);//(int t_vertexShaderIndex, int t_fragmentShaderIndex);
     QOpenGLShaderProgram* SetUpShaderProgram(QString t_vertexShaderName, QString t_fragmentShaderName, QString t_name);
     //QOpenGLShaderProgram* GetCurrentShaderProgram();

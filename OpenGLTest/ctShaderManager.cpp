@@ -11,7 +11,23 @@ ctShaderManager::ctShaderManager(QOpenGLContext *t_OpenGLContext)
 
 ctShaderManager::~ctShaderManager()
 {
-    //TODO: need destroy all shaders & shader programs;
+    QList<QString> tmpKeys = m_vertexShaders.keys();
+
+    for(int i = 0; i < m_vertexShaders.size(); ++i)
+    {
+        delete m_vertexShaders[tmpKeys[i]];
+    }
+    m_vertexShaders.clear();
+
+    tmpKeys = m_fragmentShaders.keys();
+
+    for(int i = 0; i < m_fragmentShaders.size(); ++i)
+    {
+        delete m_fragmentShaders[tmpKeys[i]];
+    }
+    m_fragmentShaders.clear();
+
+    //TODO: PERHEPS NEED FIX;
 }
 
 int ctShaderManager::AddFragmentShader(const char * t_shaderTxt, const char *t_name)
