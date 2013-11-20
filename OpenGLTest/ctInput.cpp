@@ -43,21 +43,21 @@ bool ctInput::event(QEvent *event)
     {
     case QEvent::TouchBegin:
         {
-            m_touchEvent.append(static_cast<QTouchEvent *>(event));
+            //m_touchEvent.append(static_cast<QTouchEvent *>(event));
             QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
             qDebug()<<"TouchBegin"<<touchPoints[0].pos().x()<<" "<< touchPoints[0].pos().y();
             return true;
         }
     case QEvent::TouchUpdate:
         {
-            m_touchEvent.append(static_cast<QTouchEvent *>(event));
+            //m_touchEvent.append(static_cast<QTouchEvent *>(event));
             QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
             qDebug()<<"TouchUpdate"<<touchPoints[0].pos().x()<<" "<< touchPoints[0].pos().y();
             return true;
         }
     case QEvent::TouchEnd:
         {
-            m_touchEvent.append(static_cast<QTouchEvent *>(event));
+            //m_touchEvent.append(static_cast<QTouchEvent *>(event));
             QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
             qDebug()<<"TouchEnd"<<touchPoints[0].pos().x()<<" "<< touchPoints[0].pos().y();
             return true;

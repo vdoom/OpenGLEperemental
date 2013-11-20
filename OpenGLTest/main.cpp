@@ -68,11 +68,11 @@ class TriangleWindow : public OpenGLWindow
 {
 public:
     TriangleWindow(QWindow* parent=0);
-    ~TriangleWindow()
-    {
-        delete m_newShaderManager;
-        delete m_shaderManager;
-    }
+    //~TriangleWindow();
+//    {
+//        delete m_newShaderManager;
+//        delete m_shaderManager;
+//    }
     void initialize();
     void render();
 
@@ -108,7 +108,11 @@ TriangleWindow::TriangleWindow(QWindow* parent)
 {
     m_input = new ctInput();//((QWidget*)this);
 }
-
+//TriangleWindow::~TriangleWindow()
+//{
+//    delete m_newShaderManager;
+//    delete m_shaderManager;
+//}
 void TriangleWindow::initialize()
 {
     m_newShaderManager = new ctShaderManager(m_context);
@@ -147,8 +151,6 @@ void TriangleWindow::initialize()
     secondPlane->GenerateCompleteBuffer();
     //-----------------------------------------------------------------------------
 
-    //trPlane->GetTransform()->Move(QVector3D(2,3,2));
-    //trPlane->GetTransform()->RotateByX(0.2f);
     //tmp.Move(QVector3D(2,3,2));
     //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -166,7 +168,7 @@ void TriangleWindow::initialize()
     glViewport(0, 0, width(), height());
     if(!ctTime::GetTime())
     {qDebug()<<"Fuck\n";}
-   // qDebug()<<ctTime::GetTime()->DateTimeToStr();
+
     //ctTime::GetTime()->Update();
 }
 
@@ -175,7 +177,12 @@ void TriangleWindow::render()
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
     else {qDebug()<<"FPS: "<<frameCounter; msecsCounter = 0;frameCounter=0;}
-   // qDebug()<<ctTime::GetTime()->GetMiliSecsSinceEpoch();
+    //float ttt = (ctTime::GetTime()->GetDeltaTime());
+    //if(ttt!=0)
+    //{ttt = 1000/ttt;}
+    //qDebug()<<"real FPS: "<<ttt;
+
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     QMatrix4x4 matrix;
