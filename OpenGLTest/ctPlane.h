@@ -35,7 +35,7 @@ private:
     float* planeColor;
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
-    void GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram = m_currentShader);
+    void GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram);
 public:
     //ctPlane(){}
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);

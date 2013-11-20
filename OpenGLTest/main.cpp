@@ -129,30 +129,31 @@ void TriangleWindow::initialize()
     //plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     //plane->InitShader();
     //plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    //trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
     secondPlane = new ctPlane(m_newShaderManager, 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     //trPlane->InitShader();
-    trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    secondPlane->InitShader(1);
+    //trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     secondPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //ctTransform tmp;
     //trPlane->GetTransform().GetGlobalTransformMatrix();
     //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix()); //GetGlobalTransformMatrix().GetMatrix());
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
-    trPlane->GetTransform()->RotateByX(0.2f);
+    //trPlane->GetTransform()->RotateByX(0.2f);
     secondPlane->GetTransform()->RotateByZ(0.2f);
-    trPlane->GetTransform()->Move(QVector3D(2,2,3));
+   // trPlane->GetTransform()->Move(QVector3D(2,2,3));
     secondPlane->GetTransform()->Move(QVector3D(2,2,3));
     //tmp.Move(QVector3D(2,3,2));
     //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
     //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
     //plane->GenerateCompleteBuffer();
     //trPlane->GenerateCompleteBuffer();
-    trPlane->Init();
+   // trPlane->Init();
     //secondPlane->Init();
-    secondPlane->InitShader(1);
+
     secondPlane->GenerateCompleteBufferNew();
 
-    qDebug()<<trPlane->GetTypeName();
+    //qDebug()<<trPlane->GetTypeName();
 
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     //trPlane->GetTransform()->RotateByX(0.2f);
@@ -197,7 +198,7 @@ void TriangleWindow::render()
     {
         axis[i]->Draw(matrix);
     }
-    trPlane->Draw(matrix);
+    //trPlane->Draw(matrix);
     secondPlane->DrawTexturedNew(matrix);
 
     ++m_frame;

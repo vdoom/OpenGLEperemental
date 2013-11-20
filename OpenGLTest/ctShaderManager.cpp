@@ -40,7 +40,7 @@ int ctShaderManager::AddVertexShader(QString t_shaderTxt, QString t_name)
 {
     QOpenGLShader* tmpShader = new QOpenGLShader(QOpenGLShader::Vertex, 0);
     tmpShader->compileSourceCode(t_shaderTxt);
-    m_fragmentShaders.insert(t_name, tmpShader);
+    m_vertexShaders.insert(t_name, tmpShader);
     return 0;
 }
 

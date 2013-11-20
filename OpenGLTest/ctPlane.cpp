@@ -294,57 +294,59 @@ void ctPlane::DrawTexturedNew(QMatrix4x4 t_projectionMatrix)
 
 void ctPlane::InitShader(int r)
 {
-    if(r==0)
-    {
-        if(m_currentType == Colored)
-        {
-            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(0, 0);
-        }
-        else if(m_currentType == Textured)
-        {
-            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(2, 1);   
-        }
-        GettingAnttibutes();
-    }
-    else
-    {
-        m_currentShader = m_shaderManager->SetUpShaderProgram("texturedVertexShaderSource", "texturedModelVertexShaderSource", "texturedPlaneShader");// need replace this part to outside
-        GettingAnttibutes();
-    }
+//    if(r==0)
+//    {
+//        if(m_currentType == Colored)
+//        {
+//            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(0, 0);
+//        }
+//        else if(m_currentType == Textured)
+//        {
+//            m_currentShader = m_shaderManagerOld->SetUpShaderProgram(2, 1);
+//        }
+//        GettingAnttibutes(m_currentShader);
+//    }
+//    else
+//    {
+    m_currentShader = m_shaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");// need replace this part to outside
+        GettingAnttibutes(m_currentShader);
+//    }
 }
 
 void ctPlane::InitShader(const char *t_shaderProgrammName)
 {
     m_currentShader = m_shaderManager->GetShaderProgram(t_shaderProgrammName);
-    GettingAnttibutes();
+    GettingAnttibutes(m_currentShader);
 }
 void ctPlane::InitShader(QString t_shaderProgrammName)
 {
     m_currentShader = m_shaderManager->GetShaderProgram(t_shaderProgrammName);
-    GettingAnttibutes();
+    GettingAnttibutes(m_currentShader);
 }
 void ctPlane::InitShader(QOpenGLShaderProgram *t_initedShader)
 {
     m_currentShader = t_initedShader;
-    GettingAnttibutes();
+    GettingAnttibutes(m_currentShader);
 }
 
 void ctPlane::GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram)
 {
-    if(m_currentType == Colored)
-    {
-        posAtribLoc = t_shaderProgram->attributeLocation("posAttr");
-        colorAtribLoc = t_shaderProgram->attributeLocation("colAttr");
-        matrixUniform = t_shaderProgram->uniformLocation("matrix");
-    }
-    else if(m_currentType == Textured)
-    {
+//    if(m_currentType == Colored)
+//    {
+//        posAtribLoc = t_shaderProgram->attributeLocation("posAttr");
+//        colorAtribLoc = t_shaderProgram->attributeLocation("colAttr");
+//        matrixUniform = t_shaderProgram->uniformLocation("matrix");
+//    }
+//    else if(m_currentType == Textured)
+//    {
+    if(!t_shaderProgram)
+    {qDebug()<<"Shit Shader Program";}
         posAtribLoc = t_shaderProgram->attributeLocation("position");
         colorAtribLoc = t_shaderProgram->attributeLocation("texcoord");
         matrixUniform = t_shaderProgram->uniformLocation("viewProjectionMatrix");
         transformMatrixUniform = t_shaderProgram->uniformLocation("modelMatrix");
         textureLocation = t_shaderProgram->uniformLocation("colorTexture");
-    }
+//    }
 }
 
 void ctPlane::Init()
