@@ -40,7 +40,7 @@
 
 #include "openglwindow.h"
 
-#include <QtGui/QGuiApplication>
+#include <QApplication>
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QOpenGLShaderProgram>
 #include <QtGui/QScreen>
@@ -68,7 +68,11 @@ class TriangleWindow : public OpenGLWindow
 {
 public:
     TriangleWindow(QWindow* parent=0);
-
+    ~TriangleWindow()
+    {
+        delete m_newShaderManager;
+        delete m_shaderManager;
+    }
     void initialize();
     void render();
 
@@ -90,14 +94,19 @@ private:
     int frameCounter;
     int msecsCounter;
     ctInput* m_input;
+    bool event(QEvent *event)
+    {
+        m_input->event(event);
+        OpenGLWindow::event(event);
+    }
     //ctTime time;
 };
 
 TriangleWindow::TriangleWindow(QWindow* parent)
     : m_program(0)
-    , m_frame(0), msecsCounter(0), frameCounter(0),OpenGLWindow(parent)
+    , m_frame(0), msecsCounter(0), frameCounter(0)//, OpenGLWindow(parent)
 {
-    m_input = new ctInput((QWidget*)this);
+    m_input = new ctInput();//((QWidget*)this);
 }
 
 void TriangleWindow::initialize()
@@ -129,34 +138,14 @@ void TriangleWindow::initialize()
     box = new BoxTextured(m_shaderManager);
     box->LoadTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
     box->InitShaderProgram();
-    //plane = new Plane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
-    //plane->InitShader();
-    //plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    //trPlane = new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);//new ctPlane(m_shaderManager, QVector3D(2,0,2), QVector3D(-2,0,-2), Plane::Textured);
+    //-----------------------------------------------------------------------------
     secondPlane = new ctPlane(m_newShaderManager, 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
-    //trPlane->InitShader();
-    secondPlane->InitShader(1);
-    //trPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    secondPlane->InitShader();
     secondPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    //ctTransform tmp;
-    //trPlane->GetTransform().GetGlobalTransformMatrix();
-    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix()); //GetGlobalTransformMatrix().GetMatrix());
-    //trPlane->GetTransform()->Move(QVector3D(2,3,2));
-    //trPlane->GetTransform()->RotateByX(0.2f);
     secondPlane->GetTransform()->RotateByZ(0.2f);
-   // trPlane->GetTransform()->Move(QVector3D(2,2,3));
     secondPlane->GetTransform()->Move(QVector3D(2,2,3));
-    //tmp.Move(QVector3D(2,3,2));
-    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
-    //plane->CreateTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga", "TGA");
-    //plane->GenerateCompleteBuffer();
-    //trPlane->GenerateCompleteBuffer();
-   // trPlane->Init();
-    //secondPlane->Init();
-
-    secondPlane->GenerateCompleteBufferNew();
-
-    //qDebug()<<trPlane->GetTypeName();
+    secondPlane->GenerateCompleteBuffer();
+    //-----------------------------------------------------------------------------
 
     //trPlane->GetTransform()->Move(QVector3D(2,3,2));
     //trPlane->GetTransform()->RotateByX(0.2f);
@@ -195,13 +184,10 @@ void TriangleWindow::render()
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
     //box->Draw(matrix);
-    //plane->Draw(matrix);
-
     for(int i = 0; i < 3; ++i)
     {
         axis[i]->Draw(matrix);
     }
-    //trPlane->Draw(matrix);
     secondPlane->DrawTexturedNew(matrix);
 
     ++m_frame;
@@ -210,7 +196,7 @@ void TriangleWindow::render()
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QSurfaceFormat format;
     format.setSamples(16);

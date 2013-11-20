@@ -45,7 +45,7 @@ public:
     ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     ~ctPlane();
 
-    void InitShader(int t=0);
+    void InitShader();
     void InitShader(QOpenGLShaderProgram * t_initedShader);
     void InitShader(const char * t_shaderProgrammName);
     void InitShader(QString t_shaderProgrammName);
@@ -56,7 +56,6 @@ public:
     void DrawColored(QMatrix4x4);
     void DrawTexturedNew(QMatrix4x4);
     void GenerateCompleteBuffer();
-    void GenerateCompleteBufferNew();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
 
     //----Overload-functions----

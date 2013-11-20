@@ -39,8 +39,6 @@ void ctInput::PostUpdate()
 
 bool ctInput::event(QEvent *event)
 {
-    //m_touchEvent.clear();
-
     switch (event->type())
     {
     case QEvent::TouchBegin:

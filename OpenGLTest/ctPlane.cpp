@@ -30,34 +30,11 @@ ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLCo
 
 ctPlane::~ctPlane()
 {
+    //UNDONE: NEED COMPLETE DESTRUSTION
     qDebug()<<"ctPlane Destroyed\n";
 }
 
-//Only For Texrtured Plane
-void ctPlane::GenerateCompleteBuffer() // call only after shader init
-{
-    const int positionsOffset = 12;
-    const int texCoordOffset = 8;
-    float * completeBuffer = new float[positionsOffset + texCoordOffset]; // positions count + texture coord count
-    for(int i = 0; i < positionsOffset; ++i)
-    {
-        completeBuffer[i] = planePositions[i];
-    }
-    for(int i = 0; i < texCoordOffset; ++i)
-    {
-        completeBuffer[positionsOffset + i] = planeTextureCoords[i];
-    }
-
-    glGenBuffers(1, &meshVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
-
-    glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
-        completeBuffer, GL_STATIC_DRAW);
-    delete[] completeBuffer;
-
-}
-
-void ctPlane::GenerateCompleteBufferNew()
+void ctPlane::GenerateCompleteBuffer()
 {
     const int positionsOffset = 12;
     const int texCoordOffset = 8;
@@ -292,7 +269,7 @@ void ctPlane::DrawTexturedNew(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
-void ctPlane::InitShader(int r)
+void ctPlane::InitShader()
 {
 //    if(r==0)
 //    {
@@ -309,7 +286,7 @@ void ctPlane::InitShader(int r)
 //    else
 //    {
     m_currentShader = m_shaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");// need replace this part to outside
-        GettingAnttibutes(m_currentShader);
+    GettingAnttibutes(m_currentShader);
 //    }
 }
 
