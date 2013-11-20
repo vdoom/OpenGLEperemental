@@ -55,6 +55,7 @@
 #include "ctPlane.h"
 #include "ctTime.h"
 #include "ctShaderManager.h"
+#include "ctInput.h"
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -66,7 +67,7 @@ void ShowMatrix(QMatrix4x4 t_mat)
 class TriangleWindow : public OpenGLWindow
 {
 public:
-    TriangleWindow();
+    TriangleWindow(QWindow* parent=0);
 
     void initialize();
     void render();
@@ -88,13 +89,15 @@ private:
     ctPlane * secondPlane;
     int frameCounter;
     int msecsCounter;
+    ctInput* m_input;
     //ctTime time;
 };
 
-TriangleWindow::TriangleWindow()
+TriangleWindow::TriangleWindow(QWindow* parent)
     : m_program(0)
-    , m_frame(0), msecsCounter(0), frameCounter(0)
+    , m_frame(0), msecsCounter(0), frameCounter(0),OpenGLWindow(parent)
 {
+    m_input = new ctInput((QWidget*)this);
 }
 
 void TriangleWindow::initialize()
