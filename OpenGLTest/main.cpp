@@ -44,9 +44,10 @@
 #include <QtGui/QMatrix4x4>
 #include <QtGui/QOpenGLShaderProgram>
 #include <QtGui/QScreen>
+#include <QOpenGLPaintDevice>
 
 #include <QtCore/qmath.h>
-
+#include <QGLWidget>
 #include "shadermanager.h"
 #include "axis.h"
 #include "boxtextured.h"
@@ -168,12 +169,27 @@ void TriangleWindow::initialize()
     glViewport(0, 0, width(), height());
     if(!ctTime::GetTime())
     {qDebug()<<"Fuck\n";}
+    if (!m_device)
+        m_device = new QOpenGLPaintDevice;
+    m_device->setSize(size());
 
     //ctTime::GetTime()->Update();
 }
 
 void TriangleWindow::render()
 {
+    QPainter painter(m_device);
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+//    glEnable(GL_DEPTH_TEST);
+    //render(&painter);
+
+    //m_device->paintEngine()->painter()->drawText(QPointF(30,30),QString("FUCK ITS WORKING!!!!"));
+
+//        glEnable(GL_BLEND);
+//        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+//        glEnable(GL_DEPTH_TEST);
+
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
     else {qDebug()<<"FPS: "<<frameCounter; msecsCounter = 0;frameCounter=0;}
@@ -185,6 +201,10 @@ void TriangleWindow::render()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    m_device->paintEngine()->painter()->drawText(QPointF(30,30),QString("FUCK ITS WORKING!!!!"));
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_DEPTH_TEST);
     QMatrix4x4 matrix;
     matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
     matrix.translate(0, -1.5f , -5);

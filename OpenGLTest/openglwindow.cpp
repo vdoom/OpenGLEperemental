@@ -202,5 +202,11 @@ void OpenGLWindow::setAnimating(bool animating)
     if (animating)
         renderLater();
 }
+
+void OpenGLWindow::DrawText(QString str)
+{
+    //if(!m_device->paintEngine()->painter()) qDebug()<<"Errore!!!";
+    //m_device->paintEngine()->painter();//->drawText(QPointF(30,30),str);
+}
 //! [5]
 

@@ -40,6 +40,7 @@
 
 #include <QtGui/QWindow>
 #include <QtGui/QOpenGLFunctions>
+//#include <QGLWidget>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -62,6 +63,8 @@ public:
 
     void setAnimating(bool animating);
 
+    void DrawText(QString str);
+
 public slots:
     void renderLater();
     void renderNow();
@@ -70,13 +73,14 @@ protected:
     bool event(QEvent *event);
     QOpenGLContext *m_context;
     void exposeEvent(QExposeEvent *event);
+    QOpenGLPaintDevice *m_device;
 
 private:
     bool m_update_pending;
     bool m_animating;
 
     //QOpenGLContext *m_context;
-    QOpenGLPaintDevice *m_device;
+    //QOpenGLPaintDevice *m_device;
 
 
     //  The number of frames
