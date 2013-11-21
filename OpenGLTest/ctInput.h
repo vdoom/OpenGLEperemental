@@ -11,18 +11,33 @@
 
 class ctInput : public QWidget
 {
+public:
+    enum InputTouchState
+    {
+        ctInputTouchBegin,
+        ctInputTouchEnd,
+        ctInputTouchUpdate
+    };
+    enum InputMouseState
+    {empty};
 private:
     //friend TriangleWindow;
-    QVector<QMouseEvent *> m_mouseEvent;
+   // QVector<QMouseEvent *> m_mouseEvent;
     QVector<QKeyEvent *> m_keyEvent;
-    QVector<QTouchEvent *> m_touchEvent;
+   // QVector<QTouchEvent *> m_touchEvent;
+    QMouseEvent * m_lastMouseEvent;
+    QTouchEvent * m_lastTouchEvent;
+    InputTouchState m_lastTouchState;
 public:
     explicit ctInput(QWidget * parent = 0);
     ~ctInput();
 
     QVector<QMouseEvent *> GetMouseEvent();
     QVector<QKeyEvent *> GetKeyEvent();
-    QVector<QTouchEvent *> GetTouchEvent();
+    //QVector<QTouchEvent *> GetTouchEvent();
+    QTouchEvent* GetTouchEvent() const;
+    InputTouchState GetTouchState();
+    QMouseEvent * GetMouseEvent() const;
 
     void Update();
 
