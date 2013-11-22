@@ -196,6 +196,10 @@ void ctPlane::DrawColored(QMatrix4x4 t_projectionMatrix)
 
 void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+//    glEnable(GL_DEPTH_TEST);
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureIndex);
     const int positionsOffset = 12 * sizeof(float);

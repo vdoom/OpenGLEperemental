@@ -100,6 +100,8 @@ private:
         m_input->event(event);
         OpenGLWindow::event(event);
     }
+
+    int m_lastFPS;
     //ctTime time;
 };
 
@@ -108,6 +110,7 @@ TriangleWindow::TriangleWindow(QWindow* parent)
     , m_frame(0), msecsCounter(0), frameCounter(0)//, OpenGLWindow(parent)
 {
     m_input = new ctInput();//((QWidget*)this);
+    m_lastFPS = 0;
 }
 //TriangleWindow::~TriangleWindow()
 //{
@@ -116,6 +119,10 @@ TriangleWindow::TriangleWindow(QWindow* parent)
 //}
 void TriangleWindow::initialize()
 {
+    if (!m_device)
+        m_device = new QOpenGLPaintDevice;
+    m_device->setSize(size());
+
     m_newShaderManager = new ctShaderManager(m_context);
     m_shaderManager = new ShaderManager();
     m_newShaderManager->AddFragmentShader(fragmentShaderSource, "fragmentShaderSource");
@@ -169,15 +176,16 @@ void TriangleWindow::initialize()
     glViewport(0, 0, width(), height());
     if(!ctTime::GetTime())
     {qDebug()<<"Fuck\n";}
-    if (!m_device)
-        m_device = new QOpenGLPaintDevice;
-    m_device->setSize(size());
 
     //ctTime::GetTime()->Update();
 }
 
 void TriangleWindow::render()
 {
+//    if(!m_painter)
+//    {
+//        m_painter = new QPainter(m_device);
+//    }
     QPainter painter(m_device);
 //    glEnable(GL_BLEND);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
@@ -192,7 +200,7 @@ void TriangleWindow::render()
 
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
-    else {qDebug()<<"FPS: "<<frameCounter; msecsCounter = 0;frameCounter=0;}
+    else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
     //float ttt = (ctTime::GetTime()->GetDeltaTime());
     //if(ttt!=0)
     //{ttt = 1000/ttt;}
@@ -201,10 +209,13 @@ void TriangleWindow::render()
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_device->paintEngine()->painter()->drawText(QPointF(30,30),QString("FUCK ITS WORKING!!!!"));
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_DEPTH_TEST);
+    painter.setPen(Qt::green);
+    painter.drawText(QPointF(30,30),QString("FPS: ") + QString::number(m_lastFPS));
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+
     QMatrix4x4 matrix;
     matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
     matrix.translate(0, -1.5f , -5);

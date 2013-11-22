@@ -66,6 +66,9 @@ void ctWindow::render(QPainter *painter)
 
 void ctWindow::initialize()
 {
+    if (!m_device)
+        m_device = new QOpenGLPaintDevice;
+    m_device->setSize(size());
     //Initialization;
 }
 
@@ -171,5 +174,12 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
         m_shaderManager = new ctShaderManager();
     else
         m_shaderManager = new ctShaderManager(t_context);
+}
+
+void ctWindow::DrawText(QPointF t_pos, QString t_str)
+{
+    QPainter painter(m_device);
+    painter.setPen(Qt::green);
+    painter.drawText(t_pos, t_str);
 }
 

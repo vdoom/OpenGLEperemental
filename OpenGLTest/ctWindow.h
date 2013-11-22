@@ -3,6 +3,7 @@
 
 #include <QtGui/QWindow>
 #include <QtGui/QOpenGLFunctions>
+#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -48,6 +49,8 @@ public:
 
     void SetShaderManager(ctShaderManager * t_shaderManager);
     ctShaderManager * GetShaderManager() const;
+
+    void DrawText(QPointF, QString);
 
 public slots:
     void renderLater();
