@@ -6,6 +6,10 @@
 class testAppWindow : public ctWindow
 {
 private:
+    int m_lastFPS;
+    int frameCounter;
+    int msecsCounter;
+private:
     virtual void SetDefault(QOpenGLContext *t_context = 0);
     virtual void BeginRender();
     virtual void EndRender();

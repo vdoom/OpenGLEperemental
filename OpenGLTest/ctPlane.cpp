@@ -172,7 +172,7 @@ void ctPlane::Draw(QMatrix4x4 t_projectionMatrix)
     }
     else if(m_currentType == Textured)
     {
-        DrawTextured(t_projectionMatrix);
+        DrawTexturedOld(t_projectionMatrix);
     }
 }
 
@@ -194,7 +194,7 @@ void ctPlane::DrawColored(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
-void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
+void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
 {
 //    glEnable(GL_BLEND);
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
@@ -235,7 +235,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
-void ctPlane::DrawTexturedNew(QMatrix4x4 t_projectionMatrix)
+void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
     GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
     //glActiveTexture(GL_TEXTURE0);

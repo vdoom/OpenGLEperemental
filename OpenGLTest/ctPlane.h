@@ -52,9 +52,9 @@ public:
     void SetColor(QVector3D t_color);
     void SetTexture(const char * t_textureFileName);
     void Draw(QMatrix4x4);
-    void DrawTextured(QMatrix4x4);
+    void DrawTexturedOld(QMatrix4x4);
     void DrawColored(QMatrix4x4);
-    void DrawTexturedNew(QMatrix4x4);
+    void DrawTextured(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
 

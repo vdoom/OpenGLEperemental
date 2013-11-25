@@ -57,6 +57,7 @@
 #include "ctTime.h"
 #include "ctShaderManager.h"
 #include "ctInput.h"
+#include "testappwindow.h"
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -102,6 +103,7 @@ private:
     }
 
     int m_lastFPS;
+
     //ctTime time;
 };
 
@@ -135,6 +137,7 @@ void TriangleWindow::initialize()
     m_shaderManager->AddVertexShader(texturedVertexShaderSource);
     m_newShaderManager->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
     m_shaderManager->AddVertexShader(texturedModelVertexShaderSource);
+    m_newShaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
     //m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
    // m_shaderManager->AddVertexShader(materialVertexShaderSource);
 
@@ -152,7 +155,8 @@ void TriangleWindow::initialize()
     box->InitShaderProgram();
     //-----------------------------------------------------------------------------
     secondPlane = new ctPlane(m_newShaderManager, 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
-    secondPlane->InitShader();
+    secondPlane->InitShader("texturedPlaneShader");
+    //secondPlane->InitShader();
     secondPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     secondPlane->GetTransform()->RotateByZ(0.2f);
     secondPlane->GetTransform()->Move(QVector3D(2,2,3));
@@ -226,7 +230,7 @@ void TriangleWindow::render()
     {
         axis[i]->Draw(matrix);
     }
-    secondPlane->DrawTexturedNew(matrix);
+    secondPlane->DrawTextured(matrix);
 
     ++m_frame;
     ctTime::GetTime()->Update();
