@@ -245,12 +245,17 @@ int main(int argc, char **argv)
     format.setDepthBufferSize(24);
     //format.setStereo(true);
 
-    TriangleWindow window;
-    window.setFormat(format);
-    window.resize(640, 480);
-    window.show();
+    testAppWindow m_testWindow;
+    m_testWindow.setFormat(format);
+    m_testWindow.resize(640,480);
+    m_testWindow.show();
 
-    window.setAnimating(true);
+//    TriangleWindow window;
+//    window.setFormat(format);
+//    window.resize(640, 480);
+//    window.show();
+
+//    window.setAnimating(true);
 
     return app.exec();
 }

@@ -33,6 +33,7 @@ bool ctWindow::event(QEvent *event)
     case QEvent::UpdateRequest:
         m_update_pending = false;
         renderNow();
+        //qDebug()<<"UpdateRequest";
         return true;
     default:
         return QWindow::event(event);
@@ -57,6 +58,8 @@ void ctWindow::render()
     m_device->setSize(size());
     QPainter painter(m_device);
     render(&painter);
+    Draw();//RenderScene();
+    renderLater();
 }
 
 void ctWindow::render(QPainter *painter)
@@ -79,14 +82,17 @@ QOpenGLContext * ctWindow::GetOpenGLContext() const
 
 void ctWindow::renderLater()
 {
-    if (!m_update_pending) {
+    if (!m_update_pending)
+    {
         m_update_pending = true;
         QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
+        //()<<"UpdateRequest";
     }
 }
 
 void ctWindow::renderNow()
 {
+    //qDebug()<<"RenderNow";
     if (!isExposed())
         return;
 
@@ -129,7 +135,7 @@ void ctWindow::renderNow()
     m_context->swapBuffers(this);
 
     //if (m_animating)
-    //    renderLater();
+        renderLater();
 }
 
 void ctWindow::SetScene(ctScene* t_scene)
@@ -150,6 +156,7 @@ void ctWindow::RenderScene()
 
 void ctWindow::Draw()
 {
+    //qDebug()<<"Render";
     BeginRender();
 
     RenderScene();
@@ -174,6 +181,8 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
         m_shaderManager = new ctShaderManager();
     else
         m_shaderManager = new ctShaderManager(t_context);
+
+    m_update_pending = false;
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)

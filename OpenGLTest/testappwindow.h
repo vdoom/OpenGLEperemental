@@ -3,12 +3,16 @@
 
 #include "ctWindow.h"
 
+class ctPlane;
+
 class testAppWindow : public ctWindow
 {
 private:
+    int m_frame;
     int m_lastFPS;
     int frameCounter;
     int msecsCounter;
+    ctPlane * m_plane;
 private:
     virtual void SetDefault(QOpenGLContext *t_context = 0);
     virtual void BeginRender();
