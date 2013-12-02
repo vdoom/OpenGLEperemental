@@ -51,15 +51,18 @@ void ctWindow::exposeEvent(QExposeEvent *event)
 void ctWindow::render()
 {
     if (!m_device)
+    {
         m_device = new QOpenGLPaintDevice;
+        m_device->setSize(size());
+    }
 
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    m_device->setSize(size());
-    QPainter painter(m_device);
-    render(&painter);
-    Draw();//RenderScene();
-    renderLater();
+
+    //QPainter painter(m_device);
+    //render(&painter);
+    //Draw();//RenderScene();
+
 }
 
 void ctWindow::render(QPainter *painter)
@@ -186,7 +189,7 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
-{
+{//qDebug()<<"WriteText";
     QPainter painter(m_device);
     painter.setPen(Qt::green);
     painter.drawText(t_pos, t_str);

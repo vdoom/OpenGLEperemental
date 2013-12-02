@@ -5,6 +5,11 @@
 #include "ctTime.h"
 #include "ctPlane.h"
 #include "shaders.h"
+#include <QtGui/QOpenGLContext>
+#include <QtGui/QOpenGLPaintDevice>
+#include <QtGui/QPainter>
+#include <QtOpenGL>
+#include <QtOpenGL/QGLFormat>
 
 testAppWindow::testAppWindow(QWindow *parent) : ctWindow(parent)
 {
@@ -52,7 +57,14 @@ void testAppWindow::initialize()
 
 void testAppWindow::render()
 {
-    //qDebug()<<"Render";
+    ctWindow::render();
+    //qDebug()<<"BeginRender";
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    ++frameCounter;
+    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
+    else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
+    //QPainter m_painter(m_device);
+    DrawText(QPointF(30,30), QString::number(m_lastFPS));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
@@ -62,7 +74,12 @@ void testAppWindow::render()
     matrix.translate(0, -1.5f , -5);
     matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
 
-    //m_plane->DrawTextured(matrix);
+    m_plane->DrawTextured(matrix);
+    ++m_frame;
+
+    ctTime::GetTime()->Update();
+    //Draw();
+    renderLater();
 }
 
 void testAppWindow::SetDefault(QOpenGLContext *t_context)
@@ -80,6 +97,7 @@ void testAppWindow::SetDefault(QOpenGLContext *t_context)
 
 void testAppWindow::BeginRender()
 {
+    //qDebug()<<"BeginRender";
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
@@ -88,8 +106,25 @@ void testAppWindow::BeginRender()
     DrawText(QPointF(30,30), QString::number(m_lastFPS));
 }
 
+void testAppWindow::RenderScene()
+{
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //qDebug()<<"Render";
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+
+    QMatrix4x4 matrix;
+    matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
+    matrix.translate(0, -1.5f , -5);
+    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
+
+    m_plane->DrawTextured(matrix);
+}
+
 void testAppWindow::EndRender()
 {
     ++m_frame;
     ctTime::GetTime()->Update();
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

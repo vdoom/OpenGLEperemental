@@ -40,7 +40,7 @@ public:
     virtual void initialize();
     virtual void Draw();
 
-    void RenderScene();
+    virtual void RenderScene();
 
     QOpenGLContext * GetOpenGLContext() const;
 
