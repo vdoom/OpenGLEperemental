@@ -172,7 +172,7 @@ void ctPlane::Draw(QMatrix4x4 t_projectionMatrix)
     }
     else if(m_currentType == Textured)
     {
-        DrawTexturedOld(t_projectionMatrix);
+        DrawTextured(t_projectionMatrix);//DrawTexturedOld(t_projectionMatrix);
     }
 }
 

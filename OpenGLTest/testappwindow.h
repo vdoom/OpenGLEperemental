@@ -3,13 +3,14 @@
 
 #include "ctWindow.h"
 
+
 class ctPlane;
 class QMatrix4x4;
 
 class testAppWindow : public ctWindow
 {
 private:
-    int m_frame;
+    float m_frame;
     int m_lastFPS;
     int frameCounter;
     int msecsCounter;

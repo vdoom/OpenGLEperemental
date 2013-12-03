@@ -1,5 +1,5 @@
-//#ifndef CTOBJECT_H
-//#define CTOBJECT_H
+#ifndef CTOBJECT_H
+#define CTOBJECT_H
 
 #include "ctTransform.h"
 #include "ctEntity.h"
@@ -47,4 +47,4 @@ public:
     QOpenGLContext * GetOpenGLContext() const;
 };
 
-//#endif // CTOBJECT_H
+#endif // CTOBJECT_H

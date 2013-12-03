@@ -10,6 +10,7 @@
 #include <QtGui/QPainter>
 #include <QtOpenGL>
 #include <QtOpenGL/QGLFormat>
+#include "testscene.h"
 
 void testAppWindow::ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -22,6 +23,9 @@ void testAppWindow::ShowMatrix(QMatrix4x4 t_mat)
 testAppWindow::testAppWindow(QWindow *parent) : ctWindow(parent)
 {
     m_lastFPS = 0;
+//    SetScene(new testScene());
+//    GetScene()->SetShaderManager(GetShaderManager());
+//    GetScene()->AddObject(m_plane);
 }
 
 testAppWindow::testAppWindow(QOpenGLContext *t_context, QWindow *parent) : ctWindow(t_context, parent)
@@ -61,40 +65,18 @@ void testAppWindow::initialize()
     glViewport(0, 0, width(), height());
     if(!ctTime::GetTime())
     {qDebug()<<"Fuck\n";}
+    m_frame = 0;
+
+    SetScene(new testScene());
+    GetScene()->SetShaderManager(GetShaderManager());
+    GetScene()->AddObject(m_plane);
 }
 
 void testAppWindow::render()
 {
     ctWindow::render();
-    //qDebug()<<"BeginRender";
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ++frameCounter;
-    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
-    else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
-    //QPainter m_painter(m_device);
-    float ttt = (ctTime::GetTime()->GetDeltaTime());
-    if(ttt!=0)
-    {ttt = 1000/ttt;}
-    //qDebug()<<"real FPS: "<<ttt;
-    DrawText(QPointF(30,30), QString::number(ttt));
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-
-    QMatrix4x4 matrix;
-    matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
-    matrix.translate(0, -1.5f , -5);
-    //float angl = ((float)m_frame*3.14f)/180.0f;//((100.0f * m_frame) / 60);
-    //qDebug()<<"Ang"<<angl<<"m_frame"<<m_frame;
-    matrix.rotate(m_frame, 0, 1, 0);//screen()->refreshRate()
-    ShowMatrix(matrix);
-
-    m_plane->DrawTextured(matrix);
-    m_frame+=10;
-    if(m_frame > 360)m_frame = 0;
-    ctTime::GetTime()->Update();
     //Draw();
-    renderLater();
+    //renderLater();
 }
 
 void testAppWindow::SetDefault(QOpenGLContext *t_context)
@@ -119,27 +101,30 @@ void testAppWindow::BeginRender()
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
     //QPainter m_painter(m_device);
     DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
 }
 
 void testAppWindow::RenderScene()
 {
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //qDebug()<<"Render";
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
+
 
     QMatrix4x4 matrix;
     matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
     matrix.translate(0, -1.5f , -5);
-    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
-
-    m_plane->DrawTextured(matrix);
+    matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
+    m_plane->SetProjectionMatrix(matrix);
+    ctWindow::RenderScene();
+   // m_plane->DrawTextured(matrix);
 }
 
 void testAppWindow::EndRender()
 {
-    ++m_frame;
+    m_frame+=10;
+    if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
         //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

@@ -61,8 +61,8 @@ void ctWindow::render()
 
     //QPainter painter(m_device);
     //render(&painter);
-    //Draw();//RenderScene();
-
+    Draw();//RenderScene();
+    renderLater();
 }
 
 void ctWindow::render(QPainter *painter)
@@ -75,6 +75,9 @@ void ctWindow::initialize()
     if (!m_device)
         m_device = new QOpenGLPaintDevice;
     m_device->setSize(size());
+
+    if(m_scene)
+        m_scene->Init();
     //Initialization;
 }
 
@@ -159,7 +162,6 @@ void ctWindow::RenderScene()
 
 void ctWindow::Draw()
 {
-    //qDebug()<<"Render";
     BeginRender();
 
     RenderScene();
@@ -179,6 +181,7 @@ ctShaderManager* ctWindow::GetShaderManager() const
 
 void ctWindow::SetDefault(QOpenGLContext *t_context)
 {
+    SetScene(0);
     setSurfaceType(QWindow::OpenGLSurface);
     if(!t_context)
         m_shaderManager = new ctShaderManager();
@@ -189,7 +192,7 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
-{//qDebug()<<"WriteText";
+{
     QPainter painter(m_device);
     painter.setPen(Qt::green);
     painter.drawText(t_pos, t_str);
