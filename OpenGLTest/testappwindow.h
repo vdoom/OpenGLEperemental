@@ -4,6 +4,7 @@
 #include "ctWindow.h"
 
 class ctPlane;
+class QMatrix4x4;
 
 class testAppWindow : public ctWindow
 {
@@ -25,6 +26,8 @@ public:
 
     virtual void initialize();
     virtual void render();
+
+    void ShowMatrix(QMatrix4x4 t_mat);
 };
 
 #endif // TESTAPPWINDOW_H

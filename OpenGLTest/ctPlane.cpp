@@ -237,26 +237,26 @@ void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
 
 void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
-    /*GetOpenGLContext()->functions()->*/glActiveTexture(GL_TEXTURE0);
+    GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
     //glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureIndex);
     const int positionsOffset = 12 * sizeof(float);
 
-    /*GetOpenGLContext()->functions()->*/glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
 
     if (posAtribLoc != -1)
     {
-        /*GetOpenGLContext()->functions()->*/glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+        GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
             (3 * sizeof(float)), (const GLvoid*)0);
-        /*GetOpenGLContext()->functions()->*/glEnableVertexAttribArray(posAtribLoc);
+        GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
     }
     else
     {qDebug()<<"isShit pos!!!";}
     if (colorAtribLoc != -1)
     {
-        /*GetOpenGLContext()->functions()->*/glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
+        GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
                               (2 * sizeof(float)), (const GLvoid*)positionsOffset);
-        /*GetOpenGLContext()->functions()->*/glEnableVertexAttribArray(colorAtribLoc);
+        GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
     }
     else
     {qDebug()<<"isShit color!!!";}
@@ -268,7 +268,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-    /*GetOpenGLContext()->functions()->*/glBindBuffer(GL_ARRAY_BUFFER, 0);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     m_currentShader->release();
 }
