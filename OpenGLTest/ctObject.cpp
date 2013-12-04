@@ -84,3 +84,9 @@ void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, 
     m_OpenGLContext = t_OpenGLContext;
     m_transform = new ctTransform(this);
 }
+
+ctEntity* ctObject::Clone()
+{
+    ctEntity* tmp = ctEntity::Clone();
+    return tmp;
+}

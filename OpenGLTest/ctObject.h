@@ -31,6 +31,7 @@ public:
     virtual void Init()=0;
     virtual void Freeze();
     virtual void Unfreeze();
+    virtual ctEntity* Clone();
     //-----------------
 
     ctTransform * GetTransform();// const;

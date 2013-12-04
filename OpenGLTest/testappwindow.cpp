@@ -23,9 +23,6 @@ void testAppWindow::ShowMatrix(QMatrix4x4 t_mat)
 testAppWindow::testAppWindow(QWindow *parent) : ctWindow(parent)
 {
     m_lastFPS = 0;
-//    SetScene(new testScene());
-//    GetScene()->SetShaderManager(GetShaderManager());
-//    GetScene()->AddObject(m_plane);
 }
 
 testAppWindow::testAppWindow(QOpenGLContext *t_context, QWindow *parent) : ctWindow(t_context, parent)
@@ -41,14 +38,7 @@ testAppWindow::~testAppWindow()
 void testAppWindow::initialize()
 {
     ctWindow::initialize();
-    //m_shaderManager = new ctShaderManager();
 
-//    m_shaderManager->AddFragmentShader(fragmentShaderSource, "fragmentShaderSource");
-//    m_shaderManager->AddVertexShader(vertexShaderSource, "vertexShaderSource");
-//    m_shaderManager->AddFragmentShader(texturedFragmentShaderSource, "texturedFragmentShaderSource");
-//    m_shaderManager->AddVertexShader(texturedVertexShaderSource, "texturedVertexShaderSource");
-//    m_shaderManager->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
-//    m_shaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
     qDebug()<<"init";
     SetDefault(m_context);
     m_plane = new ctPlane(GetShaderManager(), 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
@@ -94,12 +84,10 @@ void testAppWindow::SetDefault(QOpenGLContext *t_context)
 
 void testAppWindow::BeginRender()
 {
-    //qDebug()<<"BeginRender";
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
-    //QPainter m_painter(m_device);
     DrawText(QPointF(30,30), QString::number(m_lastFPS));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
@@ -108,17 +96,12 @@ void testAppWindow::BeginRender()
 
 void testAppWindow::RenderScene()
 {
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //qDebug()<<"Render";
-
-
     QMatrix4x4 matrix;
     matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
     matrix.translate(0, -1.5f , -5);
     matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
     m_plane->SetProjectionMatrix(matrix);
     ctWindow::RenderScene();
-   // m_plane->DrawTextured(matrix);
 }
 
 void testAppWindow::EndRender()
@@ -126,6 +109,5 @@ void testAppWindow::EndRender()
     m_frame+=10;
     if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

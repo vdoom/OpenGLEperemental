@@ -355,3 +355,8 @@ void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
     meshVBO = 0;
     textureIndex = 0;
 }
+
+ctEntity ctPlane::Clone()
+{
+    return ctObject::Clone();
+}

@@ -27,6 +27,7 @@ public:
     virtual void Show();
     virtual void Freeze();
     virtual void Unfreeze();
+    virtual ctEntity* Clone();
     //---NEW-EXPERIMETAL-FUNCTIONAL---
     QString GetName() const;
     void SetName(QString t_newName);

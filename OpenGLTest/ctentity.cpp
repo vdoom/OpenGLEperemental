@@ -74,3 +74,9 @@ bool ctEntity::IsLoaded() const
 {
     return m_isLoaded;
 }
+
+ctEntity* ctEntity::Clone()
+{
+    //TODO: REFINE!!!!
+    return this;
+}

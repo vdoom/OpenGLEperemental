@@ -8,7 +8,7 @@
 #include <QOpenGLContext>
 //#include <QVector>
 #include <qhash.h>
-
+//TODO: Perhapse need to be a singleton
 class ctShaderManager
 {
 private:
