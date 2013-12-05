@@ -37,7 +37,8 @@ public:
     ctMatrix4 GetLocalTransformMatrix() const;
     ctMatrix4 GetGlobalTransformMatrix() const;
 
-    //TODO: Need rotation, move & scale methods!!!
+    void SetLocalMatrix(const ctMatrix4 & t_matrix);
+    void SetLocalMatrix(const QMatrix4x4 & t_matrix);
 
     void Move(QVector3D);
     void Scale(QVector3D);
@@ -51,6 +52,8 @@ public:
 
     bool IsVisible() const;
     void SetVisible(bool t_visible);
+
+    void SetParent(const ctTransform * t_transform);
 };
 
 #endif // CTTRANSFORM_H

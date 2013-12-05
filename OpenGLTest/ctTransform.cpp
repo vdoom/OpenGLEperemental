@@ -113,3 +113,18 @@ void ctTransform::SetVisible(bool t_visible)
     if(t_visible) m_entity->Show();
     else m_entity->Hide();
 }
+
+void ctTransform::SetLocalMatrix(const ctMatrix4 & t_matrix)
+{
+    m_localTransform = t_matrix;
+}
+
+void ctTransform::SetLocalMatrix(const QMatrix4x4 & t_matrix)
+{
+    m_localTransform.SetMatrix(t_matrix);
+}
+
+void ctTransform::SetParent(const ctTransform * t_parent)
+{
+    m_parent = t_parent;
+}

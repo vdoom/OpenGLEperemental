@@ -12,7 +12,7 @@ ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB,
     m_currentType = t_type;
     m_AA = t_AA;
     m_BB = t_BB;
-    m_shaderManagerOld = t_shaderManager;
+    //m_shaderManagerOld = t_shaderManager;
     SetupPlaneCoords(t_AA, t_BB);
     SetColor(QVector3D(1,255,1));
     //SetDefault(t_shaderManager,0,0);
@@ -358,5 +358,14 @@ void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
 
 ctEntity ctPlane::Clone()
 {
-    return ctObject::Clone();
+    //----------FROM-ENTITY-------------
+    ctPlane* tmp = new ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext(), m_AA, m_BB, m_currentType);//ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext());//(ctObject*)ctEntity::Clone();
+    tmp->SetName(GetName() + QString("_Clone"));
+    //----------FROM-OBJECT-------------
+    tmp->SetProjectionMatrix(GetProjectionMatrix());
+    tmp->GetTransform()->SetLocalMatrix(m_transform->GetLocalTransformMatrix());
+    tmp->GetTransform()->SetParent(m_transform->GetParent());
+    //----------FROM-PLANE--------------
+
+    return (ctEntity*)tmp;
 }

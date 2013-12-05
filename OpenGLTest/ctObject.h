@@ -46,6 +46,7 @@ public:
     ctShaderManager * GetShaderManager() const;
 
     QOpenGLContext * GetOpenGLContext() const;
+    void SetOpenGLContext(const QOpenGLContext * t_context);
 };
 
 #endif // CTOBJECT_H

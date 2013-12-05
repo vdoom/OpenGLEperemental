@@ -17,7 +17,8 @@ public:
         Textured
     };
 private:
-    ShaderManager * m_shaderManagerOld;
+    friend ctPlane::Clone();
+    //ShaderManager * m_shaderManagerOld;
     QOpenGLShaderProgram * m_currentShader;
     QVector3D m_AA;
     QVector3D m_BB;
