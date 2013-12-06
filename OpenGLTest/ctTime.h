@@ -12,7 +12,7 @@ private:
 
     ctTime();
     ctTime(const ctTime & t_time);
-    void operator = (ctTime t_time);
+    void operator = (ctTime t_time);//TODO: NEED REFINE!!!
 
 public:
     ~ctTime();

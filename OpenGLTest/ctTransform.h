@@ -17,7 +17,10 @@ private:
     QVector<ctTransform * > * m_childrens;
     ctTransform * m_parent;
     ctMatrix4 m_localTransform;
+    ctMatrix4 m_globalTransform;//TODO: steel need refine!!!
     ctEntity * m_entity;
+
+    void UpdateGlobalTransformMatrix();
 public:
     ctTransform();
     ctTransform(ctEntity * t_entity);

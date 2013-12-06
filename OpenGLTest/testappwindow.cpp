@@ -111,7 +111,7 @@ void testAppWindow::RenderScene()
     matrix.translate(0, -1.5f , -5);
     //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
     //qDebug()<<m_frame;
-    m_plane->GetTransform()->RotateByY(m_frame);//.GetMatrix().rotate(m_frame, 0, 1, 0);
+    m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);
     //ShowMatrix(m_plane->GetTransform()->GetLocalTransformMatrix().GetMatrix());
     m_plane->SetProjectionMatrix(matrix);
     m_plane2->SetProjectionMatrix(matrix);
@@ -120,7 +120,7 @@ void testAppWindow::RenderScene()
 
 void testAppWindow::EndRender()
 {
-    m_frame+=0.001f;
+    m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
 }

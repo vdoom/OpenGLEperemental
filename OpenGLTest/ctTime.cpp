@@ -12,6 +12,7 @@ ctTime::ctTime(const ctTime &t_time)
     m_prevUpdateTime = GetMiliSecsSinceEpoch();
 }
 
+//TODO: NEED REFINE!!!
 void ctTime::operator = (ctTime t_time)
 {}
 

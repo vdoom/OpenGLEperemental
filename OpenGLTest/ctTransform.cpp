@@ -66,13 +66,13 @@ ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
         //tmpMat.SetMatrix(tmp1);
         ctMatrix4 tmpMat1(m_localTransform);
         tmpMat.Multiply(tmpMat1);
+        m_globalTransform = tmpMat;
         return tmpMat;
     }
 }
 
 ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
 {
-    qDebug()<<"dddd";
     ctMatrix4 tmp(t_mat1);
     tmp.Multiply(t_mat2);
     return tmp;
@@ -134,4 +134,9 @@ void ctTransform::SetLocalMatrix(const QMatrix4x4 & t_matrix)
 void ctTransform::SetParent(const ctTransform * t_parent)
 {
     m_parent = const_cast<ctTransform*>(t_parent);
+}
+
+void ctTransform::UpdateGlobalTransformMatrix()
+{
+    //TODO: NEED REFINE!!!
 }
