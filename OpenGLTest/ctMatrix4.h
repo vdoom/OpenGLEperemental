@@ -18,11 +18,11 @@ public:
     void RotateY(float);
     void RotateZ(float);
 
-    void Multiply(QMatrix4x4);
-    void Multiply(ctMatrix4);
+    void Multiply(const QMatrix4x4&);
+    void Multiply(const ctMatrix4&);
 
     QMatrix4x4 GetMatrix() const;
-    void SetMatrix(QMatrix4x4);
+    void SetMatrix(const QMatrix4x4&);
 
     ctMatrix4 operator *(ctMatrix4 & t_mat)
     {

@@ -48,10 +48,10 @@ void testAppWindow::initialize()
     m_plane2->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane2->GetTransform()->RotateByX(0.2f);
-    m_plane2->GetTransform()->RotateByX(50.0f);
-    m_plane2->GetTransform()->RotateByZ(50.0f);
+    m_plane2->GetTransform()->RotateByX(90.0f);
+    m_plane2->GetTransform()->RotateByZ(90.0f);
     m_plane->GetTransform()->RotateByZ(0.2f);
-    m_plane2->GetTransform()->Move(QVector3D(1,1,-1));
+    m_plane2->GetTransform()->Move(QVector3D(1,0,-1));
     m_plane->GetTransform()->Move(QVector3D(2,2,3));
     m_plane2->GenerateCompleteBuffer();
     m_plane->GenerateCompleteBuffer();
@@ -120,7 +120,7 @@ void testAppWindow::RenderScene()
 
 void testAppWindow::EndRender()
 {
-    m_frame+=1;
+    m_frame+=0.001f;
     if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
 }

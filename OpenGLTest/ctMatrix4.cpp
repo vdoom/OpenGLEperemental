@@ -75,17 +75,18 @@ void ctMatrix4::RotateZ(float t_zangle)
     m_matrix *= tmp;
 }
 
-void ctMatrix4::SetMatrix(QMatrix4x4 t_matrix)
+void ctMatrix4::SetMatrix(const QMatrix4x4& t_matrix)
 {
     m_matrix = t_matrix;
 }
 
-void ctMatrix4::Multiply(QMatrix4x4 t_matrix)
+void ctMatrix4::Multiply(const QMatrix4x4& t_matrix)
 {
     m_matrix *= t_matrix;
 }
 
-void ctMatrix4::Multiply(ctMatrix4 t_matrix)
+void ctMatrix4::Multiply(const ctMatrix4& t_matrix)
 {
-    Multiply(t_matrix.GetMatrix());
+    QMatrix4x4 tmp = t_matrix.GetMatrix();
+    Multiply(tmp);
 }

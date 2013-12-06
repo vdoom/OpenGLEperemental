@@ -60,14 +60,19 @@ ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
     else
     {
         ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
+        //QMatrix4x4 tmp1 = m_parent->GetGlobalTransformMatrix().GetMatrix();
+        //QMatrix4x4 tmp2 = m_localTransform.GetMatrix();
+        //tmp1 *= tmp2;
+        //tmpMat.SetMatrix(tmp1);
         ctMatrix4 tmpMat1(m_localTransform);
-        //tmpMat = m_localTransform.Multiply(tmpMat);
-        return tmpMat1 * tmpMat;
+        tmpMat.Multiply(tmpMat1);
+        return tmpMat;
     }
 }
 
 ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
 {
+    qDebug()<<"dddd";
     ctMatrix4 tmp(t_mat1);
     tmp.Multiply(t_mat2);
     return tmp;
