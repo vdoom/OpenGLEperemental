@@ -226,7 +226,7 @@ void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
     m_currentShader->bind();
     m_currentShader->setUniformValue(textureLocation, 0);
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetLocalTransformMatrix().GetMatrix());
+    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
@@ -264,7 +264,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->bind();
     m_currentShader->setUniformValue(textureLocation, 0);
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetLocalTransformMatrix().GetMatrix());
+    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
@@ -356,16 +356,25 @@ void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
     textureIndex = 0;
 }
 
-ctEntity ctPlane::Clone()
+ctEntity* ctPlane::Clone()
 {
     //----------FROM-ENTITY-------------
     ctPlane* tmp = new ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext(), m_AA, m_BB, m_currentType);//ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext());//(ctObject*)ctEntity::Clone();
     tmp->SetName(GetName() + QString("_Clone"));
     //----------FROM-OBJECT-------------
-    tmp->SetProjectionMatrix(GetProjectionMatrix());
+    ctMatrix4 tmpMat = GetProjectionMatrix();
+    tmp->SetProjectionMatrix(tmpMat);
     tmp->GetTransform()->SetLocalMatrix(m_transform->GetLocalTransformMatrix());
     tmp->GetTransform()->SetParent(m_transform->GetParent());
     //----------FROM-PLANE--------------
+    tmp->posAtribLoc = posAtribLoc;
+    tmp->colorAtribLoc = colorAtribLoc;
+    tmp->textureLocation = textureLocation;
+    tmp->matrixUniform = matrixUniform;
+    tmp->transformMatrixUniform = transformMatrixUniform;
+    tmp->textureIndex = textureIndex;
+    tmp->meshVBO = meshVBO;
+
 
     return (ctEntity*)tmp;
 }

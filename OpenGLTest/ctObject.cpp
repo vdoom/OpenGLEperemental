@@ -79,7 +79,7 @@ QOpenGLContext * ctObject::GetOpenGLContext() const
 
 void ctObject::SetOpenGLContext(const QOpenGLContext *t_context)
 {
-    m_OpenGLContext = t_context;
+    m_OpenGLContext = const_cast<QOpenGLContext*>(t_context);
 }
 
 void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
@@ -92,10 +92,11 @@ void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, 
 
 ctEntity* ctObject::Clone()
 {
-    ctObject* tmp = new ctObject(GetShaderManager(), GetScene(), GetOpenGLContext());//(ctObject*)ctEntity::Clone();
-    tmp->SetName(GetName() + QString("_Clone"));
-    tmp->SetProjectionMatrix(GetProjectionMatrix());
-    tmp->GetTransform()->SetLocalMatrix(m_transform->GetLocalTransformMatrix());
-    tmp->GetTransform()->SetParent(m_transform->GetParent());
-    return (ctEntity*)tmp;
+//    ctObject* tmp = new ctObject(GetShaderManager(), GetScene(), GetOpenGLContext());//(ctObject*)ctEntity::Clone();
+//    tmp->SetName(GetName() + QString("_Clone"));
+//    tmp->SetProjectionMatrix(GetProjectionMatrix());
+//    tmp->GetTransform()->SetLocalMatrix(m_transform->GetLocalTransformMatrix());
+//    tmp->GetTransform()->SetParent(m_transform->GetParent());
+//    return (ctEntity*)tmp;
+    return this;
 }

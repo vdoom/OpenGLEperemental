@@ -17,7 +17,7 @@ public:
         Textured
     };
 private:
-    friend ctPlane::Clone();
+    friend ctEntity* Clone();
     //ShaderManager * m_shaderManagerOld;
     QOpenGLShaderProgram * m_currentShader;
     QVector3D m_AA;

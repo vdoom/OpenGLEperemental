@@ -77,7 +77,7 @@ bool ctEntity::IsLoaded() const
 
 ctEntity* ctEntity::Clone()
 {
-    ctEntity* tmpEntity = new ctEntity();
-    tmpEntity->SetName(m_name + QString("_clone"));
+    //ctEntity* tmpEntity = new ctEntity();
+    //tmpEntity->SetName(m_name + QString("_clone"));
     return this;
 }

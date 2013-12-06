@@ -1,5 +1,6 @@
 #include "ctTransform.h"
 #include "ctEntity.h"
+#include "QDebug"
 
 ctTransform::ctTransform()
 {
@@ -53,6 +54,7 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix() const
 
 ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
 {
+    //return m_localTransform;
     if(!m_parent)
     {return GetLocalTransformMatrix();}
     else
@@ -126,5 +128,5 @@ void ctTransform::SetLocalMatrix(const QMatrix4x4 & t_matrix)
 
 void ctTransform::SetParent(const ctTransform * t_parent)
 {
-    m_parent = t_parent;
+    m_parent = const_cast<ctTransform*>(t_parent);
 }

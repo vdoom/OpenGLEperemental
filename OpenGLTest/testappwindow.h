@@ -15,6 +15,7 @@ private:
     int frameCounter;
     int msecsCounter;
     ctPlane * m_plane;
+    ctPlane * m_plane2;
 private:
     virtual void SetDefault(QOpenGLContext *t_context = 0);
     virtual void BeginRender();
