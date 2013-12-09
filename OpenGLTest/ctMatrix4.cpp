@@ -90,3 +90,16 @@ void ctMatrix4::Multiply(const ctMatrix4& t_matrix)
     QMatrix4x4 tmp = t_matrix.GetMatrix();
     Multiply(tmp);
 }
+
+ctMatrix4& ctMatrix4::operator =(ctMatrix4& t_mat) const
+{
+    for(int i = 0; i < 4; ++i)
+    {
+        for(int j = 0; j < 4; ++j)
+        {
+            //const_cast<float>(m_matrix(i,j)) = t_mat.GetMatrix()(i,j);
+        }
+    }
+    return *this;//const_cast<const ctMatrix4&>(*this);
+}
+

@@ -54,12 +54,15 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix() const
 
 ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
 {
-    //return m_localTransform;
     if(!m_parent)
-    {return GetLocalTransformMatrix();}
+    {
+        m_globalTransform = GetLocalTransformMatrix();
+        return m_globalTransform;
+    }
     else
     {
         ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
+        //tmpMat
         //QMatrix4x4 tmp1 = m_parent->GetGlobalTransformMatrix().GetMatrix();
         //QMatrix4x4 tmp2 = m_localTransform.GetMatrix();
         //tmp1 *= tmp2;
@@ -67,7 +70,7 @@ ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
         ctMatrix4 tmpMat1(m_localTransform);
         tmpMat.Multiply(tmpMat1);
         m_globalTransform = tmpMat;
-        return tmpMat;
+        return m_globalTransform;
     }
 }
 

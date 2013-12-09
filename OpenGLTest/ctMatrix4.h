@@ -31,6 +31,7 @@ public:
         return tmp;
     }
 
+    ctMatrix4& operator = (ctMatrix4 & t_mat)const;
 //    ctMatrix4 operator= (ctMatrix4 & t_mat)
 //    {
 //        SetMatrix(t_mat.GetMatrix());
