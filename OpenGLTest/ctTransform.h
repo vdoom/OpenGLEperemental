@@ -38,7 +38,7 @@ public:
     void DeleteChild(QString);
 
     ctMatrix4 GetLocalTransformMatrix() const;
-    ctMatrix4 GetGlobalTransformMatrix() const;
+    ctMatrix4 GetGlobalTransformMatrix();// const;
 
     void SetLocalMatrix(const ctMatrix4 & t_matrix);
     void SetLocalMatrix(const QMatrix4x4 & t_matrix);

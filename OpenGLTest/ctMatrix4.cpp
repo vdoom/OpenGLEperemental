@@ -91,15 +91,37 @@ void ctMatrix4::Multiply(const ctMatrix4& t_matrix)
     Multiply(tmp);
 }
 
-ctMatrix4& ctMatrix4::operator =(ctMatrix4& t_mat) const
+//ctMatrix4& ctMatrix4::operator =(ctMatrix4& t_mat)// const
+//{
+////    for(int i = 0; i < 4; ++i)
+////    {
+////        QVector4D col = t_mat.GetMatrix().column(i);
+////        m_matrix.setColumn(i, t_mat.GetMatrix().column(i));//col);
+////        //m_matrix.setColumn(i, t_mat.GetMatrix().column(i));
+////    }
+//    m_matrix.setToIdentity();
+//    m_matrix *= t_mat.GetMatrix();
+//    return *this;//const_cast<const ctMatrix4&>(*this);
+//}
+
+ctMatrix4 ctMatrix4::Transpose()
 {
-    for(int i = 0; i < 4; ++i)
-    {
-        for(int j = 0; j < 4; ++j)
-        {
-            //const_cast<float>(m_matrix(i,j)) = t_mat.GetMatrix()(i,j);
-        }
-    }
-    return *this;//const_cast<const ctMatrix4&>(*this);
+    m_matrix = m_matrix.transposed();
+    return *this;
+}
+
+ctMatrix4 ctMatrix4::Transposed()
+{
+    ctMatrix4 tmp(m_matrix.transposed());
+    return tmp;
+}
+
+ctMatrix4 ctMatrix4::Inverted()//(bool m_isInverted)
+{
+    bool tmpBool;
+    ctMatrix4 tmp(m_matrix);
+    tmp.GetMatrix().inverted(&tmpBool);
+    qDebug()<<"is Invertable: "<<tmpBool;
+    return tmp;
 }
 

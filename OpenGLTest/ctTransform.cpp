@@ -52,11 +52,12 @@ ctMatrix4 ctTransform::GetLocalTransformMatrix() const
     return m_localTransform;
 }
 
-ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
+ctMatrix4 ctTransform::GetGlobalTransformMatrix()// const
 {
     if(!m_parent)
     {
-        m_globalTransform = GetLocalTransformMatrix();
+        m_globalTransform.operator=(m_localTransform);
+        //m_globalTransform = m_localTransform;
         return m_globalTransform;
     }
     else
@@ -69,7 +70,7 @@ ctMatrix4 ctTransform::GetGlobalTransformMatrix() const
         //tmpMat.SetMatrix(tmp1);
         ctMatrix4 tmpMat1(m_localTransform);
         tmpMat.Multiply(tmpMat1);
-        m_globalTransform = tmpMat;
+        m_globalTransform = tmpMat; //= tmpMat;
         return m_globalTransform;
     }
 }
@@ -137,6 +138,12 @@ void ctTransform::SetLocalMatrix(const QMatrix4x4 & t_matrix)
 void ctTransform::SetParent(const ctTransform * t_parent)
 {
     m_parent = const_cast<ctTransform*>(t_parent);
+    //m_localTransform = (m_localTransform * m_parent->GetGlobalTransformMatrix().Transposed());
+    ctMatrix4 tmp(m_parent->GetGlobalTransformMatrix()); //= m_parent->GetGlobalTransformMatrix().Inverted();
+    ctMatrix4 tmp2(m_localTransform.GetMatrix());
+    //tmp2.Multiply(tmp);
+    tmp.Multiply(tmp2);
+    m_localTransform = tmp;
 }
 
 void ctTransform::UpdateGlobalTransformMatrix()

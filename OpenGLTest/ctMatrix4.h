@@ -11,7 +11,7 @@ private:
     QMatrix4x4 m_matrix;
 public:
     ctMatrix4();
-    ctMatrix4(QMatrix4x4);
+    explicit ctMatrix4(QMatrix4x4);
     void Translate(QVector3D);
     void Scale(QVector3D);
     void RotateX(float);
@@ -31,7 +31,45 @@ public:
         return tmp;
     }
 
-    ctMatrix4& operator = (ctMatrix4 & t_mat)const;
+    ctMatrix4 operator *= (ctMatrix4 & t_mat)
+    {
+        this->Multiply(t_mat);
+        return *this;
+    }
+
+    //ctMatrix4& operator = (ctMatrix4 & t_mat);//const;
+//    ctMatrix4& operator = ( const ctMatrix4 & t_mat)
+//    {
+//        //m_matrix = const_cast<QMatrix4x4*>(&m_matrix);
+//        m_matrix.setToIdentity();
+//        m_matrix *= t_mat.GetMatrix();
+//        return *this;
+//    }
+        ctMatrix4 operator=( const ctMatrix4 & t_mat)
+        {
+            //m_matrix = const_cast<QMatrix4x4*>(&m_matrix);
+            m_matrix.setToIdentity();
+            m_matrix *= t_mat.GetMatrix();
+            return *this;
+        }
+
+//    ctMatrix4& operator = (ctMatrix4 t_mat)
+//    {
+//        m_matrix.setToIdentity();
+//        m_matrix *= t_mat.GetMatrix();
+//        return *this;
+//    }
+
+//    ctMatrix4& operator = (const ctMatrix4&& t_mat) // move assignment
+//    {
+//        m_matrix.setToIdentity();
+//        m_matrix *= t_mat.GetMatrix();
+//        return *this;
+//    }
+
+    ctMatrix4 Transpose();
+    ctMatrix4 Transposed();
+    ctMatrix4 Inverted();//(bool);
 //    ctMatrix4 operator= (ctMatrix4 & t_mat)
 //    {
 //        SetMatrix(t_mat.GetMatrix());
