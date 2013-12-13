@@ -125,3 +125,8 @@ ctMatrix4 ctMatrix4::Inverted()//(bool m_isInverted)
     return tmp;
 }
 
+ctMatrix4 ctMatrix4::ToIdentity()
+{
+    m_matrix.setToIdentity();
+}
+
