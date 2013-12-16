@@ -108,7 +108,7 @@ void testAppWindow::RenderScene()
 {
     QMatrix4x4 matrix;
     matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
-    matrix.translate(0, -1.5 , -8);
+    matrix.translate(0, -1.5 , -15);
     //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
     //qDebug()<<m_frame;
     m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);

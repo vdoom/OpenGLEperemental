@@ -62,16 +62,21 @@ ctMatrix4 ctTransform::GetGlobalTransformMatrix()// const
     }
     else
     {
+//        ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
+//        //tmpMat
+//        //QMatrix4x4 tmp1 = m_parent->GetGlobalTransformMatrix().GetMatrix();
+//        //QMatrix4x4 tmp2 = m_localTransform.GetMatrix();
+//        //tmp1 *= tmp2;
+//        //tmpMat.SetMatrix(tmp1);
+//        ctMatrix4 tmpMat1(m_localTransform);
+//        //tmpMat1.Multiply(tmpMat);
+//        m_globalTransform = tmpMat;//tmpMat1; //= tmpMat;
+//        return m_globalTransform;
         ctMatrix4 tmpMat(m_parent->GetGlobalTransformMatrix());
-        //tmpMat
-        //QMatrix4x4 tmp1 = m_parent->GetGlobalTransformMatrix().GetMatrix();
-        //QMatrix4x4 tmp2 = m_localTransform.GetMatrix();
-        //tmp1 *= tmp2;
-        //tmpMat.SetMatrix(tmp1);
         ctMatrix4 tmpMat1(m_localTransform);
         tmpMat.Multiply(tmpMat1);
-        m_globalTransform = tmpMat; //= tmpMat;
-        return m_globalTransform;
+        m_globalTransform = tmpMat;
+        return tmpMat;
     }
 }
 
@@ -138,15 +143,15 @@ void ctTransform::SetLocalMatrix(const QMatrix4x4 & t_matrix)
 void ctTransform::SetParent(const ctTransform * t_parent)
 {
     m_parent = const_cast<ctTransform*>(t_parent);
-    //m_localTransform = (m_localTransform * m_parent->GetGlobalTransformMatrix().Transposed());
-    ctMatrix4 tmp(m_parent->GetGlobalTransformMatrix().Transposed()); //= m_parent->GetGlobalTransformMatrix().Inverted();
-    //ctMatrix4 tmp3();
+
+    ctMatrix4 tmp(m_parent->GetGlobalTransformMatrix().GetMatrix()); //= m_parent->GetGlobalTransformMatrix().Inverted();
     ctMatrix4 tmp2(m_localTransform.GetMatrix());
-    //tmp3.Multiply(tmp);
-    //tmp2.Multiply(tmp3);
-    tmp.Multiply(tmp2);
-    //tmp-=tmp2;
-    m_localTransform = tmp;
+    tmp = tmp.Inverted();
+    tmp2.Multiply(tmp);
+    m_localTransform.Multiply(tmp2);
+    //tmp2 = tmp2.Inverted();
+    //tmp.Multiply(tmp2);
+    //m_localTransform.Multiply(tmp);
 }
 
 void ctTransform::UpdateGlobalTransformMatrix()

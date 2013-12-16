@@ -120,7 +120,8 @@ ctMatrix4 ctMatrix4::Inverted()//(bool m_isInverted)
 {
     bool tmpBool;
     ctMatrix4 tmp(m_matrix);
-    tmp.GetMatrix().inverted(&tmpBool);
+    QMatrix4x4 tmpMat = tmp.GetMatrix().inverted(&tmpBool);
+    tmp.SetMatrix(tmpMat);
     qDebug()<<"is Invertable: "<<tmpBool;
     return tmp;
 }

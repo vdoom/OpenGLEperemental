@@ -53,7 +53,6 @@ public:
 //    }
         ctMatrix4 operator=( const ctMatrix4 & t_mat)
         {
-            //m_matrix = const_cast<QMatrix4x4*>(&m_matrix);
             m_matrix.setToIdentity();
             m_matrix *= t_mat.GetMatrix();
             return *this;
@@ -78,6 +77,7 @@ public:
     ctMatrix4 Inverted();//(bool);
 
     ctMatrix4 ToIdentity();
+
 //    ctMatrix4 operator= (ctMatrix4 & t_mat)
 //    {
 //        SetMatrix(t_mat.GetMatrix());
