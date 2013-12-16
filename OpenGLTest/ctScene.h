@@ -6,6 +6,7 @@
 #include "ctObject.h"
 
 class ctShaderManager;
+class ctWindow;
 
 class ctScene : public ctObject
 {
@@ -14,6 +15,7 @@ private:
 protected:
     QVector<ctObject*>* m_objects;
     QVector<ctEntity*>* m_components;
+    ctWindow * m_window;
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
     ctScene();
@@ -26,10 +28,17 @@ public:
     //TODO: ADD FUNCTIONS FOR DELETING OBJECTS !!!
 
     virtual void Update();
+    virtual void BeginDraw();
     virtual void Draw();
+    virtual void EndDraw();
     virtual void Init();
     virtual void Freeze();
     virtual void Unfreeze();
+
+    void SetWindow(ctWindow * t_window);
+    ctWindow * GetWindow() const;
+
+//    void DrawText(QPointF t_pos, QString t_str);
 
     ctObject* GetObjectByUUID(QUuid t_uuid);
     ctEntity* GetComponentByUUID(QUuid t_uuid);

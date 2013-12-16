@@ -77,7 +77,9 @@ void ctWindow::initialize()
     m_device->setSize(size());
 
     if(m_scene)
+    {
         m_scene->Init();
+    }
     //Initialization;
 }
 
@@ -160,13 +162,25 @@ void ctWindow::RenderScene()
         m_scene->Draw();
 }
 
+void ctWindow::BeginRenderScene()
+{
+    if(m_scene)
+        m_scene->BeginDraw();
+}
+
+void ctWindow::EndRenderScene()
+{
+    if(m_scene)
+        m_scene->EndDraw();
+}
+
 void ctWindow::Draw()
 {
-    BeginRender();
+    BeginRenderScene();
 
     RenderScene();
 
-    EndRender();
+    EndRenderScene();
 }
 
 void ctWindow::SetShaderManager(ctShaderManager *t_shaderManager)

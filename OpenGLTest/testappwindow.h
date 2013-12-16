@@ -10,16 +10,16 @@ class QMatrix4x4;
 class testAppWindow : public ctWindow
 {
 private:
-    float m_frame;
-    int m_lastFPS;
-    int frameCounter;
-    int msecsCounter;
-    ctPlane * m_plane;
-    ctPlane * m_plane2;
+//    float m_frame;
+//    int m_lastFPS;
+//    int frameCounter;
+//    int msecsCounter;
+//    ctPlane * m_plane;
+//    ctPlane * m_plane2;
 private:
     virtual void SetDefault(QOpenGLContext *t_context = 0);
-    virtual void BeginRender();
-    virtual void EndRender();
+    virtual void BeginRenderScene();
+    virtual void EndRenderScene();
     virtual void RenderScene();
 public:
     explicit testAppWindow(QWindow *parent = 0);

@@ -1,4 +1,5 @@
 #include "ctScene.h"
+#include "ctWindow.h"
 
 ctScene::ctScene()
 {
@@ -59,6 +60,10 @@ void ctScene::Init()
     }
 }
 
+void ctScene::BeginDraw()
+{
+}
+
 void ctScene::Draw()
 {
     for(int i = 0; i < m_objects->size(); ++i)
@@ -70,6 +75,10 @@ void ctScene::Draw()
     {
         ((ctEntity*)(*m_components)[i])->Draw();
     }
+}
+
+void ctScene::EndDraw()
+{
 }
 
 void ctScene::Update()
@@ -175,3 +184,20 @@ void ctScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
     m_objects = new QVector<ctObject*>();
     m_components = new QVector<ctEntity*>();
 }
+
+void ctScene::SetWindow(ctWindow *t_window)
+{
+    m_window = t_window;
+}
+
+ctWindow * ctScene::GetWindow() const
+{
+    return m_window;
+}
+
+//void ctScene::DrawText(QPointF t_pos, QString t_str)
+//{
+//    QPainter painter(m_wi);
+//    painter.setPen(Qt::green);
+//    painter.drawText(t_pos, t_str);
+//}

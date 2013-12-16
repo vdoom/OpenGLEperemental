@@ -1,8 +1,106 @@
 #include "testscene.h"
+#include "ctPlane.h"
+#include "ctShaderManager.h"
+#include "ctWindow.h"
+#include "ctTime.h"
+#include "shaders.h"
 
 testScene::testScene()
 {
 }
 
+testScene::testScene(ctShaderManager * t_shaderManager) : ctScene(t_shaderManager)
+{}
+
+testScene::testScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext)
+{}
+
 testScene::~testScene()
 {}
+
+void testScene::Init()
+{
+    ctScene::Init();
+    m_lastFPS = 0;
+
+    qDebug()<<"init testScene";
+    SetDefault(GetShaderManager(), 0, GetOpenGLContext());
+    m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
+    m_plane = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
+    m_plane2->InitShader("texturedPlaneShader");
+    m_plane->InitShader("texturedPlaneShader");
+    m_plane2->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    m_plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    m_plane2->GetTransform()->RotateByX(0.2f);
+    m_plane2->GetTransform()->RotateByX(90.0f);
+    m_plane2->GetTransform()->RotateByZ(90.0f);
+    m_plane->GetTransform()->RotateByZ(0.2f);
+    m_plane2->GetTransform()->Move(QVector3D(1,0,-1));
+    m_plane->GetTransform()->Move(QVector3D(2,2,3));
+    m_plane2->GenerateCompleteBuffer();
+    m_plane->GenerateCompleteBuffer();
+    m_plane2->GetTransform()->SetParent(m_plane->GetTransform());
+
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glEnable(GL_DEPTH_TEST);
+
+    glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+    if(!ctTime::GetTime())
+    {qDebug()<<"Fuck\n";}
+    m_frame = 0;
+
+    AddObject(m_plane);
+    AddObject(m_plane2);
+}
+
+void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+{
+    ctScene::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
+
+    GetShaderManager()->AddFragmentShader(fragmentShaderSource, "fragmentShaderSource");
+    GetShaderManager()->AddVertexShader(vertexShaderSource, "vertexShaderSource");
+    GetShaderManager()->AddFragmentShader(texturedFragmentShaderSource, "texturedFragmentShaderSource");
+    GetShaderManager()->AddVertexShader(texturedVertexShaderSource, "texturedVertexShaderSource");
+    GetShaderManager()->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
+    GetShaderManager()->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
+}
+
+void testScene::BeginDraw()
+{
+    ctScene::BeginDraw();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    ++frameCounter;
+    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
+    else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
+    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    //DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+}
+
+void testScene::EndDraw()
+{
+    ctScene::EndDraw();
+    m_frame+=1.0f;
+    if(m_frame > 360) m_frame = m_frame - 360;
+    ctTime::GetTime()->Update();
+}
+
+void testScene::Draw()
+{
+    ctScene::Draw();
+    QMatrix4x4 matrix;
+    matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
+    matrix.translate(0, -1.5 , -15);
+    //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
+    //qDebug()<<m_frame;
+    m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);
+    //ShowMatrix(m_plane->GetTransform()->GetLocalTransformMatrix().GetMatrix());
+    m_plane->SetProjectionMatrix(matrix);
+    m_plane2->SetProjectionMatrix(matrix);
+    //ctWindow::RenderScene();
+}
