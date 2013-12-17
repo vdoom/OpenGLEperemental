@@ -16,7 +16,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     testappwindow.cpp \
     ctShaderManager.cpp \
     ctInput.cpp \
-    testscene.cpp
+    testscene.cpp \
+    ctClickablePlane.cpp
 HEADERS += $$PWD/openglwindow.h \
     axis.h \
     shadermanager.h \
@@ -37,4 +38,5 @@ HEADERS += $$PWD/openglwindow.h \
     ctShaderManager.h \
     test.h \
     ctInput.h \
-    testscene.h
+    testscene.h \
+    ctClickablePlane.h

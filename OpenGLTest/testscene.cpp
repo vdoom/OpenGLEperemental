@@ -32,14 +32,15 @@ void testScene::Init()
     m_plane2->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane2->GetTransform()->RotateByX(0.2f);
-    m_plane2->GetTransform()->RotateByX(90.0f);
-    m_plane2->GetTransform()->RotateByZ(90.0f);
+    m_plane2->GetTransform()->RotateByX(120.0f);
+    m_plane2->GetTransform()->RotateByZ(70.0f);
     m_plane->GetTransform()->RotateByZ(0.2f);
     m_plane2->GetTransform()->Move(QVector3D(1,0,-1));
     m_plane->GetTransform()->Move(QVector3D(2,2,3));
     m_plane2->GenerateCompleteBuffer();
     m_plane->GenerateCompleteBuffer();
     m_plane2->GetTransform()->SetParent(m_plane->GetTransform());
+    m_plane2->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
 
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -94,8 +95,9 @@ void testScene::Draw()
 {
     ctScene::Draw();
     QMatrix4x4 matrix;
-    matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
-    matrix.translate(0, -1.5 , -15);
+    matrix.ortho((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0.1f, 10000.0f);
+    //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
+    //matrix.translate(0, -1.5 , -15);
     //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
     //qDebug()<<m_frame;
     m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);

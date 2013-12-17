@@ -35,8 +35,9 @@ private:
     float* planeTextureCoords;
     float* planeColor;
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
     void GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram);
+protected:
+    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
     //ctPlane(){}
     ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
@@ -44,7 +45,7 @@ public:
     ctPlane(ctShaderManager *, ctScene *){}
     ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *){}
     ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
-    ~ctPlane();
+    virtual ~ctPlane();
 
     void InitShader();
     void InitShader(QOpenGLShaderProgram * t_initedShader);
