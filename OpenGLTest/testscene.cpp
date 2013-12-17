@@ -65,6 +65,9 @@ void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene,
     GetShaderManager()->AddFragmentShader(texturedFragmentShaderSource, "texturedFragmentShaderSource");
     GetShaderManager()->AddVertexShader(texturedVertexShaderSource, "texturedVertexShaderSource");
     GetShaderManager()->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
+    GetShaderManager()->AddFragmentShader(lineFragmentShaderSource, "lineFragmentShaderSource");
+    GetShaderManager()->AddVertexShader(lineVertexShaderSource, "lineVertexShaderSource");
+    GetShaderManager()->SetUpShaderProgram("lineVertexShaderSource", "lineFragmentShaderSource", "lineShader");
     GetShaderManager()->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
 }
 

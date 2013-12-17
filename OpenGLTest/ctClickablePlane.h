@@ -7,7 +7,20 @@ class ctClickablePlane : public ctPlane
 {
 private:
     QRectF m_rect;
+    QVector3D m_rectColor;
     bool m_drawRect;
+    QOpenGLShaderProgram * m_lineShader;
+
+    GLuint posAtribLoc;
+    GLuint colorUniformLoc;
+    GLuint matrixUniform;
+    GLuint meshVBO;
+
+    //float* rectDotPositions;
+    uint32_t* rectDotIndexes;
+
+    void GettingLineAttributes();
+    void GenerateVBOforRect();
     void DrawRectLines();
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);

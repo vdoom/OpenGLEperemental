@@ -16,6 +16,19 @@ static const char *fragmentShaderSource =
         "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
+static const char *lineVertexShaderSource =
+    "attribute highp vec4 posAttr;\n"
+    "uniform lowp mat4 matrix;\n"
+    "void main() {\n"
+    "   gl_Position = matrix * posAttr;\n"
+    "}\n";
+
+static const char *lineFragmentShaderSource =
+    "uniform lowp vec3 col;\n"
+    "void main() {\n"
+        "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
+    "}\n";
+
 static const char * texturedVertexShaderSource =
         "attribute lowp vec4 position;\n"
         "attribute lowp vec2 texcoord;\n"
@@ -53,6 +66,23 @@ static const char * texturedFragmentShaderSource =
         "        gl_FragColor = tmp;\n"
         //"gl_FragColor.a *= 0.5;\n"
         "}\n";
+
+//--------------------DUBLICAT----------------------
+//static const char * lineVertexShaderSource =
+//        "uniform mat4 uMVPMatrix;\n"
+//        "attribute vec4 position;\n"
+//        "void main()\n"
+//        "{\n"
+//        "  gl_Position = uMVPMatrix * position;\n"
+//        "}\n";
+//static const char * lineFragmentShaderSource =
+//        //"precision lowp float;\n"
+//        "uniform vec3 col;\n"
+//        "void main()\n"
+//        "{\n"
+//        "  gl_FragColor = vColor;\n"
+//        "}\n";
+//---------------------------------------------------
 
 static const char * materialVertexShaderSource =
         "attribute lowp vec3 position;\n"
