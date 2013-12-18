@@ -335,6 +335,7 @@ void ctPlane::Init()
     InitShader();
     GenerateCompleteBuffer();
     m_isInitialized = true;
+    qDebug()<<"Init ctPlane";
     //StartUpInit
 }
 

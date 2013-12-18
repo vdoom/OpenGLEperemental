@@ -2,19 +2,21 @@
 #define CTCLICKABLEPLANE_H
 
 #include "ctPlane.h"
+#include "test.h"
 
 class ctClickablePlane : public ctPlane
 {
 private:
     QRectF m_rect;
     QVector3D m_rectColor;
+    ctVector3Df m_color;
     bool m_drawRect;
     QOpenGLShaderProgram * m_lineShader;
 
     GLuint posAtribLoc;
     GLuint colorUniformLoc;
     GLuint matrixUniform;
-    GLuint meshVBO;
+    GLuint meshVBOlines;
 
     //float* rectDotPositions;
     uint32_t* rectDotIndexes;

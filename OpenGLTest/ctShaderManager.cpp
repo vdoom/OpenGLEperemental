@@ -80,7 +80,16 @@ QOpenGLShaderProgram* ctShaderManager::SetUpShaderProgram(QString t_vertexShader
 
 QOpenGLShaderProgram* ctShaderManager::GetShaderProgram(QString t_name)
 {
-    return m_shaderPrograms[t_name];
+    if(m_shaderPrograms.contains(t_name))
+    {
+        qDebug()<<"Shader: "<<t_name<<"Finded!";
+        return m_shaderPrograms[t_name];
+    }
+    else
+    {
+        qDebug()<<"Cant Finde Shader!!!";
+        return 0;
+    }
 }
 
 QOpenGLShaderProgram* ctShaderManager::GetShaderProgram(const char *t_name)

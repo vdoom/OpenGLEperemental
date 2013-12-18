@@ -50,6 +50,16 @@ void ctClickablePlane::Init()
     ctPlane::Init();
 
     m_lineShader = GetShaderManager()->GetShaderProgram("lineShader");
+    GenerateVBOforRect();
+    m_rectColor = QVector3D(0,1,0);
+    //m_rectColor.x();
+    //m_color = m_rectColor;
+    //m_color.SetX(0);
+    //m_color.SetY(1);
+    //m_color.SetZ(0);
+    //m_color.SetY(254);
+    //m_color.SetZ(23);
+    qDebug()<<"init ctPlane";
 }
 
 void ctClickablePlane::Draw()
@@ -97,8 +107,8 @@ void ctClickablePlane::GenerateVBOforRect()
     completeBuffer[10] = m_rect.bottomLeft().y();
     completeBuffer[11] = 1;
 
-    GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBO);
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBOlines);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
 
     GetOpenGLContext()->functions()->glBufferData(GL_ARRAY_BUFFER, (12) * sizeof(GLfloat),
         completeBuffer, GL_STATIC_DRAW);
@@ -113,8 +123,7 @@ void ctClickablePlane::GenerateVBOforRect()
 
 void ctClickablePlane::DrawRectLines()
 {
-    //TODO: Need refine
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
 
     if (posAtribLoc != -1)
     {
@@ -124,24 +133,16 @@ void ctClickablePlane::DrawRectLines()
     }
     else
     {qDebug()<<"isShit pos!!!";}
-//    m_currentShader->bind();
-    m_lineShader->bind();
-//    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
+
+    /*qDebug()<<*/m_lineShader->bind();
+
     m_lineShader->setUniformValue(matrixUniform, GetProjectionMatrix().GetMatrix());
-//    glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
-//    glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);
+    //m_lineShader->setUniformValueArray();
     m_lineShader->setUniformValue(colorUniformLoc, m_rectColor);
 
     glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, rectDotIndexes);
-//    glEnableVertexAttribArray(posAtribLoc);
-//    glEnableVertexAttribArray(colorAtribLoc);
 
-//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-//    glDisableVertexAttribArray(colorAtribLoc);
-//    glDisableVertexAttribArray(posAtribLoc);
-
-//    m_currentShader->release();
-    m_lineShader->release();
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
+    m_lineShader->release();
 }
