@@ -37,7 +37,7 @@ void testScene::Init()
     //m_plane2->GetTransform()->RotateByZ(90.0f);
     //m_plane->GetTransform()->RotateByZ(0.2f);
     m_plane2->GetTransform()->Move(QVector3D(0,0,0));
-    //m_plane->GetTransform()->Move(QVector3D(2,2,3));
+    m_plane->GetTransform()->Move(QVector3D(0,0,0));
     m_plane2->GenerateCompleteBuffer();
    // m_plane->GenerateCompleteBuffer();
     m_plane->Init();

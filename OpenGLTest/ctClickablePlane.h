@@ -2,12 +2,15 @@
 #define CTCLICKABLEPLANE_H
 
 #include "ctPlane.h"
+#include "ctRect.h"
 #include "test.h"
 
 class ctClickablePlane : public ctPlane
 {
 private:
-    QRectF m_rect;
+    //QRectF m_rectOld;
+    ctRect m_rect;
+    ctRect m_drawingRect;
     QVector3D m_rectColor;
     ctVector3Df m_color;
     bool m_drawRect;
@@ -35,8 +38,10 @@ public:
 
     virtual ~ctClickablePlane();
 
-    void SetRect(const QRectF & t_rect);
-    QRectF GetRect() const;
+    //void SetRect(const QRectF& t_rect);
+    void SetRect(const ctRect& t_rect);
+    //QRectF GetRect() const;
+    ctRect GetRect() const;
     //--------------------------
     virtual void Update();
     virtual void Draw();

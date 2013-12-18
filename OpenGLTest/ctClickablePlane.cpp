@@ -3,25 +3,29 @@
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager) : ctPlane(t_shaderManager)
 {
-    SetRect(QRectF(0,0,0,0));
+    //SetRect(QRectF(0,0,0,0));
+    SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene) : ctPlane(t_shaderManager, t_scene)
 {
-    SetRect(QRectF(0,0,0,0));
+    //SetRect(QRectF(0,0,0,0));
+    SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext)
 {
-    SetRect(QRectF(0,0,0,0));
+    //SetRect(QRectF(0,0,0,0));
+    SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type)
 {
-    SetRect(QRectF(QPointF(t_AA.x(), t_AA.y()), QPointF(t_BB.x(), t_BB.y())));
+    //SetRect(QRectF(QPointF(t_AA.x(), t_AA.y()), QPointF(t_BB.x(), t_BB.y())));
+    SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.x(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
     m_drawRect = true;
 }
 
@@ -30,19 +34,31 @@ ctClickablePlane::~ctClickablePlane()
 
 }
 
-void ctClickablePlane::SetRect(const QRectF &t_rect)
+//void ctClickablePlane::SetRect(const QRectF &t_rect)
+//{
+//    m_rectOld = t_rect;
+//}
+
+void ctClickablePlane::SetRect(const ctRect &t_rect)
 {
     m_rect = t_rect;
 }
 
-QRectF ctClickablePlane::GetRect() const
-{
-    return m_rect;
-}
+//QRectF ctClickablePlane::GetRect() const
+//{
+//    return m_rectOld;
+//}
+
+ctRect ctClickablePlane::GetRect() const
+{return m_rect;}
 
 void ctClickablePlane::Update()
 {
     ctPlane::Update();
+    //GetTransform()->GetLocalTransformMatrix().GetMatrix().translate(QVector3D(20.0f,0,0));
+    GetTransform()->Move(QVector3D(0.5f,0,0));
+
+    GenerateVBOforRect();
 }
 
 void ctClickablePlane::Init()
@@ -59,7 +75,7 @@ void ctClickablePlane::Init()
     //m_color.SetZ(0);
     //m_color.SetY(254);
     //m_color.SetZ(23);
-    qDebug()<<"init ctPlane";
+    //qDebug()<<"init ctPlane";
 }
 
 void ctClickablePlane::Draw()
@@ -92,20 +108,28 @@ void ctClickablePlane::GettingLineAttributes()
 
 void ctClickablePlane::GenerateVBOforRect()
 {
-    //TODO: Need refine!
-    float * completeBuffer = new float[12]; // positions count + texture coord count
-    completeBuffer[0] = m_rect.topLeft().x();
-    completeBuffer[1] = m_rect.topLeft().y();
-    completeBuffer[2] = 1;
-    completeBuffer[3] = m_rect.topRight().x();
-    completeBuffer[4] = m_rect.topRight().y();
-    completeBuffer[5] = 1;
-    completeBuffer[6] = m_rect.bottomRight().x();
-    completeBuffer[7] = m_rect.bottomRight().y();
-    completeBuffer[8] = 1;
-    completeBuffer[9] = m_rect.bottomLeft().x();
-    completeBuffer[10] = m_rect.bottomLeft().y();
-    completeBuffer[11] = 1;
+    m_drawingRect = GetTransform()->GetGlobalTransformMatrix() * m_rect;
+
+    float * completeBuffer = new float[12];
+    completeBuffer[0] = m_drawingRect.GetTopLeft().x();
+    completeBuffer[1] = m_drawingRect.GetTopLeft().y();
+    completeBuffer[2] = m_drawingRect.GetTopLeft().z();
+    completeBuffer[3] = m_drawingRect.GetTopRight().x();
+    completeBuffer[4] = m_drawingRect.GetTopRight().y();
+    completeBuffer[5] = m_drawingRect.GetTopRight().z();
+    completeBuffer[6] = m_drawingRect.GetBottomRight().x();
+    completeBuffer[7] = m_drawingRect.GetBottomRight().y();
+    completeBuffer[8] = m_drawingRect.GetBottomRight().z();
+    completeBuffer[9] = m_drawingRect.GetBottomLeft().x();
+    completeBuffer[10] = m_drawingRect.GetBottomLeft().y();
+    completeBuffer[11] = m_drawingRect.GetBottomLeft().z();
+
+//    qDebug()<<"CompleteBuffer ->";
+//    for(int i = 0; i < 12; ++i)
+//    {
+//        qDebug()<<completeBuffer[i];
+//    }
+//    qDebug()<<"<-";
 
     GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBOlines);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);

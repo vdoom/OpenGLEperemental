@@ -176,6 +176,10 @@ void ctWindow::EndRenderScene()
 
 void ctWindow::Draw()
 {
+    //-----temporary-soluton-----
+    if(m_scene)
+        m_scene->Update();
+    //---------------------------
     BeginRenderScene();
 
     RenderScene();
