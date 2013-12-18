@@ -8,9 +8,7 @@
 class ctClickablePlane : public ctPlane
 {
 private:
-    //QRectF m_rectOld;
     ctRect m_rect;
-    ctRect m_drawingRect;
     QVector3D m_rectColor;
     ctVector3Df m_color;
     bool m_drawRect;
@@ -21,7 +19,6 @@ private:
     GLuint matrixUniform;
     GLuint meshVBOlines;
 
-    //float* rectDotPositions;
     uint32_t* rectDotIndexes;
 
     void GettingLineAttributes();
@@ -38,9 +35,8 @@ public:
 
     virtual ~ctClickablePlane();
 
-    //void SetRect(const QRectF& t_rect);
+
     void SetRect(const ctRect& t_rect);
-    //QRectF GetRect() const;
     ctRect GetRect() const;
     //--------------------------
     virtual void Update();

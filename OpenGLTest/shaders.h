@@ -26,7 +26,7 @@ static const char *lineVertexShaderSource =
 static const char *lineFragmentShaderSource =
     "uniform lowp vec3 col;\n"
     "void main() {\n"
-        "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
+        "   gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
 static const char * texturedVertexShaderSource =

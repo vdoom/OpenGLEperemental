@@ -3,28 +3,24 @@
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager) : ctPlane(t_shaderManager)
 {
-    //SetRect(QRectF(0,0,0,0));
     SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene) : ctPlane(t_shaderManager, t_scene)
 {
-    //SetRect(QRectF(0,0,0,0));
     SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext)
 {
-    //SetRect(QRectF(0,0,0,0));
     SetRect(ctRect());
     m_drawRect = true;
 }
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type)
 {
-    //SetRect(QRectF(QPointF(t_AA.x(), t_AA.y()), QPointF(t_BB.x(), t_BB.y())));
     SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.x(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
     m_drawRect = true;
 }
@@ -34,20 +30,10 @@ ctClickablePlane::~ctClickablePlane()
 
 }
 
-//void ctClickablePlane::SetRect(const QRectF &t_rect)
-//{
-//    m_rectOld = t_rect;
-//}
-
 void ctClickablePlane::SetRect(const ctRect &t_rect)
 {
     m_rect = t_rect;
 }
-
-//QRectF ctClickablePlane::GetRect() const
-//{
-//    return m_rectOld;
-//}
 
 ctRect ctClickablePlane::GetRect() const
 {return m_rect;}
@@ -55,7 +41,6 @@ ctRect ctClickablePlane::GetRect() const
 void ctClickablePlane::Update()
 {
     ctPlane::Update();
-    //GetTransform()->GetLocalTransformMatrix().GetMatrix().translate(QVector3D(20.0f,0,0));
     GetTransform()->Move(QVector3D(0.5f,0,0));
 
     GenerateVBOforRect();
@@ -108,6 +93,7 @@ void ctClickablePlane::GettingLineAttributes()
 
 void ctClickablePlane::GenerateVBOforRect()
 {
+    ctRect m_drawingRect;
     m_drawingRect = GetTransform()->GetGlobalTransformMatrix() * m_rect;
 
     float * completeBuffer = new float[12];
@@ -147,6 +133,7 @@ void ctClickablePlane::GenerateVBOforRect()
 
 void ctClickablePlane::DrawRectLines()
 {
+    glDisable(GL_DEPTH_TEST);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
 
     if (posAtribLoc != -1)
@@ -169,4 +156,5 @@ void ctClickablePlane::DrawRectLines()
 
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
     m_lineShader->release();
+    glEnable(GL_DEPTH_TEST);
 }
