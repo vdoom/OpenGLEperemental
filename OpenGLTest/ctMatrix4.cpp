@@ -22,7 +22,7 @@ void ctMatrix4::Translate(QVector3D t_pos)
     tmp(2, 3) = t_pos.z();
     m_matrix.translate(t_pos.x(),t_pos.y(),t_pos.z());
     //m_matrix = tmp * m_matrix;
-    qDebug() << m_matrix(0, 3);
+    //qDebug() << m_matrix(0, 3);
 }
 
 void ctMatrix4::Scale(QVector3D t_scl)

@@ -13,6 +13,7 @@ private:
     int msecsCounter;
     ctPlane * m_plane;
     ctPlane * m_plane2;
+    QString m_isClicked;
 protected:
 public:
     testScene();
@@ -26,6 +27,8 @@ public:
     virtual void BeginDraw();
     virtual void Draw();
     virtual void EndDraw();
+
+    virtual void Update();
 };
 
 #endif // TESTSCENE_H

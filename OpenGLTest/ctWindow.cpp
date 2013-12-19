@@ -1,6 +1,7 @@
 #include "ctWindow.h"
 #include "ctShaderManager.h"
 #include "ctScene.h"
+#include "ctInput.h"
 
 #include <QtCore/QCoreApplication>
 #include <QtGui/QOpenGLContext>
@@ -29,6 +30,8 @@ ctWindow::~ctWindow()
 
 bool ctWindow::event(QEvent *event)
 {
+    if(m_input)
+        m_input->event(event);
     switch (event->type()) {
     case QEvent::UpdateRequest:
         m_update_pending = false;
@@ -207,6 +210,8 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
         m_shaderManager = new ctShaderManager(t_context);
 
     m_update_pending = false;
+
+    m_input = new ctInput();
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)

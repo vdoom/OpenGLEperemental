@@ -23,6 +23,7 @@ void testScene::Init()
 {
     ctScene::Init();
     m_lastFPS = 0;
+    m_isClicked = "not";
 
     qDebug()<<"init testScene";
     SetDefault(GetShaderManager(), 0, GetOpenGLContext());
@@ -82,19 +83,11 @@ void testScene::BeginDraw()
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
-    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+
     //DrawText(QPointF(30,30), QString::number(m_lastFPS));
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
-}
-
-void testScene::EndDraw()
-{
-    ctScene::EndDraw();
-    m_frame+=1.0f;
-    if(m_frame > 360) m_frame = m_frame - 360;
-    ctTime::GetTime()->Update();
 }
 
 void testScene::Draw()
@@ -111,4 +104,18 @@ void testScene::Draw()
     m_plane->SetProjectionMatrix(matrix);
     m_plane2->SetProjectionMatrix(matrix);
     //ctWindow::RenderScene();
+}
+
+void testScene::EndDraw()
+{
+    ctScene::EndDraw();
+    m_frame+=1.0f;
+    if(m_frame > 360) m_frame = m_frame - 360;
+    ctTime::GetTime()->Update();
+    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+}
+void testScene::Update()
+{
+    ctScene::Update();
 }

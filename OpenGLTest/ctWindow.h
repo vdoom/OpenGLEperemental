@@ -13,6 +13,7 @@ QT_END_NAMESPACE
 
 class ctScene;
 class ctShaderManager;
+class ctInput;
 
 class ctWindow : public QWindow, protected QOpenGLFunctions
 {
@@ -20,6 +21,7 @@ class ctWindow : public QWindow, protected QOpenGLFunctions
 private:
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
+    ctInput* m_input;
     bool m_update_pending;
 protected:
     QOpenGLContext * m_context;

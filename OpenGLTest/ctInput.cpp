@@ -3,6 +3,7 @@
 
 ctInput::ctInput(QWidget * parent) : QWidget(parent)
 {
+    m_iterationStamp = 1;
 }
 
 ctInput::~ctInput()
@@ -27,7 +28,15 @@ QVector<QKeyEvent *> ctInput::GetKeyEvent()
 
 void ctInput::Update()
 {
-
+    for(int i = 0; i < 255; ++i)
+    {
+        if(m_eventsPool[i].GetIterationStamp() != m_iterationStamp)
+        {
+            m_eventsPool[i].KillEvent();
+        }
+    }
+    if(m_iterationStamp != 0) ++m_iterationStamp;
+    else m_iterationStamp += 2;
 }
 
 void ctInput::PostUpdate()
@@ -71,9 +80,17 @@ bool ctInput::event(QEvent *event)
     case QEvent::MouseButtonPress:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
-            //QMouseEvent * tmpMouseEvent = static_cast<QMouseEvent *>(event);
-            //m_mouseEvent.append(tmpMouseEvent);
             qDebug()<<"MousePress :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+        }
+     case QEvent::MouseButtonRelease:
+        {
+            m_lastMouseEvent = static_cast<QMouseEvent *>(event);
+            qDebug()<<"MouseButtonRelease :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+        }
+     case QEvent::MouseMove:
+        {
+            m_lastMouseEvent = static_cast<QMouseEvent *>(event);
+            qDebug()<<"MouseMove :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
         }
      default:
             return QWidget::event(event);
@@ -89,3 +106,5 @@ QMouseEvent * ctInput::GetMouseEvent() const
 {
     return m_lastMouseEvent;
 }
+
+

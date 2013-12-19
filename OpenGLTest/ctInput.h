@@ -8,6 +8,7 @@
 #include <QWidget>
 
 //class TriangleWindow;
+#include "ctInputEvent.h"
 
 class ctInput : public QWidget
 {
@@ -20,6 +21,7 @@ public:
     };
     enum InputMouseState
     {empty};
+
 private:
     //friend TriangleWindow;
    // QVector<QMouseEvent *> m_mouseEvent;
@@ -28,6 +30,9 @@ private:
     QMouseEvent * m_lastMouseEvent;
     QTouchEvent * m_lastTouchEvent;
     InputTouchState m_lastTouchState;
+    ctInputEvent m_eventsPool[255];
+    quint64 m_iterationStamp;
+
 public:
     explicit ctInput(QWidget * parent = 0);
     ~ctInput();
@@ -38,6 +43,8 @@ public:
     QTouchEvent* GetTouchEvent() const;
     InputTouchState GetTouchState();
     QMouseEvent * GetMouseEvent() const;
+
+    //GetIndexOfDeadIndex();
 
     void Update();
 
