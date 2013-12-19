@@ -159,6 +159,11 @@ ctScene * ctWindow::GetScene() const
     return m_scene;
 }
 
+ctInput * ctWindow::GetInput() const
+{
+    return m_input;
+}
+
 void ctWindow::RenderScene()
 {
     if(m_scene)
@@ -181,7 +186,10 @@ void ctWindow::Draw()
 {
     //-----temporary-soluton-----
     if(m_scene)
+    {
         m_scene->Update();
+        m_input->Update();
+    }
     //---------------------------
     BeginRenderScene();
 

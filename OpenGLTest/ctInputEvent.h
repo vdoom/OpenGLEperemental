@@ -38,6 +38,7 @@ public:
     QTouchEvent GetTouchEvent();
     unsigned int GetFlags();
     void KillEvent();
+    bool IsDead();
     quint64 GetTimeStamp();
     quint64 GetIterationStamp();
 };

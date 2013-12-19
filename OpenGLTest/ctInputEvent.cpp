@@ -36,7 +36,12 @@ unsigned int ctInputEvent::GetFlags()
 
 void ctInputEvent::KillEvent()
 {
-    m_flags = IEF_DEAD_EVENT;
+    m_flags = 0;
+}
+
+bool ctInputEvent::IsDead()
+{
+    return (m_flags == IEF_DEAD_EVENT);
 }
 
 bool ctInputEvent::IsKeyEvent()

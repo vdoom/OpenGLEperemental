@@ -49,6 +49,8 @@ public:
     void SetScene(ctScene* t_scene);
     ctScene * GetScene() const;
 
+    ctInput * GetInput() const;
+
     void SetShaderManager(ctShaderManager * t_shaderManager);
     ctShaderManager * GetShaderManager() const;
 

@@ -80,20 +80,27 @@ bool ctInput::event(QEvent *event)
     case QEvent::MouseButtonPress:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
-            qDebug()<<"MousePress :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+            qDebug()<<"MousePress :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y()<<" "<<m_lastMouseEvent->button();
+            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(/*ctInputEvent::IEF_MOUSE_EVENT | */ctInputEvent::IEF_MOUSE_BUTTON_PRESS), m_iterationStamp));
+            return true;
         }
      case QEvent::MouseButtonRelease:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
-            qDebug()<<"MouseButtonRelease :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+            qDebug()<<"MouseButtonRelease :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y()<<" "<<m_lastMouseEvent->button();
+            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(/*ctInputEvent::IEF_MOUSE_EVENT | */ctInputEvent::IEF_MOUSE_BUTTON_RELEASE), m_iterationStamp));
+            return true;
         }
      case QEvent::MouseMove:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
-            qDebug()<<"MouseMove :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+            //qDebug()<<"MouseMove :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
+            //AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(ctInputEvent::IEF_MOUSE_EVENT | ctInputEvent::IEF_MOUSE_MOVE), m_iterationStamp));
+            return true;
         }
      default:
             return QWidget::event(event);
+            return true;
     }
 }
 
@@ -107,4 +114,39 @@ QMouseEvent * ctInput::GetMouseEvent() const
     return m_lastMouseEvent;
 }
 
+int ctInput::GetIndexOfDeadEvent()
+{
+    for(int i = 0; i < 255; ++i)
+    {
+        if(m_eventsPool[i].IsDead()) return i;
+    }
+    return -1;
+}
 
+void ctInput::AddEvent(ctInputEvent t_event)
+{
+    int indexFree = GetIndexOfDeadEvent();
+    if(indexFree < 0)
+    {
+        qDebug()<<"Errore: Can't Add new event!!!";
+        return;
+    }
+    else
+    {
+        m_eventsPool[indexFree] = t_event;
+    }
+}
+
+QVector<ctInputEvent> ctInput::GetEvents(unsigned int t_flags)
+{
+    QVector<ctInputEvent> tmp;
+    for(int i = 0; i < 255; ++i)
+    {
+        if(m_eventsPool[i].GetFlags() & t_flags)
+        {
+            tmp.append(m_eventsPool[i]);
+        }
+    }
+    //qDebug()<<tmp.size();
+    return tmp;
+}

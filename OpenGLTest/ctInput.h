@@ -44,13 +44,17 @@ public:
     InputTouchState GetTouchState();
     QMouseEvent * GetMouseEvent() const;
 
-    //GetIndexOfDeadIndex();
+    int GetIndexOfDeadEvent();
 
     void Update();
 
     void PostUpdate(); //cleaning buffers
 
     bool event(QEvent *event);
+
+    void AddEvent(ctInputEvent);
+
+    QVector<ctInputEvent> GetEvents(unsigned int t_flags);
 };
 
 #endif // CTINPUT_H

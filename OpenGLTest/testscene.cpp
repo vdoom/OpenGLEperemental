@@ -5,6 +5,8 @@
 #include "ctWindow.h"
 #include "ctTime.h"
 #include "shaders.h"
+#include "ctInput.h"
+#include "ctInputEvent.h"
 
 testScene::testScene()
 {
@@ -118,4 +120,15 @@ void testScene::EndDraw()
 void testScene::Update()
 {
     ctScene::Update();
+
+    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS).size() > 0)
+    {
+        qDebug()<<"Presed";
+        m_isClicked = QString("Ispresed");
+    }
+    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_RELEASE).size() > 0)
+    {
+        qDebug()<<"released";
+        m_isClicked = QString("not");
+    }
 }
