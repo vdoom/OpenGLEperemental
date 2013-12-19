@@ -63,7 +63,11 @@ QVector3D ctRect::GetTopRight() const
 
 ctRect operator * (const ctMatrix4& t_mat, const ctRect& t_rect)
 {
-    //qDebug()<<"***";
     return ctRect((t_mat.GetMatrix() * t_rect.GetTopLeft()), (t_mat.GetMatrix() * t_rect.GetTopRight()), (t_mat.GetMatrix() * t_rect.GetBottomLeft()), (t_mat.GetMatrix() * t_rect.GetBottomRight()));
+}
+
+ctRect operator * (const QMatrix4x4& t_mat, const ctRect& t_rect)
+{
+    return ctRect((t_mat * t_rect.GetTopLeft()), (t_mat * t_rect.GetTopRight()), (t_mat * t_rect.GetBottomLeft()), (t_mat * t_rect.GetBottomRight()));
 }
 

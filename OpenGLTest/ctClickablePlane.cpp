@@ -27,7 +27,7 @@ ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * 
 
 ctClickablePlane::~ctClickablePlane()
 {
-
+    glDeleteBuffers(1, &meshVBOlines);
 }
 
 void ctClickablePlane::SetRect(const ctRect &t_rect)
@@ -37,6 +37,9 @@ void ctClickablePlane::SetRect(const ctRect &t_rect)
 
 ctRect ctClickablePlane::GetRect() const
 {return m_rect;}
+
+ctRect ctClickablePlane::GetTransformedRect()
+{return GetTransform()->GetGlobalTransformMatrix() * m_rect;}
 
 void ctClickablePlane::Update()
 {
@@ -89,6 +92,7 @@ void ctClickablePlane::GettingLineAttributes()
     posAtribLoc   = m_lineShader->attributeLocation("posAttr");
     colorUniformLoc = m_lineShader->uniformLocation("col");
     matrixUniform = m_lineShader->uniformLocation("matrix");
+    transformMatrixUniform = m_lineShader->uniformLocation("modelMatrix");
 }
 
 void ctClickablePlane::GenerateVBOforRect()
@@ -145,11 +149,11 @@ void ctClickablePlane::DrawRectLines()
     else
     {qDebug()<<"isShit pos!!!";}
 
-    /*qDebug()<<*/m_lineShader->bind();
+    m_lineShader->bind();
 
     m_lineShader->setUniformValue(matrixUniform, GetProjectionMatrix().GetMatrix());
-    //m_lineShader->setUniformValueArray();
     m_lineShader->setUniformValue(colorUniformLoc, m_rectColor);
+    //m_lineShader->setUniformValue(transformMatrixUniform, GetTransform()->GetGlobalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, rectDotIndexes);
 

@@ -50,5 +50,6 @@ public:
 };
 
 ctRect operator * (const ctMatrix4& t_mat, const ctRect& t_rect);
+ctRect operator * (const QMatrix4x4& t_mat, const ctRect& t_rect);
 
 #endif // CTRECT_H

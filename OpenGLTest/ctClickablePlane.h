@@ -17,6 +17,7 @@ private:
     GLuint posAtribLoc;
     GLuint colorUniformLoc;
     GLuint matrixUniform;
+    GLuint transformMatrixUniform;
     GLuint meshVBOlines;
 
     uint32_t* rectDotIndexes;
@@ -35,9 +36,9 @@ public:
 
     virtual ~ctClickablePlane();
 
-
     void SetRect(const ctRect& t_rect);
     ctRect GetRect() const;
+    ctRect GetTransformedRect();
     //--------------------------
     virtual void Update();
     virtual void Draw();

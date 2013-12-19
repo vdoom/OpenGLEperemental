@@ -5,19 +5,19 @@
 #include <QColor>
 #include <QDebug>
 #include "ctShaderManager.h"
-ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
-{
-    meshVBO = 0;
-    textureIndex = 0;
-    m_currentType = t_type;
-    m_AA = t_AA;
-    m_BB = t_BB;
-    //m_shaderManagerOld = t_shaderManager;
-    SetupPlaneCoords(t_AA, t_BB);
-    SetColor(QVector3D(1,255,1));
-    //SetDefault(t_shaderManager,0,0);
-    //m_transform = new ctTransform();
-}
+//ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
+//{
+//    meshVBO = 0;
+//    textureIndex = 0;
+//    m_currentType = t_type;
+//    m_AA = t_AA;
+//    m_BB = t_BB;
+//    //m_shaderManagerOld = t_shaderManager;
+//    SetupPlaneCoords(t_AA, t_BB);
+//    SetColor(QVector3D(1,255,1));
+//    //SetDefault(t_shaderManager,0,0);
+//    //m_transform = new ctTransform();
+//}
 
 ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
@@ -32,6 +32,11 @@ ctPlane::~ctPlane()
 {
     //UNDONE: NEED COMPLETE DESTRUSTION
     qDebug()<<"ctPlane Destroyed\n";
+    glDeleteBuffers(1, &meshVBO);
+    glDeleteTextures(1, &textureIndex);
+    delete[] planePositions;
+    delete[] planeIndexes;
+    delete[] planeTextureCoords;
 }
 
 void ctPlane::GenerateCompleteBuffer()
@@ -194,46 +199,46 @@ void ctPlane::DrawColored(QMatrix4x4 t_projectionMatrix)
     m_currentShader->release();
 }
 
-void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
-{
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable(GL_DEPTH_TEST);
+//void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
+//{
+////    glEnable(GL_BLEND);
+////    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
+////    glEnable(GL_DEPTH_TEST);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureIndex);
-    const int positionsOffset = 12 * sizeof(float);
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, textureIndex);
+//    const int positionsOffset = 12 * sizeof(float);
 
-    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+//    glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
 
-    if (posAtribLoc != -1)
-    {
-        glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
-            (3 * sizeof(float)), (const GLvoid*)0);
-        glEnableVertexAttribArray(posAtribLoc);
-    }
-    else
-    {qDebug()<<"isShit pos!!!";}
-    if (colorAtribLoc != -1)
-    {
-        glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
-                              (2 * sizeof(float)), (const GLvoid*)positionsOffset);
-        glEnableVertexAttribArray(colorAtribLoc);
-    }
-    else
-    {qDebug()<<"isShit color!!!";}
+//    if (posAtribLoc != -1)
+//    {
+//        glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+//            (3 * sizeof(float)), (const GLvoid*)0);
+//        glEnableVertexAttribArray(posAtribLoc);
+//    }
+//    else
+//    {qDebug()<<"isShit pos!!!";}
+//    if (colorAtribLoc != -1)
+//    {
+//        glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
+//                              (2 * sizeof(float)), (const GLvoid*)positionsOffset);
+//        glEnableVertexAttribArray(colorAtribLoc);
+//    }
+//    else
+//    {qDebug()<<"isShit color!!!";}
 
-    m_currentShader->bind();
-    m_currentShader->setUniformValue(textureLocation, 0);
-    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
+//    m_currentShader->bind();
+//    m_currentShader->setUniformValue(textureLocation, 0);
+//    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
+//    m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
+//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+//    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    m_currentShader->release();
-}
+//    m_currentShader->release();
+//}
 
 void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
@@ -290,27 +295,27 @@ void ctPlane::InitShader()
 //    else
 //    {
     m_currentShader = m_shaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");// need replace this part to outside
-    GettingAnttibutes(m_currentShader);
+    GettingAttributes(m_currentShader);
 //    }
 }
 
 void ctPlane::InitShader(const char *t_shaderProgrammName)
 {
     m_currentShader = m_shaderManager->GetShaderProgram(t_shaderProgrammName);
-    GettingAnttibutes(m_currentShader);
+    GettingAttributes(m_currentShader);
 }
 void ctPlane::InitShader(QString t_shaderProgrammName)
 {
     m_currentShader = m_shaderManager->GetShaderProgram(t_shaderProgrammName);
-    GettingAnttibutes(m_currentShader);
+    GettingAttributes(m_currentShader);
 }
 void ctPlane::InitShader(QOpenGLShaderProgram *t_initedShader)
 {
     m_currentShader = t_initedShader;
-    GettingAnttibutes(m_currentShader);
+    GettingAttributes(m_currentShader);
 }
 
-void ctPlane::GettingAnttibutes(QOpenGLShaderProgram * t_shaderProgram)
+void ctPlane::GettingAttributes(QOpenGLShaderProgram * t_shaderProgram)
 {
 //    if(m_currentType == Colored)
 //    {

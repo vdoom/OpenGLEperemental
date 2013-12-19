@@ -17,10 +17,11 @@ static const char *fragmentShaderSource =
     "}\n";
 
 static const char *lineVertexShaderSource =
-    "attribute highp vec4 posAttr;\n"
+    "attribute lowp vec4 posAttr;\n"
     "uniform lowp mat4 matrix;\n"
+    "uniform lowp mat4 modelMatrix;\n"
     "void main() {\n"
-    "   gl_Position = matrix * posAttr;\n"
+    "   gl_Position = matrix * posAttr;\n"//(matrix * modelMatrix) * posAttr;\n"
     "}\n";
 
 static const char *lineFragmentShaderSource =
