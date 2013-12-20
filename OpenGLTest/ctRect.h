@@ -30,6 +30,11 @@ public:
     QVector3D GetBottomLeft() const;
     QVector3D GetBottomRight() const;
 
+    float GetMaxX() const;
+    float GetMinX() const;
+    float GetMaxY() const;
+    float GetMinY() const;
+
     ctRect operator=( const ctRect & t_rect)
     {
         SetTopLeft(t_rect.GetTopLeft());

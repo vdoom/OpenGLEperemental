@@ -61,6 +61,26 @@ QVector3D ctRect::GetTopRight() const
     return m_topRigth;
 }
 
+float ctRect::GetMaxX() const
+{
+    return m_topRigth.x();
+}
+
+float ctRect::GetMinX() const
+{
+    return m_topLeft.x();
+}
+
+float ctRect::GetMaxY() const
+{
+    return m_topRigth.y();
+}
+
+float ctRect::GetMinY() const
+{
+    return m_bottomLeft.y();
+}
+
 ctRect operator * (const ctMatrix4& t_mat, const ctRect& t_rect)
 {
     return ctRect((t_mat.GetMatrix() * t_rect.GetTopLeft()), (t_mat.GetMatrix() * t_rect.GetTopRight()), (t_mat.GetMatrix() * t_rect.GetBottomLeft()), (t_mat.GetMatrix() * t_rect.GetBottomRight()));
