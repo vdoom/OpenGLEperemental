@@ -32,7 +32,8 @@ ctPlane::~ctPlane()
 {
     //UNDONE: NEED COMPLETE DESTRUSTION
     qDebug()<<"ctPlane Destroyed\n";
-    glDeleteBuffers(1, &meshVBO);
+
+    GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
     glDeleteTextures(1, &textureIndex);
     delete[] planePositions;
     delete[] planeIndexes;
@@ -109,7 +110,7 @@ void ctPlane::SetTexture(const char* t_textureFileName)
         return;
     }
 
-    glActiveTexture(GL_TEXTURE0);
+    GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureIndex);
 }
 
@@ -185,16 +186,16 @@ void ctPlane::DrawColored(QMatrix4x4 t_projectionMatrix)
 {
     m_currentShader->bind();
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
-    glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);
+    GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
+    GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);
 
-    glEnableVertexAttribArray(posAtribLoc);
-    glEnableVertexAttribArray(colorAtribLoc);
+    GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
+    GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-    glDisableVertexAttribArray(colorAtribLoc);
-    glDisableVertexAttribArray(posAtribLoc);
+    GetOpenGLContext()->functions()->glDisableVertexAttribArray(colorAtribLoc);
+    GetOpenGLContext()->functions()->glDisableVertexAttribArray(posAtribLoc);
 
     m_currentShader->release();
 }

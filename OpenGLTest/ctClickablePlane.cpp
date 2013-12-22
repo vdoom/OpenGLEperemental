@@ -27,7 +27,7 @@ ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * 
 
 ctClickablePlane::~ctClickablePlane()
 {
-    glDeleteBuffers(1, &meshVBOlines);
+    GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBOlines);
 }
 
 void ctClickablePlane::SetRect(const ctRect &t_rect)

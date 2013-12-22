@@ -1,9 +1,6 @@
 INCLUDEPATH += $$PWD
 SOURCES += $$PWD/openglwindow.cpp \
-    axis.cpp \
     shadermanager.cpp \
-    boxtextured.cpp \
-    plane.cpp \
     ctMatrix4.cpp \
     ctPlane.cpp \
     ctObject.cpp \
@@ -21,10 +18,7 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctRect.cpp \
     ctInputEvent.cpp
 HEADERS += $$PWD/openglwindow.h \
-    axis.h \
     shadermanager.h \
-    boxtextured.h \
-    plane.h \
     shaders.h \
     light_test.h \
     ctMatrix4.h \
