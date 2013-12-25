@@ -1,7 +1,7 @@
 #ifndef SHADERS_H
 #define SHADERS_H
 static const char *vertexShaderSource =
-    "attribute highp vec4 posAttr;\n"
+    "attribute lowp vec4 posAttr;\n"
     "attribute lowp vec3 colAttr;\n"
     "varying lowp vec3 col;\n"
     "uniform lowp mat4 matrix;\n"
@@ -61,7 +61,7 @@ static const char * texturedFragmentShaderSource =
         "uniform lowp float cof;\n"
         "void main()\n"
         "{\n"
-        "        vec4 tmp = texture2D(colorTexture, textureCoord );\n"
+        "        lowp vec4 tmp = texture2D(colorTexture, textureCoord );\n"
         "        tmp = vec4(tmp.b, tmp.g, tmp.r, tmp.a);\n"
         //"        tmp = vec4(tmp.z * cof, tmp.y * cof, tmp.x * cof, tmp.w * cof);\n"
         "        gl_FragColor = tmp;\n"
