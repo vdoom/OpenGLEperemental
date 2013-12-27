@@ -7,7 +7,7 @@
 #include "shaders.h"
 #include "ctInput.h"
 #include "ctInputEvent.h"
-
+#include <QDesktopWidget>
 testScene::testScene()
 {
 }
@@ -23,6 +23,8 @@ testScene::~testScene()
 
 void testScene::Init()
 {
+//    QDesktopWidget *mydesk;
+//    mydesk
     ctScene::Init();
     m_lastFPS = 0;
     m_isClicked = "not";
@@ -123,7 +125,14 @@ void testScene::Update()
 
     if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS).size() > 0)
     {
-        qDebug()<<"Presed";
+        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
+        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().x());
+        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().y());
+        tmp.setZ(1);
+        tmp.setX(tmp.x() - (GetWindow()->width()/2));
+        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+
+        qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
         m_isClicked = QString("Ispresed");
     }
     if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_RELEASE).size() > 0)

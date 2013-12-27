@@ -49,6 +49,7 @@
 #include <QtCore/qmath.h>
 #include <QGLWidget>
 #include "shadermanager.h"
+#include <QDesktopWidget>
 //#include "axis.h"
 //#include "boxtextured.h"
 //#include "plane.h"
@@ -245,6 +246,9 @@ int main(int argc, char **argv)
     format.setDepthBufferSize(24);
     //format.setStereo(true);
 
+    //QDesktopWidget *desk = QApplication::desktop();
+
+    //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
     testAppWindow m_testWindow;
     m_testWindow.setFormat(format);
     m_testWindow.resize(640,480);
