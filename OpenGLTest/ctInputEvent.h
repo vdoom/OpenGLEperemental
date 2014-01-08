@@ -16,7 +16,9 @@ public:
         IEF_KEY_EVENT            = 0x4,
         IEF_MOUSE_BUTTON_PRESS   = 0x8,
         IEF_MOUSE_BUTTON_RELEASE = 0x10,
-        IEF_MOUSE_MOVE           = 0x20
+        IEF_MOUSE_MOVE           = 0x20,
+        IEF_CHANGE_SCEEN_SIZE    = 0x40,
+        IEF_ORIENTATION_CHANGE   = 0x80
     };
 private:
     unsigned int m_flags;
@@ -30,6 +32,7 @@ public:
     ctInputEvent(QKeyEvent, unsigned int, quint64);
     ctInputEvent(QTouchEvent, unsigned int, quint64);
     ctInputEvent(QMouseEvent, unsigned int, quint64);
+    ctInputEvent(unsigned int, quint64);
     bool IsKeyEvent();
     bool IsTouchEvent();
     bool IsMouseEvent();

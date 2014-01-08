@@ -14,7 +14,7 @@ QMatrix4x4 ctMatrix4::GetMatrix() const
 
 void ctMatrix4::Translate(QVector3D t_pos)
 {
-    QMatrix4x4 tmp;
+    QMatrix4x4 tmp;// = m_matrix;
     tmp.setToIdentity();
 
     tmp(0, 3) = t_pos.x();
@@ -23,6 +23,13 @@ void ctMatrix4::Translate(QVector3D t_pos)
     m_matrix.translate(t_pos.x(),t_pos.y(),t_pos.z());
     //m_matrix = tmp * m_matrix;
     //qDebug() << m_matrix(0, 3);
+}
+
+void ctMatrix4::TranslateTo(QVector3D t_pos)
+{
+    m_matrix(0, 3) = t_pos.x();
+    m_matrix(1, 3) = t_pos.y();
+    m_matrix(2, 3) = t_pos.z();
 }
 
 void ctMatrix4::Scale(QVector3D t_scl)

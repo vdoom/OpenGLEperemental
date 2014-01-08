@@ -13,6 +13,7 @@ public:
     ctMatrix4();
     explicit ctMatrix4(QMatrix4x4);
     void Translate(QVector3D);
+    void TranslateTo(QVector3D);
     void Scale(QVector3D);
     void RotateX(float);
     void RotateY(float);

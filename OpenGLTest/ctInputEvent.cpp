@@ -29,6 +29,12 @@ ctInputEvent::ctInputEvent(QTouchEvent t_touchEvent, unsigned int t_flags, quint
     m_iterationStamp = t_iterationStamp;
 }
 
+ctInputEvent::ctInputEvent(unsigned int t_flags, quint64 t_iterationStamp) : m_keyEvent(QEvent::None,0,Qt::NoModifier), m_mouseEvent(QEvent::None, QPointF(), Qt::NoButton, Qt::NoButton,Qt::NoModifier), m_touchEvent(QEvent::None)
+{
+    m_flags = t_flags;
+    m_iterationStamp = t_iterationStamp;
+}
+
 unsigned int ctInputEvent::GetFlags()
 {
     return m_flags;

@@ -35,14 +35,14 @@ void testScene::Init()
     m_plane = new ctClickablePlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
     m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
-    m_plane2->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    m_plane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //m_plane2->GetTransform()->RotateByX(0.2f);
     //m_plane2->GetTransform()->RotateByX(90.0f);
     //m_plane2->GetTransform()->RotateByZ(90.0f);
     //m_plane->GetTransform()->RotateByZ(0.2f);
-    m_plane2->GetTransform()->Move(QVector3D(0,0,0));
-    m_plane->GetTransform()->Move(QVector3D(0,0,0));
+    m_plane2->GetTransform()->Move(QVector3D(-200,-170,0));
+    m_plane->GetTransform()->Move(QVector3D(-200,-170,0));
     m_plane2->GenerateCompleteBuffer();
    // m_plane->GenerateCompleteBuffer();
     m_plane->Init();
@@ -82,7 +82,9 @@ void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene,
 void testScene::BeginDraw()
 {
     ctScene::BeginDraw();
-
+    //-----------------TEMPORARY-SOLUTION-------------------------
+    glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+    //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
@@ -97,6 +99,7 @@ void testScene::BeginDraw()
 void testScene::Draw()
 {
     ctScene::Draw();
+
     QMatrix4x4 matrix;
     matrix.ortho((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
     //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
@@ -116,12 +119,24 @@ void testScene::EndDraw()
     m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
-    //GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
-    //GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+
+    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+    //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
 void testScene::Update()
 {
     ctScene::Update();
+qDebug()<<GetWindow()->width()<< GetWindow()->height();
+    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_CHANGE_SCEEN_SIZE).size() > 0)
+    {
+        qDebug()<<GetWindow()->width()<< GetWindow()->height();
+        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+    }
+    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_ORIENTATION_CHANGE).size() > 0)
+    {
+        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+    }
 
     if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS).size() > 0)
     {
@@ -134,6 +149,26 @@ void testScene::Update()
 
         qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
         m_isClicked = QString("Ispresed");
+
+        ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
+        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
+        m_plane->GetTransform()->SetLocalMatrix(tmp2);
+    }
+    if( GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE).size() > 0)
+    {
+        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
+        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().x());
+        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().y());
+        tmp.setZ(1);
+        tmp.setX(tmp.x() - (GetWindow()->width()/2));
+        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+
+        //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
+        //m_isClicked = QString("Ispresed");
+
+        ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
+        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
+        m_plane->GetTransform()->SetLocalMatrix(tmp2);
     }
     if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_RELEASE).size() > 0)
     {

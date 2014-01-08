@@ -44,7 +44,7 @@ ctRect ctClickablePlane::GetTransformedRect()
 void ctClickablePlane::Update()
 {
     ctPlane::Update();
-    GetTransform()->Move(QVector3D(0.5f,0,0));
+    //GetTransform()->Move(QVector3D(0.5f,0,0));
 
     static int ttt = 0;
     if(!ttt)

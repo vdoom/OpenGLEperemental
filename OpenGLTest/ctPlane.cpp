@@ -66,6 +66,16 @@ void ctPlane::GenerateCompleteBuffer()
 GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 {
     QString strFileName(fileName);
+
+    QFile tmp(strFileName);
+    if(tmp.exists())
+    {
+        qDebug()<<"Texture: "<< strFileName<< " finded";
+    }
+    else
+    {
+        qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
+    }
     //QString strFileFormat(fileFormat);
     QImage * image = new QImage(strFileName);//, fileFormat);
 

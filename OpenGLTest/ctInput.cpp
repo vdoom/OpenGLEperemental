@@ -81,21 +81,32 @@ bool ctInput::event(QEvent *event)
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
             qDebug()<<"MousePress :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y()<<" "<<m_lastMouseEvent->button();
-            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(/*ctInputEvent::IEF_MOUSE_EVENT | */ctInputEvent::IEF_MOUSE_BUTTON_PRESS), m_iterationStamp));
+            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(ctInputEvent::IEF_MOUSE_EVENT | ctInputEvent::IEF_MOUSE_BUTTON_PRESS), m_iterationStamp));
             return true;
         }
      case QEvent::MouseButtonRelease:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
             qDebug()<<"MouseButtonRelease :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y()<<" "<<m_lastMouseEvent->button();
-            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(/*ctInputEvent::IEF_MOUSE_EVENT | */ctInputEvent::IEF_MOUSE_BUTTON_RELEASE), m_iterationStamp));
+            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(ctInputEvent::IEF_MOUSE_EVENT | ctInputEvent::IEF_MOUSE_BUTTON_RELEASE), m_iterationStamp));
             return true;
         }
      case QEvent::MouseMove:
         {
             m_lastMouseEvent = static_cast<QMouseEvent *>(event);
             //qDebug()<<"MouseMove :"<<m_lastMouseEvent->x()<<" "<<m_lastMouseEvent->y();
-            //AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(ctInputEvent::IEF_MOUSE_EVENT | ctInputEvent::IEF_MOUSE_MOVE), m_iterationStamp));
+            AddEvent(ctInputEvent(*m_lastMouseEvent, (unsigned int)(ctInputEvent::IEF_MOUSE_EVENT | ctInputEvent::IEF_MOUSE_MOVE), m_iterationStamp));
+            return true;
+        }
+    case QEvent::Resize:
+        {
+            AddEvent(ctInputEvent(ctInputEvent::IEF_CHANGE_SCEEN_SIZE, m_iterationStamp));
+            return true;
+        }
+    case QEvent::OrientationChange:
+        {
+        //qDebug()<<"hange size";
+            AddEvent(ctInputEvent(ctInputEvent::IEF_ORIENTATION_CHANGE, m_iterationStamp));
             return true;
         }
      default:

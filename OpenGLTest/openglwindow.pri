@@ -38,3 +38,6 @@ HEADERS += $$PWD/openglwindow.h \
     ctClickablePlane.h \
     ctRect.h \
     ctInputEvent.h
+
+RESOURCES += \
+    res.qrc

@@ -50,6 +50,7 @@
 #include <QGLWidget>
 #include "shadermanager.h"
 #include <QDesktopWidget>
+#include <QResource>
 //#include "axis.h"
 //#include "boxtextured.h"
 //#include "plane.h"
@@ -240,6 +241,9 @@ void ShowMatrix(QMatrix4x4 t_mat)
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+
+
+    QResource::registerResource("res.rcc");
 
     QSurfaceFormat format;
     format.setSamples(16);
