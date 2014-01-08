@@ -116,8 +116,8 @@ void testScene::EndDraw()
     m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
     ctTime::GetTime()->Update();
-    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
-    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+    //GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    //GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 }
 void testScene::Update()
 {

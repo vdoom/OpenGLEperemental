@@ -1,25 +1,25 @@
 #include "ctClickablePlane.h"
 #include "ctShaderManager.h"
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager) : ctPlane(t_shaderManager)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager) : ctPlane(t_shaderManager), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect());
     m_drawRect = true;
 }
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene) : ctPlane(t_shaderManager, t_scene)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene) : ctPlane(t_shaderManager, t_scene), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect());
     m_drawRect = true;
 }
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect());
     m_drawRect = true;
 }
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.x(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
     m_drawRect = true;
@@ -46,7 +46,11 @@ void ctClickablePlane::Update()
     ctPlane::Update();
     GetTransform()->Move(QVector3D(0.5f,0,0));
 
-    GenerateVBOforRect();
+    static int ttt = 0;
+    if(!ttt)
+    {ttt = 1;
+        GenerateVBOforRect();
+    }
 }
 
 void ctClickablePlane::Init()
@@ -54,7 +58,7 @@ void ctClickablePlane::Init()
     ctPlane::Init();
 
     m_lineShader = GetShaderManager()->GetShaderProgram("lineShader");
-    GenerateVBOforRect();
+    //GenerateVBOforRect();
     m_rectColor = QVector3D(0,1,0);
     //m_rectColor.x();
     //m_color = m_rectColor;
@@ -64,6 +68,7 @@ void ctClickablePlane::Init()
     //m_color.SetY(254);
     //m_color.SetZ(23);
     //qDebug()<<"init ctPlane";
+    GettingLineAttributes();
 }
 
 void ctClickablePlane::Draw()
@@ -89,18 +94,23 @@ void ctClickablePlane::GettingLineAttributes()
     if(!m_lineShader)
     {qDebug()<<"Shit Shader Program";}
 
-    posAtribLoc   = m_lineShader->attributeLocation("posAttr");
-    colorUniformLoc = m_lineShader->uniformLocation("col");
-    matrixUniform = m_lineShader->uniformLocation("matrix");
-    transformMatrixUniform = m_lineShader->uniformLocation("modelMatrix");
+    posAtribLocC   = m_lineShader->attributeLocation("posAttr");
+    //colorUniformLoc = m_lineShader->uniformLocation("col");
+    matrixUniformC = m_lineShader->uniformLocation("matrix");
+    //transformMatrixUniform = m_lineShader->uniformLocation("modelMatrix");
+    qDebug()<<"Getting Attribs";
 }
 
 void ctClickablePlane::GenerateVBOforRect()
 {
+    if(meshVBOlines)
+    {
+        GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBOlines);
+    }
     ctRect m_drawingRect;
     m_drawingRect = GetTransform()->GetGlobalTransformMatrix() * m_rect;
 
-    float * completeBuffer = new float[12];
+    GLfloat * completeBuffer = new GLfloat[12];
     completeBuffer[0] = m_drawingRect.GetTopLeft().x();
     completeBuffer[1] = m_drawingRect.GetTopLeft().y();
     completeBuffer[2] = m_drawingRect.GetTopLeft().z();
@@ -114,12 +124,12 @@ void ctClickablePlane::GenerateVBOforRect()
     completeBuffer[10] = m_drawingRect.GetBottomLeft().y();
     completeBuffer[11] = m_drawingRect.GetBottomLeft().z();
 
-//    qDebug()<<"CompleteBuffer ->";
-//    for(int i = 0; i < 12; ++i)
-//    {
-//        qDebug()<<completeBuffer[i];
-//    }
-//    qDebug()<<"<-";
+    qDebug()<<"CompleteBuffer ->";
+    for(int i = 0; i < 12; ++i)
+    {
+        qDebug()<<completeBuffer[i];
+    }
+    qDebug()<<"<-";
 
     GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBOlines);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
@@ -128,37 +138,41 @@ void ctClickablePlane::GenerateVBOforRect()
         completeBuffer, GL_STATIC_DRAW);
     delete[] completeBuffer;
 
-    rectDotIndexes = new uint32_t[4];
+    if(rectDotIndexes) delete[] rectDotIndexes;
+
+    rectDotIndexes = new GLshort[4];
     for(int i = 0; i < 4; ++i)
     {
         rectDotIndexes[i] = i;
+        qDebug()<<"index: "<<i;
     }
 }
 
 void ctClickablePlane::DrawRectLines()
 {
-    glDisable(GL_DEPTH_TEST);
+    m_lineShader->bind();
+    //glDisable(GL_DEPTH_TEST);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
 
-    if (posAtribLoc != -1)
+    if (posAtribLocC != -1)
     {
-        GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
-            (3 * sizeof(float)), (const GLvoid*)0);
-        GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
+        GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLocC, 3, GL_FLOAT, GL_FALSE,
+            (3 * sizeof(GLfloat)), (const GLvoid*)0);
+        GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLocC);
     }
     else
     {qDebug()<<"isShit pos!!!";}
 
-    m_lineShader->bind();
+    //m_lineShader->bind();
 
-    m_lineShader->setUniformValue(matrixUniform, GetProjectionMatrix().GetMatrix());
-    m_lineShader->setUniformValue(colorUniformLoc, m_rectColor);
+    m_lineShader->setUniformValue(matrixUniformC, GetProjectionMatrix().GetMatrix());
+    //m_lineShader->setUniformValue(colorUniformLoc, m_rectColor);
     //m_lineShader->setUniformValue(transformMatrixUniform, GetTransform()->GetGlobalTransformMatrix().GetMatrix());
 
-    glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, rectDotIndexes);
+    glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, rectDotIndexes);
 
 
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
     m_lineShader->release();
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 }

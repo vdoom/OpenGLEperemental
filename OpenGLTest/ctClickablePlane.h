@@ -14,13 +14,13 @@ private:
     bool m_drawRect;
     QOpenGLShaderProgram * m_lineShader;
 
-    GLuint posAtribLoc;
+    GLuint posAtribLocC;
     GLuint colorUniformLoc;
-    GLuint matrixUniform;
+    GLuint matrixUniformC;
     GLuint transformMatrixUniform;
     GLuint meshVBOlines;
 
-    uint32_t* rectDotIndexes;
+    GLshort* rectDotIndexes;
 
     void GettingLineAttributes();
     void GenerateVBOforRect();

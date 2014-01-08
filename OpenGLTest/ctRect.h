@@ -35,7 +35,7 @@ public:
     float GetMaxY() const;
     float GetMinY() const;
 
-    ctRect operator=( const ctRect & t_rect)
+    ctRect operator= (const ctRect & t_rect)
     {
         SetTopLeft(t_rect.GetTopLeft());
         SetTopRight(t_rect.GetTopRight());
@@ -43,6 +43,7 @@ public:
         SetBottomRight(t_rect.GetBottomRight());
     }
 
+    bool IsIntersect(const QVector3D);
 //    ctRect operator * (const QMatrix4x4& t_mat, const ctRect& t_rect)
 //    {
 //        return ctRect((t_mat * t_rect.GetTopLeft()), (t_mat * t_rect.GetTopRight()), (t_mat * t_rect.GetBottomLeft()), (t_mat * t_rect.GetBottomRight()));

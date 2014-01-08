@@ -81,6 +81,15 @@ float ctRect::GetMinY() const
     return m_bottomLeft.y();
 }
 
+bool ctRect::IsIntersect(const QVector3D t_intersectionVector)
+{
+    if(t_intersectionVector.x() > GetMinX() && t_intersectionVector.x() < GetMaxX() &&
+            t_intersectionVector.y() > GetMinY() && t_intersectionVector.y() < GetMaxY())
+    {return true;}
+    else
+    {return false;}
+}
+
 ctRect operator * (const ctMatrix4& t_mat, const ctRect& t_rect)
 {
     return ctRect((t_mat.GetMatrix() * t_rect.GetTopLeft()), (t_mat.GetMatrix() * t_rect.GetTopRight()), (t_mat.GetMatrix() * t_rect.GetBottomLeft()), (t_mat.GetMatrix() * t_rect.GetBottomRight()));
@@ -90,4 +99,3 @@ ctRect operator * (const QMatrix4x4& t_mat, const ctRect& t_rect)
 {
     return ctRect((t_mat * t_rect.GetTopLeft()), (t_mat * t_rect.GetTopRight()), (t_mat * t_rect.GetBottomLeft()), (t_mat * t_rect.GetBottomRight()));
 }
-

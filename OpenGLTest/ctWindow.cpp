@@ -112,7 +112,11 @@ void ctWindow::renderNow()
     if (!m_context) {
         m_context = new QOpenGLContext(this);
         QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
-        m_context->setFormat(requestedFormat());
+        QSurfaceFormat t_format;
+        t_format.setSamples(16);
+        t_format.setDepthBufferSize(24);
+        setFormat(t_format);
+        //m_context->setFormat(requestedFormat());
         m_context->create();
 
         needsInitialize = true;
