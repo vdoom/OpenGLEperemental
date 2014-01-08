@@ -19,15 +19,15 @@ static const char *fragmentShaderSource =
 static const char *lineVertexShaderSource =
     "attribute lowp vec4 posAttr;\n"
     "uniform lowp mat4 matrix;\n"
-    //"uniform lowp mat4 modelMatrix;\n"
+    "uniform lowp mat4 modelMatrix;\n"
     "void main() {\n"
-    "   gl_Position = matrix * posAttr;\n"//(matrix * modelMatrix) * posAttr;\n"
+    "   gl_Position = (matrix * modelMatrix) * posAttr;\n"
     "}\n";
 
 static const char *lineFragmentShaderSource =
-    //"uniform lowp vec3 col;\n"
+    "uniform lowp vec3 col;\n"
     "void main() {\n"
-        "   gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
+        "   gl_FragColor = vec4(col.x, col.y, col.z, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
 static const char * texturedVertexShaderSource =

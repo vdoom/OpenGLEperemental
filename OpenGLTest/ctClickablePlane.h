@@ -14,9 +14,9 @@ private:
     bool m_drawRect;
     QOpenGLShaderProgram * m_lineShader;
 
-    GLuint posAtribLocC;
+    GLuint posAtribLoc;
     GLuint colorUniformLoc;
-    GLuint matrixUniformC;
+    GLuint matrixUniform;
     GLuint transformMatrixUniform;
     GLuint meshVBOlines;
 
