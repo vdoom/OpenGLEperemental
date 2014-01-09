@@ -10,6 +10,7 @@
 #include <QDesktopWidget>
 
 #define Input GetWindow()->GetInput()->GetInputHelper()
+#define Time ctTime::GetTime()
 
 testScene::testScene()
 {
@@ -59,7 +60,7 @@ void testScene::Init()
     glEnable(GL_DEPTH_TEST);
 
     glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
-    if(!ctTime::GetTime())
+    if(!Time)
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
@@ -90,7 +91,7 @@ void testScene::BeginDraw()
     //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
-    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
+    if(msecsCounter<1000)msecsCounter += Time->GetDeltaTime();
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
 
     //DrawText(QPointF(30,30), QString::number(m_lastFPS));
@@ -121,7 +122,7 @@ void testScene::EndDraw()
     ctScene::EndDraw();
     m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
-    ctTime::GetTime()->Update();
+    Time->Update();
 
     GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
     GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
