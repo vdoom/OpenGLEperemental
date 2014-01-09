@@ -132,11 +132,7 @@ void testScene::Update()
     ctScene::Update();
     if(Input.IsMouseLeftButtonPush())
     {
-        QVector3D tmp = Input.GetMousePos3D();
-        tmp.setX(tmp.x() - (GetWindow()->GetWidth()/2));
-        tmp.setY(tmp.y() - (GetWindow()->GetHeight()/2));
-
-        if(dynamic_cast<ctClickablePlane*>(m_plane)->GetTransformedRect().IsIntersect(tmp))
+        if(dynamic_cast<ctClickablePlane*>(m_plane)->GetTransformedRect().IsIntersect(Input.GetMousePos3D()))//(tmp))
         {
             dragMode = true;
         }
@@ -147,15 +143,9 @@ void testScene::Update()
     }
     if(dragMode)
     {
-        QVector3D tmp = Input.GetMousePos3D();
-        tmp.setX(tmp.x() - (GetWindow()->GetWidth()/2));
-        tmp.setY(tmp.y() - (GetWindow()->GetHeight()/2));
-
-        //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
-        m_isClicked = QString("Ispresed");
-
+        //m_isClicked = QString("Ispresed");
         ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
-        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
+        tmp2.TranslateTo(Input.GetMousePos3D());
         m_plane->GetTransform()->SetLocalMatrix(tmp2);
     }
 
