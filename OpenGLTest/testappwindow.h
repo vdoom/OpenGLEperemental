@@ -23,7 +23,8 @@ private:
     virtual void RenderScene();
 public:
     explicit testAppWindow(QWindow *parent = 0);
-    explicit testAppWindow(QOpenGLContext * t_context, QWindow *parent = 0);
+    explicit testAppWindow(QApplication * t_QApp, QWindow *parent = 0);
+    explicit testAppWindow(QOpenGLContext * t_context, QApplication * t_QApp = 0, QWindow *parent = 0);
     virtual ~testAppWindow();
 
     virtual void initialize();

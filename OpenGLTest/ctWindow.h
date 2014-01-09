@@ -9,6 +9,7 @@ QT_BEGIN_NAMESPACE
 class QPainter;
 class QOpenGLContext;
 class QOpenGLPaintDevice;
+class QApplication;
 QT_END_NAMESPACE
 
 class ctScene;
@@ -19,6 +20,7 @@ class ctWindow : public QWindow, protected QOpenGLFunctions
 {
     Q_OBJECT
 private:
+    QApplication * m_QApp;
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
     ctInput* m_input;
@@ -35,7 +37,9 @@ protected:
     virtual void EndRenderScene();
 public:
     explicit ctWindow(QWindow *parent = 0);
-    explicit ctWindow(QOpenGLContext * t_context, QWindow *parent = 0);
+    explicit ctWindow(QApplication * t_QApp, QWindow *parent = 0);
+    //explicit ctWindow(QOpenGLContext * t_context, QWindow *parent = 0);
+    explicit ctWindow(QOpenGLContext * t_context, QApplication * t_QApp = 0, QWindow *parent = 0);
     virtual ~ctWindow();
 
     virtual void render(QPainter *painter);
@@ -53,6 +57,9 @@ public:
 
     void SetShaderManager(ctShaderManager * t_shaderManager);
     ctShaderManager * GetShaderManager() const;
+
+    QApplication * GetQApplication() const;
+    qreal GetDevicePixelRatioCoff() const;
 
     void DrawText(QPointF, QString);
 

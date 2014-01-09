@@ -25,7 +25,17 @@ testAppWindow::testAppWindow(QWindow *parent) : ctWindow(parent)
    // m_lastFPS = 0;
 }
 
-testAppWindow::testAppWindow(QOpenGLContext *t_context, QWindow *parent) : ctWindow(t_context, parent)
+testAppWindow::testAppWindow(QApplication * t_QApp, QWindow *parent) : ctWindow(t_QApp, parent)
+{
+   // m_lastFPS = 0;
+}
+
+//testAppWindow::testAppWindow(QOpenGLContext *t_context, QWindow *parent) : ctWindow(t_context, parent)
+//{
+////    m_lastFPS = 0;
+//}
+
+testAppWindow::testAppWindow(QOpenGLContext *t_context, QApplication *t_QApp, QWindow *parent) : ctWindow(t_context, t_QApp, parent)
 {
 //    m_lastFPS = 0;
 }

@@ -3,6 +3,7 @@
 #include "ctScene.h"
 #include "ctInput.h"
 
+#include <QApplication>
 #include <QtCore/QCoreApplication>
 #include <QtGui/QOpenGLContext>
 #include <QtGui/QOpenGLPaintDevice>
@@ -17,7 +18,18 @@ ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0)
     SetDefault();
 }
 
-ctWindow::ctWindow(QOpenGLContext *t_context, QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0)
+ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp)
+{
+    SetDefault();
+}
+
+//ctWindow::ctWindow(QOpenGLContext *t_context, QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0)
+//{
+//    //setSurfaceType(QWindow::OpenGLSurface);
+//    SetDefault(t_context);
+//}
+
+ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0), m_QApp(t_QApp)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
     SetDefault(t_context);
@@ -210,6 +222,16 @@ void ctWindow::SetShaderManager(ctShaderManager *t_shaderManager)
 ctShaderManager* ctWindow::GetShaderManager() const
 {
     return m_shaderManager;
+}
+
+QApplication* ctWindow::GetQApplication() const
+{
+    return m_QApp;
+}
+
+qreal ctWindow::GetDevicePixelRatioCoff() const
+{
+    return m_QApp->devicePixelRatio();
 }
 
 void ctWindow::SetDefault(QOpenGLContext *t_context)

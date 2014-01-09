@@ -42,7 +42,7 @@ void testScene::Init()
     //m_plane2->GetTransform()->RotateByZ(90.0f);
     //m_plane->GetTransform()->RotateByZ(0.2f);
     m_plane2->GetTransform()->Move(QVector3D(-200,-170,0));
-    m_plane->GetTransform()->Move(QVector3D(-200,-170,0));
+    //m_plane->GetTransform()->Move(QVector3D(-200,-170,0));
     m_plane2->GenerateCompleteBuffer();
    // m_plane->GenerateCompleteBuffer();
     m_plane->Init();
@@ -83,7 +83,7 @@ void testScene::BeginDraw()
 {
     ctScene::BeginDraw();
     //-----------------TEMPORARY-SOLUTION-------------------------
-    glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+    glViewport(0, 0, GetWindow()->width() * GetWindow()->GetDevicePixelRatioCoff(), GetWindow()->height() * GetWindow()->GetDevicePixelRatioCoff());
     //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
@@ -127,7 +127,7 @@ void testScene::EndDraw()
 void testScene::Update()
 {
     ctScene::Update();
-qDebug()<<GetWindow()->width()<< GetWindow()->height();
+//qDebug()<<GetWindow()->width()<< GetWindow()->height();
     if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_CHANGE_SCEEN_SIZE).size() > 0)
     {
         qDebug()<<GetWindow()->width()<< GetWindow()->height();

@@ -253,7 +253,7 @@ int main(int argc, char **argv)
     //QDesktopWidget *desk = QApplication::desktop();
 
     //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
-    testAppWindow m_testWindow;
+    testAppWindow m_testWindow(&app);
     //m_testWindow.setFormat(format);
     m_testWindow.resize(640,480);
     m_testWindow.show();
