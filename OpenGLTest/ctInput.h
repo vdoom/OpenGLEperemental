@@ -9,6 +9,7 @@
 
 //class TriangleWindow;
 #include "ctInputEvent.h"
+#include "ctInputHelper.h"
 
 class ctInput : public QWidget
 {
@@ -32,6 +33,7 @@ private:
     InputTouchState m_lastTouchState;
     ctInputEvent m_eventsPool[255];
     quint64 m_iterationStamp;
+    ctInputHelper m_helper;
 
 public:
     explicit ctInput(QWidget * parent = 0);
@@ -55,6 +57,8 @@ public:
     void AddEvent(ctInputEvent);
 
     QVector<ctInputEvent> GetEvents(unsigned int t_flags);
+
+    ctInputHelper GetInputHelper() const;
 };
 
 #endif // CTINPUT_H

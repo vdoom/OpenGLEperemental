@@ -16,7 +16,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     testscene.cpp \
     ctClickablePlane.cpp \
     ctRect.cpp \
-    ctInputEvent.cpp
+    ctInputEvent.cpp \
+    ctInputHelper.cpp
 HEADERS += $$PWD/openglwindow.h \
     shadermanager.h \
     shaders.h \
@@ -37,7 +38,8 @@ HEADERS += $$PWD/openglwindow.h \
     testscene.h \
     ctClickablePlane.h \
     ctRect.h \
-    ctInputEvent.h
+    ctInputEvent.h \
+    ctInputHelper.h
 
 RESOURCES += \
     res.qrc

@@ -8,6 +8,9 @@
 #include "ctInput.h"
 #include "ctInputEvent.h"
 #include <QDesktopWidget>
+
+#define Input GetWindow()->GetInput()->GetInputHelper()
+
 testScene::testScene()
 {
 }
@@ -127,52 +130,82 @@ void testScene::EndDraw()
 void testScene::Update()
 {
     ctScene::Update();
-//qDebug()<<GetWindow()->width()<< GetWindow()->height();
-    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_CHANGE_SCEEN_SIZE).size() > 0)
+    if(Input.IsMouseLeftButtonPush())
     {
-        qDebug()<<GetWindow()->width()<< GetWindow()->height();
-        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
-    }
-    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_ORIENTATION_CHANGE).size() > 0)
-    {
-        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
-    }
-
-    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS).size() > 0)
-    {
-        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
-        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().x());
-        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().y());
-        tmp.setZ(1);
+        QVector3D tmp = Input.GetMousePos3D();
         tmp.setX(tmp.x() - (GetWindow()->width()/2));
         tmp.setY(tmp.y() - (GetWindow()->height()/2));
 
-        qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
+        if(dynamic_cast<ctClickablePlane*>(m_plane)->GetTransformedRect().IsIntersect(tmp))
+        {
+            dragMode = true;
+        }
+    }
+    if(Input.IsMouseLeftButtonRelease())
+    {
+        dragMode = false;
+    }
+    if(dragMode)
+    {
+        QVector3D tmp = Input.GetMousePos3D();
+        tmp.setX(tmp.x() - (GetWindow()->width()/2));
+        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+
+        //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
         m_isClicked = QString("Ispresed");
 
         ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
         tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
         m_plane->GetTransform()->SetLocalMatrix(tmp2);
     }
-    if( GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE).size() > 0)
-    {
-        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
-        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().x());
-        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().y());
-        tmp.setZ(1);
-        tmp.setX(tmp.x() - (GetWindow()->width()/2));
-        tmp.setY(tmp.y() - (GetWindow()->height()/2));
 
-        //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
-        //m_isClicked = QString("Ispresed");
+    //if(){dragMode}
+//qDebug()<<GetWindow()->width()<< GetWindow()->height();
+//    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_CHANGE_SCEEN_SIZE).size() > 0)
+//    {
+//        qDebug()<<GetWindow()->width()<< GetWindow()->height();
+//        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+//    }
+//    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_ORIENTATION_CHANGE).size() > 0)
+//    {
+//        //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
+//    }
 
-        ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
-        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
-        m_plane->GetTransform()->SetLocalMatrix(tmp2);
-    }
-    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_RELEASE).size() > 0)
-    {
-        qDebug()<<"released";
-        m_isClicked = QString("not");
-    }
+//    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS).size() > 0)
+//    {
+//        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
+//        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().x());
+//        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent().y());
+//        tmp.setZ(1);
+//        tmp.setX(tmp.x() - (GetWindow()->width()/2));
+//        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+
+//        qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
+//        m_isClicked = QString("Ispresed");
+
+//        ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
+//        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
+//        m_plane->GetTransform()->SetLocalMatrix(tmp2);
+//    }
+//    if( GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE).size() > 0)
+//    {
+//        QVector3D tmp;//GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_PRESS)[0].GetMouseEvent();
+//        tmp.setX(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().x());
+//        tmp.setY(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_MOVE)[0].GetMouseEvent().y());
+//        tmp.setZ(1);
+//        tmp.setX(tmp.x() - (GetWindow()->width()/2));
+//        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+
+//        //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
+//        //m_isClicked = QString("Ispresed");
+
+//        ctMatrix4 tmp2 = m_plane->GetTransform()->GetLocalTransformMatrix();
+//        tmp2.TranslateTo(QVector3D(tmp.x(), tmp.y(), 1));//.translate(QVector3D(tmp.x(), tmp.y(), 1));
+//        m_plane->GetTransform()->SetLocalMatrix(tmp2);
+//    }
+//    if(GetWindow()->GetInput()->GetEvents(ctInputEvent::IEF_MOUSE_BUTTON_RELEASE).size() > 0)
+//    {
+//        qDebug()<<"released";
+//        m_isClicked = QString("not");
+//    }
 }

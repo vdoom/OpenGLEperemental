@@ -14,6 +14,8 @@ private:
     ctPlane * m_plane;
     ctPlane * m_plane2;
     QString m_isClicked;
+
+    bool dragMode;
 protected:
 public:
     testScene();
