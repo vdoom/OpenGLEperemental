@@ -3,6 +3,7 @@
 
 #include <QMouseEvent>
 #include <QVector>
+#include <QList>
 #include <QKeyEvent>
 #include <QTouchEvent>
 #include <QWidget>
@@ -10,6 +11,12 @@
 class ctInputHelper
 {
 public:
+    enum mouseButtons
+    {
+        MB_LEFT         = 0,
+        MB_MIDDLE       = 1,
+        MB_RIGHT        = 2
+    };
     enum mouseButtonState
     {
         MBS_NONE         = 0,
@@ -20,14 +27,25 @@ public:
 private:
     int m_mouseButtons[3];
     QVector2D m_mousePos;
+    QList<QTouchEvent::TouchPoint> m_touches;
+    bool GetMouseButtonState(int t_button, int t_state) const;
 public:
     ctInputHelper();
     void ProcessingEvent(QEvent *event);
     void Update();
+    //---------------------------------------
     bool IsMouseLeftButtonPressNhold() const;
     bool IsMouseLeftButtonPush() const;
     bool IsMouseLeftButtonRelease() const;
     bool IsMouseLeftButtonNoneActive() const;
+    //---------------------------------------
+    bool IsMouseRightButtonPressNhold() const;
+    bool IsMouseRightButtonPush() const;
+    bool IsMouseRightButtonRelease() const;
+    bool IsMouseRightButtonNoneActive() const;
+    //---------------------------------------
+    QList<QTouchEvent::TouchPoint> GetTouches() const;
+
     QVector2D GetMousePos2D() const;
     QVector3D GetMousePos3D();// const;
 };
