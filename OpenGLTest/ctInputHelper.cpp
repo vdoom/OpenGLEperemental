@@ -1,14 +1,17 @@
 #include "ctInputHelper.h"
+#include "ctInput.h"
 #include <QVector3D>
 #include <QDebug>
 
-ctInputHelper::ctInputHelper()
+ctInputHelper::ctInputHelper(ctInput * t_input)
 {
     m_mouseButtons[0] = MBS_NONE;
     m_mouseButtons[1] = MBS_NONE;
     m_mouseButtons[2] = MBS_NONE;
 
     m_mousePos = QVector2D(0, 0);
+
+    m_input = t_input;
 }
 
 void ctInputHelper::ProcessingEvent(QEvent *event)
@@ -129,11 +132,11 @@ QList<QTouchEvent::TouchPoint> ctInputHelper::GetTouches() const
 
 QVector2D ctInputHelper::GetMousePos2D() const
 {
-    return m_mousePos;
+    return QVector2D(m_mousePos.x() * m_input->GetWindow()->GetDevicePixelRatioCoff(), m_mousePos.y() * m_input->GetWindow()->GetDevicePixelRatioCoff());
 }
 
 QVector3D ctInputHelper::GetMousePos3D() //const
 {
-    QVector3D tmp = QVector3D(m_mousePos.x(), m_mousePos.y(), 1);
-    return tmp;
+    //QVector3D tmp = QVector3D(m_mousePos.x(), m_mousePos.y(), 1);
+    return QVector3D(m_mousePos.x() * m_input->GetWindow()->GetDevicePixelRatioCoff(), m_mousePos.y() * m_input->GetWindow()->GetDevicePixelRatioCoff(), 1);
 }

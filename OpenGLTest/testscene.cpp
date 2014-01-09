@@ -86,7 +86,7 @@ void testScene::BeginDraw()
 {
     ctScene::BeginDraw();
     //-----------------TEMPORARY-SOLUTION-------------------------
-    glViewport(0, 0, GetWindow()->width() * GetWindow()->GetDevicePixelRatioCoff(), GetWindow()->height() * GetWindow()->GetDevicePixelRatioCoff());
+    glViewport(0, 0, GetWindow()->GetWidth(), GetWindow()->GetHeight());
     //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
@@ -104,7 +104,7 @@ void testScene::Draw()
     ctScene::Draw();
 
     QMatrix4x4 matrix;
-    matrix.ortho((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
+    matrix.ortho((0 - GetWindow()->GetWidth()/2), (GetWindow()->GetWidth()/2), (GetWindow()->GetHeight()/2), (0 - GetWindow()->GetHeight()/2), 0, 10000.0f);//((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
     //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
     matrix.translate(0, 0 , -50);
     //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
@@ -133,8 +133,8 @@ void testScene::Update()
     if(Input.IsMouseLeftButtonPush())
     {
         QVector3D tmp = Input.GetMousePos3D();
-        tmp.setX(tmp.x() - (GetWindow()->width()/2));
-        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+        tmp.setX(tmp.x() - (GetWindow()->GetWidth()/2));
+        tmp.setY(tmp.y() - (GetWindow()->GetHeight()/2));
 
         if(dynamic_cast<ctClickablePlane*>(m_plane)->GetTransformedRect().IsIntersect(tmp))
         {
@@ -148,8 +148,8 @@ void testScene::Update()
     if(dragMode)
     {
         QVector3D tmp = Input.GetMousePos3D();
-        tmp.setX(tmp.x() - (GetWindow()->width()/2));
-        tmp.setY(tmp.y() - (GetWindow()->height()/2));
+        tmp.setX(tmp.x() - (GetWindow()->GetWidth()/2));
+        tmp.setY(tmp.y() - (GetWindow()->GetHeight()/2));
 
         //qDebug()<<"Presed x: "<< tmp.x() << " y: "<<tmp.y();
         m_isClicked = QString("Ispresed");

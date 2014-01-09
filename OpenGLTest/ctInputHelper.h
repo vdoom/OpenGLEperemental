@@ -8,6 +8,9 @@
 #include <QTouchEvent>
 #include <QWidget>
 
+//#include "ctInput.h"
+
+class ctInput;
 class ctInputHelper
 {
 public:
@@ -28,9 +31,10 @@ private:
     int m_mouseButtons[3];
     QVector2D m_mousePos;
     QList<QTouchEvent::TouchPoint> m_touches;
+    ctInput * m_input;
     bool GetMouseButtonState(int t_button, int t_state) const;
 public:
-    ctInputHelper();
+    ctInputHelper(ctInput * t_input);
     void ProcessingEvent(QEvent *event);
     void Update();
     //---------------------------------------

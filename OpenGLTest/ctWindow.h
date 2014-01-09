@@ -60,6 +60,8 @@ public:
 
     QApplication * GetQApplication() const;
     qreal GetDevicePixelRatioCoff() const;
+    int GetWidth() const;
+    int GetHeight() const;
 
     void DrawText(QPointF, QString);
 

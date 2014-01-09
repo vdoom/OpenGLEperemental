@@ -10,6 +10,7 @@
 //class TriangleWindow;
 #include "ctInputEvent.h"
 #include "ctInputHelper.h"
+#include "ctWindow.h"
 
 class ctInput : public QWidget
 {
@@ -24,7 +25,7 @@ public:
     {empty};
 
 private:
-    //friend TriangleWindow;
+    //friend ctInputHelper;//TriangleWindow;
    // QVector<QMouseEvent *> m_mouseEvent;
     QVector<QKeyEvent *> m_keyEvent;
    // QVector<QTouchEvent *> m_touchEvent;
@@ -34,9 +35,10 @@ private:
     ctInputEvent m_eventsPool[255];
     quint64 m_iterationStamp;
     ctInputHelper m_helper;
+    ctWindow * m_window;
 
 public:
-    explicit ctInput(QWidget * parent = 0);
+    explicit ctInput(ctWindow * t_window = 0, QWidget * parent = 0);
     ~ctInput();
 
     QVector<QMouseEvent *> GetMouseEvent();
@@ -59,6 +61,10 @@ public:
     QVector<ctInputEvent> GetEvents(unsigned int t_flags);
 
     ctInputHelper GetInputHelper() const;
+
+    void SetWindow(ctWindow*);
+    ctWindow* GetWindow() const;
+
 };
 
 #endif // CTINPUT_H

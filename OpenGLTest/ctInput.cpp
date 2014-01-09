@@ -1,9 +1,10 @@
 #include "ctInput.h"
 #include <QDebug>
 
-ctInput::ctInput(QWidget * parent) : QWidget(parent)
+ctInput::ctInput(ctWindow * t_window, QWidget * parent) : QWidget(parent), m_helper(this)
 {
     m_iterationStamp = 1;
+    m_window = t_window;
 }
 
 ctInput::~ctInput()
@@ -168,4 +169,14 @@ QVector<ctInputEvent> ctInput::GetEvents(unsigned int t_flags)
 ctInputHelper ctInput::GetInputHelper() const
 {
     return m_helper;
+}
+
+void ctInput::SetWindow(ctWindow* t_window)
+{
+    m_window = t_window;
+}
+
+ctWindow* ctInput::GetWindow() const
+{
+    return m_window;
 }

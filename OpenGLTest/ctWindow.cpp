@@ -234,6 +234,16 @@ qreal ctWindow::GetDevicePixelRatioCoff() const
     return m_QApp->devicePixelRatio();
 }
 
+int ctWindow::GetWidth() const
+{
+    return width() * GetDevicePixelRatioCoff();
+}
+
+int ctWindow::GetHeight() const
+{
+    return height() * GetDevicePixelRatioCoff();
+}
+
 void ctWindow::SetDefault(QOpenGLContext *t_context)
 {
     SetScene(0);
@@ -245,7 +255,7 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
 
     m_update_pending = false;
 
-    m_input = new ctInput();
+    m_input = new ctInput(this);
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
