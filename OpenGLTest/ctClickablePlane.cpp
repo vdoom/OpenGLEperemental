@@ -65,10 +65,10 @@ void ctClickablePlane::Init()
 
 void ctClickablePlane::Draw()
 {
+    ctPlane::Draw();
+
     if(m_drawRect)
         DrawRectLines();
-
-    ctPlane::Draw();
 }
 
 void ctClickablePlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
@@ -90,7 +90,7 @@ void ctClickablePlane::GettingLineAttributes()
     colorUniformLoc = m_lineShader->uniformLocation("col");
     matrixUniform = m_lineShader->uniformLocation("matrix");
     transformMatrixUniform = m_lineShader->uniformLocation("modelMatrix");
-    qDebug()<<"Getting Attribs";
+    //qDebug()<<"Getting Attribs";
 }
 
 void ctClickablePlane::GenerateVBOforRect()
@@ -115,13 +115,6 @@ void ctClickablePlane::GenerateVBOforRect()
     completeBuffer[9] = m_drawingRect.GetBottomLeft().x();
     completeBuffer[10] = m_drawingRect.GetBottomLeft().y();
     completeBuffer[11] = m_drawingRect.GetBottomLeft().z();
-
-//    qDebug()<<"CompleteBuffer ->";
-//    for(int i = 0; i < 12; ++i)
-//    {
-//        qDebug()<<completeBuffer[i];
-//    }
-//    qDebug()<<"<-";
 
     GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBOlines);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
@@ -161,8 +154,12 @@ void ctClickablePlane::DrawRectLines()
 
     glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, rectDotIndexes);
 
-
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
     m_lineShader->release();
     //glEnable(GL_DEPTH_TEST);
+}
+
+bool ctClickablePlane::IsIntersect(QVector3D t_pos)
+{
+    return GetTransformedRect().IsIntersect(t_pos);
 }

@@ -24,6 +24,11 @@ void ctTransform::SetDefault()
 
 void ctTransform::Move(QVector3D t_pos)
 {
+    m_localTransform.TranslateTo(t_pos);
+}
+
+void ctTransform::MoveBy(QVector3D t_pos)
+{
     m_localTransform.Translate(t_pos);
 }
 

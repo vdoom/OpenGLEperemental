@@ -44,6 +44,7 @@ public:
     void SetLocalMatrix(const QMatrix4x4 & t_matrix);
 
     void Move(QVector3D);
+    void MoveBy(QVector3D);
     void Scale(QVector3D);
     void RotateByX(float);
     void RotateByY(float);

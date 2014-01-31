@@ -39,6 +39,8 @@ public:
     void SetRect(const ctRect& t_rect);
     ctRect GetRect() const;
     ctRect GetTransformedRect();
+
+    bool IsIntersect(QVector3D);
     //--------------------------
     virtual void Update();
     virtual void Draw();
