@@ -61,6 +61,9 @@
 #include "ctInput.h"
 #include "testappwindow.h"
 
+#include "QDebug"
+#include "ctDelegat.h"
+
 void ShowMatrix(QMatrix4x4 t_mat)
 {
     qDebug()<<t_mat(0,0)<<" "<<t_mat(0,1)<<" "<<t_mat(0,2)<<" "<<t_mat(0,3);
@@ -237,12 +240,34 @@ void ShowMatrix(QMatrix4x4 t_mat)
 //    ++m_frame;
 //    ctTime::GetTime()->Update();
 //}
+class ccc : ctDelegat
+{
+private:
+    int qq;
+public:
+    ccc():qq(32){}
+    virtual void eee()
+    {
+        qDebug()<<"ff";
+    }
+    /*virtual*/void ggg() // is can be virtual
+    {
+        qDebug()<<"dfdfdf "<<qq;
+    }
+};
+void (ttt)()
+{
+    qDebug()<<"ffffff";
+}
+
+//typedef void (SomeClass::*SomeClassFunction) (void);
+typedef void (ctDelegat::*eee) (void);
 
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-
+ctDelegat* tt;
     QResource::registerResource("res.rcc");
 
     QSurfaceFormat format;
@@ -253,11 +278,26 @@ int main(int argc, char **argv)
     //QDesktopWidget *desk = QApplication::desktop();
 
     //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
-    testAppWindow m_testWindow(&app);
-    //m_testWindow.setFormat(format);
-    m_testWindow.resize(640,480);
-    m_testWindow.show();
 
+    //testAppWindow m_testWindow(&app);
+
+    //m_testWindow.setFormat(format);
+
+    //m_testWindow.resize(640,480);
+    //m_testWindow.show();
+
+    //tt.delegat = ttt;
+
+    ccc * ee = new ccc();
+    tt = new ctDelegat(ee, reinterpret_cast<eee>(&ccc::ggg));
+    //qDebug()<<sizeof(&ccc::ggg);
+    //qDebug()<<sizeof(ee);
+    //qDebug()<<sizeof(quint64);
+    //tt.SetCaller(reinterpret_cast<ctDelegat *>(ee));
+    //tt.caller = ee;
+
+    //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
+    tt->Call();
 //    TriangleWindow window;
 //    window.setFormat(format);
 //    window.resize(640, 480);
