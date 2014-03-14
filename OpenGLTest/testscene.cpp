@@ -126,6 +126,10 @@ void testScene::EndDraw()
 
     GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
     GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+	
+	GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos2D().x()));
+	GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos2D().y()));
+	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
 void testScene::Update()
