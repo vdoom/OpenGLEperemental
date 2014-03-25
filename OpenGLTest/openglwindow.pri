@@ -19,7 +19,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctInputEvent.cpp \
     ctInputHelper.cpp \
     ctDelegat.cpp \
-    ctTimer.cpp
+    ctTimer.cpp \
+    ctFastDelegat.cpp
 HEADERS += $$PWD/openglwindow.h \
     shadermanager.h \
     shaders.h \
@@ -43,7 +44,10 @@ HEADERS += $$PWD/openglwindow.h \
     ctInputEvent.h \
     ctInputHelper.h \
     ctDelegat.h \
-    ctTimer.h
+    ctTimer.h \
+    ctFastDelegat.h
 
 RESOURCES += \
     res.qrc
+
+

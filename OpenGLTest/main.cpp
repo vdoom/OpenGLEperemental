@@ -63,6 +63,9 @@
 
 #include "QDebug"
 #include "ctDelegat.h"
+#include "ctFastDelegat.h"
+#include <functional>
+#include <iostream>
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -254,6 +257,10 @@ public:
     {
         qDebug()<<"dfdfdf "<<qq;
     }
+    void ddd(int i)
+    {
+        qDebug()<<"FustDelegat"<<i;
+    }
 };
 void (ttt)()
 {
@@ -290,6 +297,8 @@ ctDelegat* tt;
 
     ccc * ee = new ccc();
     tt = new ctDelegat(ee, reinterpret_cast<eee>(&ccc::ggg));
+
+    //ctFastDelegat d = ctFastDelegat::from_method< ccc, &ccc::ddd >(&ee);
     //qDebug()<<sizeof(&ccc::ggg);
     //qDebug()<<sizeof(ee);
     //qDebug()<<sizeof(quint64);
@@ -298,6 +307,16 @@ ctDelegat* tt;
 
     //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
     tt->Call();
+
+    Delegate test_delegate;
+    test_delegate.Connect( ee, &ccc::ddd );
+    int ww = 2;
+    test_delegate(ww);
+
+    //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
+    //f_add_display(ee, 1);
+
+    //d(1);
 //    TriangleWindow window;
 //    window.setFormat(format);
 //    window.resize(640, 480);
