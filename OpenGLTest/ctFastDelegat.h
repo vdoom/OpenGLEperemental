@@ -130,29 +130,29 @@ template< class T, class A1 >
   }
 };
 
-////  Специализация для метода с двумя аргументами
-//template< class T, class A1, class A2 >
-//  class Container< T, void (T::*)(A1,A2) > : public IContainer
-//{
-//  typedef void (T::*M)(A1,A2);
-//  typedef Arguments<A1,A2> A;
-//  public: Container( T* c, M m ) : m_class( c ), m_method( m ) {}
-//  private: T* m_class; M m_method;
-//  public: virtual void Call( IArguments* i_args )
-//  {
-//    A* a = dynamic_cast< A* >( i_args );
-//    assert( a );
-//    if( a ) (m_class->*m_method)( a->arg1, a->arg2 );
-//  }
-//};
+//  Специализация для метода с двумя аргументами
+template< class T, class A1, class A2 >
+  class Container< T, void (T::*)(A1,A2) > : public IContainer
+{
+  typedef void (T::*M)(A1,A2);
+  typedef Arguments<A1,A2> A;
+  public: Container( T* c, M m ) : m_class( c ), m_method( m ) {}
+  private: T* m_class; M m_method;
+  public: virtual void Call( IArguments* i_args )
+  {
+    A* a = dynamic_cast< A* >( i_args );
+    assert( a );
+    if( a ) (m_class->*m_method)( a->arg1, a->arg2 );
+  }
+};
 
 //  Собственно делегат.
-class Delegate
+class ctFastDelegat
 {
 public:
 
-  Delegate() : m_container( 0 ) {}
-  ~Delegate() { if( m_container ) delete m_container; }
+  ctFastDelegat() : m_container( 0 ) {}
+  ~ctFastDelegat() { if( m_container ) delete m_container; }
 
   template< class T, class U > void Connect( T* i_class, U i_method )
   {
@@ -178,6 +178,7 @@ public:
   }
 
 private:
+  //TODO: NEED REFINE FOR LIST OF CONTAINERS
   IContainer* m_container;
 };
 

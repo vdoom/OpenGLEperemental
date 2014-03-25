@@ -308,7 +308,7 @@ ctDelegat* tt;
     //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
     tt->Call();
 
-    Delegate test_delegate;
+    ctFastDelegat test_delegate;
     test_delegate.Connect( ee, &ccc::ddd );
     int ww = 2;
     test_delegate(ww);
