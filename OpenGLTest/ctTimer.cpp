@@ -14,7 +14,7 @@ void ctTimer::Update()
     {
         //TODO: NEED TEST FOR FREEZ UNFREEZ
         //-------------------------------------------------------------------------------------------------
-        if(!IsFreezable || !IsFreezed())
+        if(!IsFreezable() || !IsFreezed())
         {
             if(m_counter > ctTime::GetTime()->GetDeltaTime()) m_counter -= ctTime::GetTime()->GetDeltaTime();
             else m_counter = 0;

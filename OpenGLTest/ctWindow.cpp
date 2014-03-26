@@ -38,11 +38,13 @@ ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *p
 ctWindow::~ctWindow()
 {
     qDebug()<<"Destroy Window";
-    delete m_device;
-    //delete m_input;
-    delete m_context;
-    delete m_shaderManager;
     delete m_scene;
+    delete m_shaderManager;
+    delete m_context;
+    delete m_device;
+    delete m_input;
+
+
 }
 
 bool ctWindow::event(QEvent *event)

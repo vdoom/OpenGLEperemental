@@ -28,6 +28,15 @@ ctScene::~ctScene()
         }
         m_components->remove(0, m_components->count() - 1);
     }
+    if(m_objects)
+    {
+        QVector<ctObject*>::iterator itor;
+        for(itor = m_objects->begin(); itor != m_objects->end(); ++itor)
+        {
+            delete (*itor);
+        }
+        m_objects->remove(0, m_objects->count() - 1);
+    }
     //TODO: NEED DESTROY OBJECTS
 }
 

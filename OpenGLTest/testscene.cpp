@@ -66,7 +66,7 @@ void testScene::Init()
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
-    //AddObject(m_plane);
+    AddObject(m_plane);
     AddComponnent(m_timer);
     //AddObject(m_timer);
     //AddObject(m_plane2);
