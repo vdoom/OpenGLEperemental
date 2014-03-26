@@ -8,20 +8,22 @@
 class ctTimer : public ctEntity
 {
 private:
-    //ctDelegat * m_delegat;
     ctFastDelegat m_delegat;
     quint64 m_startTime;
     quint64 m_lifeTime;
     bool m_isAlive;
+    bool m_isCyclic;
 public:
     ctTimer();
+    ~ctTimer(){qDebug()<<"TimerDestroyed";}
 
     virtual void Update();
     virtual void Draw();
     virtual void Init();
 
-    void SetTimer(quint64 t_lifetime);
+    void SetTimer(quint64 t_lifetime, bool t_isCyclic = false);
     ctFastDelegat* GetDelegat();// const;
+    void StopTimer();
 };
 
 #endif // CTTIMER_H

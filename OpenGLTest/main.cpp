@@ -251,15 +251,15 @@ public:
     ccc():qq(32){}
     virtual void eee()
     {
-        qDebug()<<"ff";
+        qDebug()<<"ff1111111";
     }
     /*virtual*/void ggg() // is can be virtual
     {
-        qDebug()<<"dfdfdf "<<qq;
+        qDebug()<<"dfdfdf22222 "<<qq;
     }
     void ddd(int i)
     {
-        qDebug()<<"FustDelegat"<<i;
+        qDebug()<<"FustDelegat3333"<<i;
     }
 };
 void (ttt)()
@@ -290,7 +290,7 @@ ctDelegat* tt;
 
     m_testWindow.setFormat(format);
 
-    m_testWindow.resize(640,480);
+    m_testWindow.resize(50,50);
     m_testWindow.show();
 
     //tt.delegat = ttt;
@@ -308,10 +308,13 @@ ctDelegat* tt;
     //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
     tt->Call();
 
-    ctFastDelegat test_delegate;
-    test_delegate.Connect( ee, &ccc::ddd );
+    //ctFastDelegat test_delegate;
+    //test_delegate.AppendConnect(ee, &ccc::eee);
+    //test_delegate.AppendConnect(ee, &ccc::ggg);
+    //test_delegate.Connect( ee, &ccc::ddd );
     int ww = 2;
-    test_delegate(ww);
+    //test_delegate.Call();
+    //test_delegate(ww);
 
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);

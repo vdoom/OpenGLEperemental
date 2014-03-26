@@ -37,8 +37,8 @@ void testScene::Init()
     m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     m_plane = new ctClickablePlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
     m_timer = new ctTimer();
-    m_timer->SetTimer(10000);
-    m_timer->GetDelegat()->Connect(this, &testScene::TimerTest);
+    m_timer->SetTimer(5000, true);
+    m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
     m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
     m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");

@@ -123,15 +123,17 @@ private:
 public:
 
     ctFastDelegat() : m_container( 0 )
-    {}
+    {
+        m_containers = 0;
+    }
 
     ~ctFastDelegat()
     {
-        //qDebug()<<"TryDestroy";
+        qDebug()<<"TryDestroyDelegat";
         if( m_container )
             delete m_container;
 
-        if(m_containers)
+        if(m_containers && m_containers->count() > 0)
         {
             QList<IContainer*>::iterator iter;
 
@@ -179,6 +181,20 @@ public:
         delete t_args;
     }
 
+   template< class T1 > void Call( T1 i_arg1 )
+    {
+        if(m_containers)
+        {
+            Arguments<T1>* t_args = new Arguments<T1>(i_arg1);
+            QList<IContainer*>::iterator m_iterator;
+            for(m_iterator = m_containers->begin(); m_iterator != m_containers->end(); ++m_iterator)
+            {
+                (*m_iterator)->Call(t_args);
+            }
+            delete t_args;
+        }
+    }
+
     template< class T1 > void operator()( T1 i_arg1 )
     {
         Arguments<T1>* t_args = new Arguments< T1 >( i_arg1 );
@@ -186,9 +202,32 @@ public:
         delete t_args;
     }
 
+    template< class T1, class T2 >  void Call( T1 i_arg1, T2 i_arg2 )
+     {
+         if(m_containers)
+         {
+             Arguments< T1, T2 >* t_args = new Arguments< T1, T2 >( i_arg1, i_arg2 );
+             QList<IContainer*>::iterator m_iterator;
+             for(m_iterator = m_containers->begin(); m_iterator != m_containers->end(); ++m_iterator)
+             {
+                 (*m_iterator)->Call(t_args);
+             }
+             delete t_args;
+         }
+     }
+
     template< class T1, class T2 > void operator()( T1 i_arg1, T2 i_arg2 )
     {
-        m_container->Call( & Arguments< T1, T2 >( i_arg1, i_arg2 ) );
+        Arguments< T1, T2 >* t_args = new Arguments< T1, T2 >( i_arg1, i_arg2 );
+        m_container->Call(t_args);
+        delete t_args;
+    }
+
+    bool IsHasActions()
+    {
+        if(m_containers && m_containers->count() > 0) return true;
+
+        return false;
     }
 };
 

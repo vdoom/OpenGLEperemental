@@ -18,6 +18,16 @@ ctScene::ctScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLCon
 
 ctScene::~ctScene()
 {
+    qDebug()<<"DestroyScene";
+    if(m_components)
+    {
+        QVector<ctEntity*>::iterator itor;
+        for(itor = m_components->begin(); itor != m_components->end(); ++itor)
+        {
+            delete (*itor);
+        }
+        m_components->remove(0, m_components->count() - 1);
+    }
     //TODO: NEED DESTROY OBJECTS
 }
 

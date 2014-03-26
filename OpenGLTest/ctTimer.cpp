@@ -16,9 +16,16 @@ void ctTimer::Update()
         {
             if(true)
             {
-                m_delegat();
+                m_delegat.Call();//m_delegat();
             }
-            m_isAlive = false;
+            if(m_isCyclic)
+            {
+                m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
+            }
+            else
+            {
+                m_isAlive = false;
+            }
         }
     }
 }
@@ -26,14 +33,20 @@ void ctTimer::Update()
 void ctTimer::Init()
 {}
 
-void ctTimer::SetTimer(quint64 t_lifetime)
+void ctTimer::SetTimer(quint64 t_lifetime, bool t_isCyclic)
 {
     m_lifeTime = t_lifetime;
     m_isAlive = true;
     m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
+    m_isCyclic = t_isCyclic;
 }
 
 ctFastDelegat* ctTimer::GetDelegat()
 {
     return &m_delegat;
+}
+
+void ctTimer::StopTimer()
+{
+    m_isAlive = false;
 }
