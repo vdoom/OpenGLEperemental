@@ -33,6 +33,7 @@ public:
     void SetName(QString t_newName);
     QUuid GetUuid() const;
     bool IsFreezable() const;
+    void SetIsFreezable(bool);
     bool IsFreezed() const;
     bool IsVisible() const;
     bool IsIgnoreParentVisibility();

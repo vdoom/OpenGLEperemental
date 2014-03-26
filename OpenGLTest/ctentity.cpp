@@ -81,3 +81,8 @@ ctEntity* ctEntity::Clone()
     //tmpEntity->SetName(m_name + QString("_clone"));
     return this;
 }
+
+void ctEntity::SetIsFreezable(bool t_isFreezable)
+{
+    m_isFreezable = t_isFreezable;
+}

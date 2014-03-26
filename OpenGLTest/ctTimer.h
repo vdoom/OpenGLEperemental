@@ -11,6 +11,7 @@ private:
     ctFastDelegat m_delegat;
     quint64 m_startTime;
     quint64 m_lifeTime;
+    quint64 m_counter;
     bool m_isAlive;
     bool m_isCyclic;
 public:

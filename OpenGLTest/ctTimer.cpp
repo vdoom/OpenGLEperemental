@@ -12,15 +12,25 @@ void ctTimer::Update()
 {
     if(m_isAlive)
     {
-        if( (m_startTime + m_lifeTime) < ctTime::GetTime()->GetMiliSecsSinceEpoch() )
+        //TODO: NEED TEST FOR FREEZ UNFREEZ
+        //-------------------------------------------------------------------------------------------------
+        if(!IsFreezable || !IsFreezed())
         {
-            if(true)
+            if(m_counter > ctTime::GetTime()->GetDeltaTime()) m_counter -= ctTime::GetTime()->GetDeltaTime();
+            else m_counter = 0;
+        }
+        //-------------------------------------------------------------------------------------------------
+
+        if( m_counter <= 0)//(m_startTime + m_lifeTime) < ctTime::GetTime()->GetMiliSecsSinceEpoch() )
+        {
+            if(m_delegat.IsHasActions())
             {
-                m_delegat.Call();//m_delegat();
+                m_delegat.Call();
             }
             if(m_isCyclic)
             {
-                m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
+                m_counter = m_lifeTime;
+                //m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
             }
             else
             {
@@ -33,9 +43,10 @@ void ctTimer::Update()
 void ctTimer::Init()
 {}
 
-void ctTimer::SetTimer(quint64 t_lifetime, bool t_isCyclic)
+void ctTimer::SetTimer(quint64 t_lifeTime, bool t_isCyclic)
 {
-    m_lifeTime = t_lifetime;
+    m_lifeTime = t_lifeTime;
+    m_counter = m_lifeTime;
     m_isAlive = true;
     m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
     m_isCyclic = t_isCyclic;
