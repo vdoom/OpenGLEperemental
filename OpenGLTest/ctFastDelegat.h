@@ -1,7 +1,10 @@
 #ifndef CTFASTDELEGAT_H
 #define CTFASTDELEGAT_H
 #include "QDebug"
+#include <QList>
 //  Контейнер для хранения до 2-х аргументов.
+//class QList;
+
 struct NIL {};
 
 class IArguments
@@ -103,38 +106,73 @@ private:
 //  Собственно делегат.
 class ctFastDelegat
 {
-
+    //TODO: NEED CHECK FOR MEMMORY LEAKS!!!
 private:
-  //TODO: NEED REFINE FOR LIST OF CONTAINERS
-  IContainer* m_container;
-
+    //TODO: NEED REMOVE OLD ONE CONTAINER
+    IContainer* m_container;
+    QList<IContainer*>* m_containers;
 public:
 
-  ctFastDelegat() : m_container( 0 ) {}
-  ~ctFastDelegat() { if( m_container ) delete m_container; }
+    ctFastDelegat() : m_container( 0 )
+    {}
 
-  template< class T, class U > void Connect( T* i_class, U i_method )
-  {
-    if( m_container ) delete m_container;
-    m_container = new Container< T, U >( i_class, i_method );
-  }
+    ~ctFastDelegat()
+    {
+        if( m_container )
+            delete m_container;
 
-  void operator()()
-  {
-      Arguments<>* t_args = new Arguments<>();
-    m_container->Call( t_args);
-  }
+        if(m_containers)
+        {
+            m_containers->erase(m_containers->begin(), m_containers->end());
+            delete m_containers;
+        }
+    }
 
-  template< class T1 > void operator()( T1 i_arg1 )
-  {
-      Arguments<T1>* t_args = new Arguments< T1 >( i_arg1 );
-    m_container->Call(t_args  );
-  }
+    template< class T, class U > void Connect( T* i_class, U i_method )
+    {
+        if( m_container ) delete m_container;
+        m_container = new Container< T, U >( i_class, i_method );
+    }
 
-  template< class T1, class T2 > void operator()( T1 i_arg1, T2 i_arg2 )
-  {
-    m_container->Call( & Arguments< T1, T2 >( i_arg1, i_arg2 ) );
-  }
+    template< class T, class U > void AppendConnect(T* i_class, U i_method)
+    {
+        if(!m_containers) {m_containers = new QList<IContainer*>();}
+
+        m_containers->append(new Container<T, U>(i_class, i_method));
+    }
+
+    void Call()
+    {
+        if(m_containers)
+        {
+            Arguments<>* t_args = new Arguments<>();
+            QList<IContainer*>::iterator m_iterator;
+            for(m_iterator = m_containers->begin(); m_iterator != m_containers->end(); ++m_iterator)
+            {
+                (*m_iterator)->Call(t_args);
+            }
+            delete t_args;
+        }
+    }
+
+    void operator()()
+    {
+        Arguments<>* t_args = new Arguments<>();
+        m_container->Call(t_args);
+        delete t_args;
+    }
+
+    template< class T1 > void operator()( T1 i_arg1 )
+    {
+        Arguments<T1>* t_args = new Arguments< T1 >( i_arg1 );
+        m_container->Call(t_args);
+        delete t_args;
+    }
+
+    template< class T1, class T2 > void operator()( T1 i_arg1, T2 i_arg2 )
+    {
+        m_container->Call( & Arguments< T1, T2 >( i_arg1, i_arg2 ) );
+    }
 };
 
 #endif // CTFASTDELEGAT_H
