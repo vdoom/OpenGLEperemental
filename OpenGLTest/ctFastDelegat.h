@@ -32,6 +32,7 @@ class IContainer
 {
 public:
     virtual void Call( IArguments* ) = 0;
+    virtual ~IContainer(){}
 };
 
 template< class T, class M > class Container : public IContainer
@@ -48,6 +49,9 @@ public:
     {}
     Container( T* c, M m ) : m_class( c ), m_method( m )
     {}
+
+    virtual ~Container(){}
+
     virtual void Call( IArguments* i_args )
     {
       (m_class->*m_method)();
@@ -78,6 +82,8 @@ private:
 public:
     Container( T* c, M m ) : m_class( c ), m_method( m )
     {}
+    virtual ~Container(){}
+
     virtual void Call( IArguments* i_args )
     {
         A* a = dynamic_cast< A* >( i_args );
@@ -94,7 +100,10 @@ private:
     typedef Arguments<A1,A2> A;
     T* m_class; M m_method;
   public:
-    Container( T* c, M m ) : m_class( c ), m_method( m ) {}
+    Container( T* c, M m ) : m_class( c ), m_method( m )
+    {}
+    virtual ~Container(){}
+
     virtual void Call( IArguments* i_args )
     {
         A* a = dynamic_cast< A* >( i_args );
@@ -118,11 +127,19 @@ public:
 
     ~ctFastDelegat()
     {
+        //qDebug()<<"TryDestroy";
         if( m_container )
             delete m_container;
 
         if(m_containers)
         {
+            QList<IContainer*>::iterator iter;
+
+            for(iter = m_containers->begin(); iter != m_containers->end(); ++iter)
+            {
+                delete (*iter);
+            }
+
             m_containers->erase(m_containers->begin(), m_containers->end());
             delete m_containers;
         }
