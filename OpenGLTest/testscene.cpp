@@ -10,7 +10,6 @@
 #include <QDesktopWidget>
 
 #define Input GetWindow()->GetInput()->GetInputHelper()
-#define Time ctTime::GetTime()
 
 testScene::testScene()
 {
@@ -37,6 +36,9 @@ void testScene::Init()
     SetDefault(GetShaderManager(), 0, GetOpenGLContext());
     m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     m_plane = new ctClickablePlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
+    m_timer = new ctTimer();
+    m_timer->SetTimer(10000);
+    m_timer->GetDelegat()->Connect(this, &testScene::TimerTest);
     m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
     m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
@@ -60,12 +62,19 @@ void testScene::Init()
     glEnable(GL_DEPTH_TEST);
 
     glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
-    if(!Time)
+    if(! ctTime::GetTime())//Time)
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
-    AddObject(m_plane);
+    //AddObject(m_plane);
+    AddComponnent(m_timer);
+    //AddObject(m_timer);
     //AddObject(m_plane2);
+}
+
+void testScene::TimerTest()
+{
+    qDebug()<<"TimerTested";
 }
 
 void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
@@ -91,7 +100,7 @@ void testScene::BeginDraw()
     //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++frameCounter;
-    if(msecsCounter<1000)msecsCounter += Time->GetDeltaTime();
+    if(msecsCounter<1000)msecsCounter += ctTime::GetTime()->GetDeltaTime();
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
 
     //DrawText(QPointF(30,30), QString::number(m_lastFPS));
@@ -122,7 +131,7 @@ void testScene::EndDraw()
     ctScene::EndDraw();
     m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
-    Time->Update();
+    ctTime::GetTime()->Update();
 
     GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
     GetWindow()->DrawText(QPointF(30, 60), m_isClicked);

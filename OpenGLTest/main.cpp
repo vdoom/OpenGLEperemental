@@ -286,12 +286,12 @@ ctDelegat* tt;
 
     //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
 
-    //testAppWindow m_testWindow(&app);
+    testAppWindow m_testWindow(&app);
 
-    //m_testWindow.setFormat(format);
+    m_testWindow.setFormat(format);
 
-    //m_testWindow.resize(640,480);
-    //m_testWindow.show();
+    m_testWindow.resize(640,480);
+    m_testWindow.show();
 
     //tt.delegat = ttt;
 

@@ -1,6 +1,7 @@
 #ifndef TESTSCENE_H
 #define TESTSCENE_H
 #include "ctScene.h"
+#include "ctTimer.h"
 
 class ctPlane;
 
@@ -13,6 +14,7 @@ private:
     int msecsCounter;
     ctPlane * m_plane;
     ctPlane * m_plane2;
+    ctTimer * m_timer;
     QString m_isClicked;
 
     bool dragMode;
@@ -31,6 +33,8 @@ public:
     virtual void EndDraw();
 
     virtual void Update();
+
+    void TimerTest();
 };
 
 #endif // TESTSCENE_H

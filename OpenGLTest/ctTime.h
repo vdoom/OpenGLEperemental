@@ -3,6 +3,9 @@
 
 #include <QDateTime>
 #include <QString>
+
+//#define Time ctTime::GetTime()
+
 class ctTime
 {
 private:

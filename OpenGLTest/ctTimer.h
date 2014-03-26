@@ -9,9 +9,10 @@ class ctTimer : public ctEntity
 {
 private:
     //ctDelegat * m_delegat;
-    ctFastDelegat* m_delegat;
+    ctFastDelegat m_delegat;
     quint64 m_startTime;
     quint64 m_lifeTime;
+    bool m_isAlive;
 public:
     ctTimer();
 
@@ -20,7 +21,7 @@ public:
     virtual void Init();
 
     void SetTimer(quint64 t_lifetime);
-    ctFastDelegat* GetDelegat() const;
+    ctFastDelegat* GetDelegat();// const;
 };
 
 #endif // CTTIMER_H
