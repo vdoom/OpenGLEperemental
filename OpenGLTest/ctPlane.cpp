@@ -399,3 +399,11 @@ ctEntity* ctPlane::Clone()
 
     return (ctEntity*)tmp;
 }
+
+void ctPlane::SetTexture(ctTexture *t_texture)
+{
+    if(m_texture)
+    {delete m_texture;}
+
+    m_texture = t_texture;
+}

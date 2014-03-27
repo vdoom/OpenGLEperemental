@@ -61,6 +61,7 @@ public:
     void DrawTextured(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
+    void SetTexture(ctTexture* t_texture);
 
     //----Overload-functions----
     virtual void Update();
