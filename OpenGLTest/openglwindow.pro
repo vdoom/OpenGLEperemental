@@ -8,6 +8,7 @@ target.path = $$[QT_INSTALL_EXAMPLES]/gui/openglwindow
 INSTALLS += target
 
 QT += opengl
+QT += core
 
 HEADERS += \
     ctLoger.h

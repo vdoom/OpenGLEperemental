@@ -1,0 +1,84 @@
+#include "ctTexture.h"
+#include <QFile>
+#include <QImage>
+
+ctTexture::ctTexture() : m_textureIndex(0), m_width(0), m_height(0)
+{
+}
+
+ctTexture::~ctTexture()
+{
+    if(m_textureIndex > 0)
+        glDeleteTextures(1, &m_textureIndex);
+}
+
+void ctTexture::Load()
+{
+}
+
+void ctTexture::LoadImageToTexture(const char *fileName, const char *fileFormat)
+{
+    QString strFileName(fileName);
+
+    QFile tmp(strFileName);
+    if(tmp.exists())
+    {
+        qDebug()<<"Texture: "<< strFileName<< " finded";
+    }
+    else
+    {
+        qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
+    }
+    //QString strFileFormat(fileFormat);
+    QImage * image = new QImage(strFileName);//, fileFormat);
+
+    m_width = image->width();
+    m_height = imgae->height();
+
+    uint8_t   *buffer;
+    //uint32_t  size;
+    GLint     format, internalFormat;
+    GLuint    texture;
+
+    buffer = new uint8_t[image->byteCount()];
+
+
+    format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+    internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
+
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
+            GL_UNSIGNED_BYTE, (const GLvoid*)(image->bits()));
+
+    delete[] buffer;
+
+    delete image;
+
+    m_textureIndex = texture;
+    //return texture;
+}
+
+GLuint ctTexture::GetTextureIndex() const
+{
+    return m_textureIndex;
+}
+
+int ctTexture::GetHeight() const
+{
+    return m_height;
+}
+
+int ctTexture::GetWidth() const
+{
+    return m_width;
+}
+
