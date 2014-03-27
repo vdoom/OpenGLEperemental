@@ -31,13 +31,14 @@ ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLCo
 ctPlane::~ctPlane()
 {
     //UNDONE: NEED COMPLETE DESTRUSTION
-    qDebug()<<"ctPlane Destroyed\n";
+    qDebug()<<"ctPlane Destroyed";
 
     GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
-    glDeleteTextures(1, &textureIndex);
+    //glDeleteTextures(1, &textureIndex);
     delete[] planePositions;
     delete[] planeIndexes;
     delete[] planeTextureCoords;
+    if(m_texture) delete m_texture;
 }
 
 void ctPlane::GenerateCompleteBuffer()
@@ -112,16 +113,18 @@ GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 
 void ctPlane::SetTexture(const char* t_textureFileName)
 {
-    textureIndex = CreateTexture(t_textureFileName);
+    if(!m_texture) m_texture = new ctTexture(t_textureFileName);
 
-    if (!textureIndex)
+    //textureIndex = m_texture->GetTextureIndex();//CreateTexture(t_textureFileName);
+
+    if (!m_texture->GetTextureIndex())
     {
         qDebug()<<"BadTextureIndex";
         return;
     }
 
     GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureIndex);
+    glBindTexture(GL_TEXTURE_2D, m_texture->GetTextureIndex());
 }
 
 // TODO: Refine To QVector4D for using Alpha
@@ -255,7 +258,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 {
     GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
     //glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, textureIndex);
+    glBindTexture(GL_TEXTURE_2D, m_texture->GetTextureIndex());
     const int positionsOffset = 12 * sizeof(float);
 
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
@@ -370,7 +373,8 @@ void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
 {
     ctObject::SetDefault(t_shaderManager, t_scene, t_OpenGLContex);
     meshVBO = 0;
-    textureIndex = 0;
+    //textureIndex = 0;
+    m_texture = 0;
 }
 
 ctEntity* ctPlane::Clone()
@@ -389,7 +393,7 @@ ctEntity* ctPlane::Clone()
     tmp->textureLocation = textureLocation;
     tmp->matrixUniform = matrixUniform;
     tmp->transformMatrixUniform = transformMatrixUniform;
-    tmp->textureIndex = textureIndex;
+    //tmp->textureIndex = textureIndex;
     tmp->meshVBO = meshVBO;
 
 

@@ -1,13 +1,20 @@
 #include "ctTexture.h"
 #include <QFile>
 #include <QImage>
+#include <QDebug>
 
 ctTexture::ctTexture() : m_textureIndex(0), m_width(0), m_height(0)
 {
 }
 
+ctTexture::ctTexture(const char *t_fileName, const char *t_fileFormat)
+{
+    LoadImageToTexture(t_fileName, t_fileFormat);
+}
+
 ctTexture::~ctTexture()
 {
+    qDebug()<<"DestroyTexture";
     if(m_textureIndex > 0)
         glDeleteTextures(1, &m_textureIndex);
 }
@@ -16,9 +23,12 @@ void ctTexture::Load()
 {
 }
 
-void ctTexture::LoadImageToTexture(const char *fileName, const char *fileFormat)
+void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFormat)
 {
-    QString strFileName(fileName);
+    if(m_textureIndex > 0)
+        glDeleteTextures(1, &m_textureIndex);
+
+    QString strFileName(t_fileName);
 
     QFile tmp(strFileName);
     if(tmp.exists())
@@ -33,7 +43,7 @@ void ctTexture::LoadImageToTexture(const char *fileName, const char *fileFormat)
     QImage * image = new QImage(strFileName);//, fileFormat);
 
     m_width = image->width();
-    m_height = imgae->height();
+    m_height = image->height();
 
     uint8_t   *buffer;
     //uint32_t  size;

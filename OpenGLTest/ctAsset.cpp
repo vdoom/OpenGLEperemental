@@ -3,3 +3,6 @@
 ctAsset::ctAsset()
 {
 }
+
+ctAsset::~ctAsset()
+{}

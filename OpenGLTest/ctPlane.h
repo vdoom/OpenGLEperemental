@@ -7,6 +7,7 @@
 #include "shadermanager.h"
 #include <QtGui/QOpenGLFunctions>
 #include "ctTransform.h"
+#include "ctTexture.h"
 
 class ctPlane : public ctObject
 {
@@ -28,12 +29,13 @@ private:
     GLuint textureLocation;
     GLuint matrixUniform;
     GLuint transformMatrixUniform;
-    GLuint textureIndex;
+    //GLuint textureIndex;
     GLuint meshVBO;
     float* planePositions;
     uint32_t* planeIndexes;
     float* planeTextureCoords;
     float* planeColor;
+    ctTexture* m_texture;
     void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
     void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
 protected:
