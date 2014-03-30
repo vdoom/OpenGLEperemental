@@ -32,7 +32,7 @@ private:
     //GLuint textureIndex;
     GLuint meshVBO;
     float* planePositions;
-    uint32_t* planeIndexes;
+    unsigned short* planeIndexes;
     float* planeTextureCoords;
     float* planeColor;
     ctTexture* m_texture;

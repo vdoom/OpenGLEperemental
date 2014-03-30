@@ -2,6 +2,11 @@
 #define CTDELEGAT_H
 
 
+struct DVoid
+{
+    void *tmp1;
+    void *tmp2;
+};
 
 class ctDelegat
 {
@@ -9,8 +14,13 @@ private:
     void (ctDelegat::*delegat)();
     ctDelegat * caller;
 public:
+    union
+    {
+        DVoid tmp;
+        void (ctDelegat::*eee) (void);
+    } u;
     ctDelegat();
-    ctDelegat(void *t_caller, void (ctDelegat::*eee)());
+    ctDelegat(void *t_caller, DVoid t_delegat);
 
     virtual void eee();
     void Call();

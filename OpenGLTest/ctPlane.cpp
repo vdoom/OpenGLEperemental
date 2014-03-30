@@ -161,7 +161,7 @@ void ctPlane::SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB)
     planePositions[11] = t_BB.z();
 
     //SetupIndexes
-    planeIndexes = new uint32_t[6];
+    planeIndexes = new unsigned short[6];
 
     planeIndexes[0] = 2;
     planeIndexes[1] = 1;
@@ -285,7 +285,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
     m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, planeIndexes);
 
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
 

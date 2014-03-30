@@ -274,12 +274,12 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-ctDelegat* tt;
+//ctDelegat* tt;
     QResource::registerResource("res.rcc");
 
     QSurfaceFormat format;
-    format.setSamples(16);
-    format.setDepthBufferSize(24);
+    //format.setSamples(16);
+    //format.setDepthBufferSize(24);
     //format.setStereo(true);
 
     //QDesktopWidget *desk = QApplication::desktop();
@@ -288,15 +288,16 @@ ctDelegat* tt;
 
     testAppWindow m_testWindow(&app);
 
-    m_testWindow.setFormat(format);
+    //m_testWindow.setFormat(format);
 
-    m_testWindow.resize(50,50);
+    m_testWindow.resize(480, 854);
+   // m_testWindow.resize(1024,768);
     m_testWindow.show();
 
     //tt.delegat = ttt;
 
-    ccc * ee = new ccc();
-    tt = new ctDelegat(ee, reinterpret_cast<eee>(&ccc::ggg));
+   // ccc * ee = new ccc();
+   // tt = new ctDelegat(ee, reinterpret_cast<eee>(&ccc::ggg));
 
     //ctFastDelegat d = ctFastDelegat::from_method< ccc, &ccc::ddd >(&ee);
     //qDebug()<<sizeof(&ccc::ggg);
@@ -306,13 +307,13 @@ ctDelegat* tt;
     //tt.caller = ee;
 
     //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
-    tt->Call();
+    //tt->Call();
 
     //ctFastDelegat test_delegate;
     //test_delegate.AppendConnect(ee, &ccc::eee);
     //test_delegate.AppendConnect(ee, &ccc::ggg);
     //test_delegate.Connect( ee, &ccc::ddd );
-    int ww = 2;
+   // int ww = 2;
     //test_delegate.Call();
     //test_delegate(ww);
 

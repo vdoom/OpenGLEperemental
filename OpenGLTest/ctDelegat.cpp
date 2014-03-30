@@ -7,11 +7,13 @@ ctDelegat::ctDelegat()
 {
 }
 
-ctDelegat::ctDelegat(void *t_caller, void (ctDelegat::*eee)())
+ctDelegat::ctDelegat(void *t_caller, DVoid t_delegat)
 {
-    //typedef void (ctDelegat::*eee) (void);
+    typedef void (ctDelegat::*eee) (void);
     caller = reinterpret_cast<ctDelegat *>(t_caller);
-    delegat = eee;//reinterpret_cast< eee >(eee);
+    u.tmp = t_delegat;
+    delegat = u.eee;
+    //delegat = reinterpret_cast< eee >(t_delegat);
 }
 
 void ctDelegat::Call()
