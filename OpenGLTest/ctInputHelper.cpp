@@ -132,8 +132,10 @@ QList<QTouchEvent::TouchPoint> ctInputHelper::GetTouches() const
 // tmp.setX(tmp.x() - (GetWindow()->GetWidth()/2));
 QVector2D ctInputHelper::GetMousePos2D() const
 {
-    return QVector2D((m_mousePos.x() * m_input->GetWindow()->GetDevicePixelRatioCoff()) - m_input->GetWindow()->GetWidth() / 2,
-                     m_mousePos.y() * m_input->GetWindow()->GetDevicePixelRatioCoff() - m_input->GetWindow()->GetHeight() / 2);
+    return QVector2D(m_mousePos.x() - ((m_input->GetWindow()->GetWidth() / m_input->GetWindow()->GetDevicePixelRatioCoff())  / 2),
+                    m_mousePos.y() - ((m_input->GetWindow()->GetHeight() / m_input->GetWindow()->GetDevicePixelRatioCoff()) / 2));
+    //return QVector2D((m_mousePos.x() * m_input->GetWindow()->GetDevicePixelRatioCoff()) - m_input->GetWindow()->GetWidth() / 2,
+    //                 m_mousePos.y() * m_input->GetWindow()->GetDevicePixelRatioCoff() - m_input->GetWindow()->GetHeight() / 2);
 }
 
 QVector3D ctInputHelper::GetMousePos3D() //const
