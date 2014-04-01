@@ -4,6 +4,8 @@ SOURCES += \
     main.cpp \
     ctLoger.cpp
 
+TARGET = dreamgymf2p
+
 target.path = $$[QT_INSTALL_EXAMPLES]/gui/openglwindow
 INSTALLS += target
 

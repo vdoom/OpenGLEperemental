@@ -11,6 +11,7 @@ private:
     GLuint m_textureIndex;
     QOpenGLContext * m_OpenGLcontext;
     void LoadImageToTexture(const char *t_fileName, const char *t_fileFormat = 0);
+    virtual void SetDefault();
 public:
     ctTexture();
     ctTexture(const char * t_fileName, const char * t_fileFormat = 0);
