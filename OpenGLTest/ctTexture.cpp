@@ -92,3 +92,7 @@ int ctTexture::GetWidth() const
     return m_width;
 }
 
+void ctTexture::SetDefault()
+{
+    m_type = ctAsset::AT_TEXTURE;
+}

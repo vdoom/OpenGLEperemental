@@ -55,6 +55,12 @@ void testScene::Init()
     //m_plane->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
     //m_plane2->GetTransform()->SetParent(m_plane->GetTransform());
     //m_plane2->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
+    ctObject* rootTransform = new ctObject();
+    rootTransform->GetTransform()->Move(QVector3D(0,0,0));
+    double scale = GetWindow()->GetDevicePixelRatioCoff();
+	m_plane->GetTransform()->Scale(QVector3D(1,1,1));
+    m_plane->GetTransform()->SetParent(rootTransform->GetTransform());
+    rootTransform->GetTransform()->Scale(QVector3D(scale,scale,scale));
 
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -66,7 +72,9 @@ void testScene::Init()
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
+
     AddObject(m_plane);
+    AddObject(rootTransform);
     AddComponnent(m_timer);
     //AddObject(m_timer);
     //AddObject(m_plane2);

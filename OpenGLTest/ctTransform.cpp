@@ -149,11 +149,11 @@ void ctTransform::SetParent(const ctTransform * t_parent)
 {
     m_parent = const_cast<ctTransform*>(t_parent);
 
-    ctMatrix4 tmp(m_parent->GetGlobalTransformMatrix().GetMatrix()); //= m_parent->GetGlobalTransformMatrix().Inverted();
-    ctMatrix4 tmp2(m_localTransform.GetMatrix());
-    tmp = tmp.Inverted();
-    tmp2.Multiply(tmp);
-    m_localTransform.Multiply(tmp2);
+    //ctMatrix4 tmp(m_parent->GetGlobalTransformMatrix().GetMatrix()); //= m_parent->GetGlobalTransformMatrix().Inverted();
+    //ctMatrix4 tmp2(m_localTransform.GetMatrix());
+    //tmp = tmp.Inverted();
+    //tmp2.Multiply(tmp);
+    //m_localTransform.Multiply(tmp2);
     //tmp2 = tmp2.Inverted();
     //tmp.Multiply(tmp2);
     //m_localTransform.Multiply(tmp);

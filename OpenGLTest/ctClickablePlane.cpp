@@ -100,7 +100,7 @@ void ctClickablePlane::GenerateVBOforRect()
         GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBOlines);
     }
     ctRect m_drawingRect;
-    m_drawingRect = GetTransform()->GetGlobalTransformMatrix() * m_rect;
+    m_drawingRect = GetTransform()->GetLocalTransformMatrix() * m_rect;
 
     GLfloat * completeBuffer = new GLfloat[12];
     completeBuffer[0] = m_drawingRect.GetTopLeft().x();
