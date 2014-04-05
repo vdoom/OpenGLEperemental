@@ -18,7 +18,7 @@ public:
     {
         MB_LEFT         = 0,
         MB_MIDDLE       = 1,
-        MB_RIGHT        = 2
+       // MB_RIGHTt        = 2
     };
     enum mouseButtonState
     {

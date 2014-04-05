@@ -35,10 +35,10 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
             {
                 m_mouseButtons[MB_LEFT] = MBS_PUSH;
             }
-            if((tmp->button() & Qt::RightButton) || (tmp->buttons() & Qt::RightButton))
-            {
-                m_mouseButtons[MB_RIGHT] = MBS_PUSH;
-            }
+//            if((tmp->button() & Qt::RightButton) || (tmp->buttons() & Qt::RightButton))
+//            {
+//                m_mouseButtons[MB_RIGHT] = MBS_PUSH;
+//            }
             m_mousePos.setX(tmp->x());
             m_mousePos.setY(tmp->y());
             break;//return true;
@@ -50,10 +50,10 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
             {
                 m_mouseButtons[MB_LEFT] = MBS_RELEASE;
             }
-            if((tmp->button() & Qt::RightButton) || (tmp->buttons() & Qt::RightButton))
-            {
-                m_mouseButtons[MB_RIGHT] = MBS_RELEASE;
-            }
+//            if((tmp->button() & Qt::RightButton) || (tmp->buttons() & Qt::RightButton))
+//            {
+//                m_mouseButtons[MB_RIGHT] = MBS_RELEASE;
+//            }
             m_mousePos.setX(tmp->x());
             m_mousePos.setY(tmp->y());
             break;//return true;
@@ -102,22 +102,22 @@ bool ctInputHelper::IsMouseLeftButtonNoneActive() const
 
 bool ctInputHelper::IsMouseRightButtonPressNhold() const
 {
-    return GetMouseButtonState(MB_RIGHT, MBS_PRESS_N_HOLD);
+    return false;//GetMouseButtonState(MB_RIGHT, MBS_PRESS_N_HOLD);
 }
 
 bool ctInputHelper::IsMouseRightButtonPush() const
 {
-    return GetMouseButtonState(MB_RIGHT, MBS_PUSH);
+    return false;//GetMouseButtonState(MB_RIGHT, MBS_PUSH);
 }
 
 bool ctInputHelper::IsMouseRightButtonRelease() const
 {
-    return GetMouseButtonState(MB_RIGHT, MBS_RELEASE);
+    return false;//GetMouseButtonState(MB_RIGHT, MBS_RELEASE);
 }
 
 bool ctInputHelper::IsMouseRightButtonNoneActive() const
 {
-    return GetMouseButtonState(MB_RIGHT, MBS_NONE);
+    return false;//GetMouseButtonState(MB_RIGHT, MBS_NONE);
 }
 
 bool ctInputHelper::GetMouseButtonState(int t_button, int t_state) const

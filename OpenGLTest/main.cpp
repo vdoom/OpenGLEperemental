@@ -243,32 +243,6 @@ void ShowMatrix(QMatrix4x4 t_mat)
 //    ++m_frame;
 //    ctTime::GetTime()->Update();
 //}
-class ccc : ctDelegat
-{
-private:
-    int qq;
-public:
-    ccc():qq(32){}
-    virtual void eee()
-    {
-        qDebug()<<"ff1111111";
-    }
-    /*virtual*/void ggg() // is can be virtual
-    {
-        qDebug()<<"dfdfdf22222 "<<qq;
-    }
-    void ddd(int i)
-    {
-        qDebug()<<"FustDelegat3333"<<i;
-    }
-};
-void (ttt)()
-{
-    qDebug()<<"ffffff";
-}
-
-//typedef void (SomeClass::*SomeClassFunction) (void);
-typedef void (ctDelegat::*eee) (void);
 
 int main(int argc, char **argv)
 {
@@ -276,7 +250,6 @@ int main(int argc, char **argv)
 
 //ctDelegat* tt;
     QResource::registerResource("res.rcc");
-
     QSurfaceFormat format;
     //format.setSamples(16);
     //format.setDepthBufferSize(24);
@@ -293,29 +266,6 @@ int main(int argc, char **argv)
     m_testWindow.resize(480, 854);
    // m_testWindow.resize(1024,768);
     m_testWindow.show();
-
-    //tt.delegat = ttt;
-
-   // ccc * ee = new ccc();
-   // tt = new ctDelegat(ee, reinterpret_cast<eee>(&ccc::ggg));
-
-    //ctFastDelegat d = ctFastDelegat::from_method< ccc, &ccc::ddd >(&ee);
-    //qDebug()<<sizeof(&ccc::ggg);
-    //qDebug()<<sizeof(ee);
-    //qDebug()<<sizeof(quint64);
-    //tt.SetCaller(reinterpret_cast<ctDelegat *>(ee));
-    //tt.caller = ee;
-
-    //tt.delegat = reinterpret_cast<eee>(&ccc::ggg);//(*ttt)(){qDebug()<<"ffff";}
-    //tt->Call();
-
-    //ctFastDelegat test_delegate;
-    //test_delegate.AppendConnect(ee, &ccc::eee);
-    //test_delegate.AppendConnect(ee, &ccc::ggg);
-    //test_delegate.Connect( ee, &ccc::ddd );
-   // int ww = 2;
-    //test_delegate.Call();
-    //test_delegate(ww);
 
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);
