@@ -263,8 +263,11 @@ int main(int argc, char **argv)
 
     //m_testWindow.setFormat(format);
 
-    m_testWindow.resize(480, 854);
-   // m_testWindow.resize(1024,768);
+    m_testWindow.SetResolution(1024, 768);
+    m_testWindow.resize(800,600);
+    qDebug()<<"default width: "<<m_testWindow.GetDefaultWidth()<<"default height: "<<m_testWindow.GetDefaultHeight();
+    qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
+    qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     m_testWindow.show();
 
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;

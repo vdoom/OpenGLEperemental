@@ -141,5 +141,5 @@ QVector2D ctInputHelper::GetMousePos2D() const
 QVector3D ctInputHelper::GetMousePos3D() //const
 {
     QVector2D tmp = GetMousePos2D();
-    return QVector3D(tmp.x(), tmp.y(), 1);
+    return QVector3D(tmp.x() * m_input->GetWindow()->GetWidthScale(), tmp.y() * m_input->GetWindow()->GetHeightScale(), 1);
 }

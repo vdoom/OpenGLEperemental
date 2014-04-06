@@ -220,3 +220,4 @@ ctWindow * ctScene::GetWindow() const
 //    painter.setPen(Qt::green);
 //    painter.drawText(t_pos, t_str);
 //}
+

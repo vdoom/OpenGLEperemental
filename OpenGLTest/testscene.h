@@ -14,6 +14,7 @@ private:
     int msecsCounter;
     ctPlane * m_plane;
     ctPlane * m_plane2;
+    ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
 

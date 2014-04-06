@@ -48,6 +48,10 @@ public:
     //TODO: NEED TEST!!!
     template<class T> QVector<T*> GetObjectsByType();// GetObjectByType<ctPlane>();
     template<class T> QVector<T*> GetComponnetsByType();
+    //--------------------------------------------------
+
+
+
 };
 
 #endif // CTSCENE_H

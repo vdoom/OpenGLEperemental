@@ -4,6 +4,7 @@
 #include <QtGui/QWindow>
 #include <QtGui/QOpenGLFunctions>
 #include <QPainter>
+#include <QVector2D>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -24,6 +25,8 @@ private:
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
     ctInput* m_input;
+    QVector2D m_startupResolution;
+    int m_defaultWidth, m_defaultHeight;
     bool m_update_pending;
 protected:
     QOpenGLContext * m_context;
@@ -62,8 +65,13 @@ public:
     qreal GetDevicePixelRatioCoff() const;
     int GetWidth() const;
     int GetHeight() const;
-
+    QVector2D GetStartupResolution() const;
     void DrawText(QPointF, QString);
+    void SetResolution(int t_width, int t_height);
+    int GetDefaultWidth() const;
+    int GetDefaultHeight() const;
+    float GetWidthScale() const;
+    float GetHeightScale() const;
 
 public slots:
     void renderLater();

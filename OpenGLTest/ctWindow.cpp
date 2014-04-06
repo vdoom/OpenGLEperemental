@@ -264,6 +264,9 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
     m_update_pending = false;
 
     m_input = new ctInput(this);
+
+    m_defaultHeight = 768;
+    m_defaultWidth = 1024;
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
@@ -273,3 +276,34 @@ void ctWindow::DrawText(QPointF t_pos, QString t_str)
     painter.drawText(t_pos, t_str);
 }
 
+QVector2D ctWindow::GetStartupResolution() const
+{
+    return m_startupResolution;
+}
+
+void ctWindow::SetResolution(int t_width, int t_height)
+{
+    m_startupResolution = QVector2D(t_width, t_height);
+    resize(t_width, t_height);
+}
+
+int ctWindow::GetDefaultHeight() const
+{
+    return m_defaultHeight;
+}
+
+int ctWindow::GetDefaultWidth() const
+{
+    return m_defaultWidth;
+}
+
+
+float ctWindow::GetWidthScale() const
+{
+    return ((float)GetDefaultWidth() / (float)GetWidth());
+}
+
+float ctWindow::GetHeightScale() const
+{
+    return ((float)GetDefaultHeight() / (float)GetHeight());
+}
