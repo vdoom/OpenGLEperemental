@@ -60,7 +60,7 @@ void testScene::Init()
     //m_plane2->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
     ctObject* rootTransform = new ctObject();
     rootTransform->GetTransform()->Move(QVector3D(0,0,0));
-    double scale = GetWindow()->GetDevicePixelRatioCoff();
+    double scale = 1;//GetWindow()->GetDevicePixelRatioCoff();
 	m_plane->GetTransform()->Scale(QVector3D(1,1,1));
     m_plane->GetTransform()->SetParent(rootTransform->GetTransform());
     m_back->GetTransform()->SetParent(rootTransform->GetTransform());

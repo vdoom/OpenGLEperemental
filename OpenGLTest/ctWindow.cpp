@@ -267,6 +267,7 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
 
     m_defaultHeight = 768;
     m_defaultWidth = 1024;
+	m_startupResolution = QVector2D(m_defaultWidth, m_defaultHeight);
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
@@ -300,10 +301,10 @@ int ctWindow::GetDefaultWidth() const
 
 float ctWindow::GetWidthScale() const
 {
-    return ((float)GetDefaultWidth() / (float)GetWidth());
+    return ((float)GetDefaultWidth() / (float)(GetWidth() * GetDevicePixelRatioCoff()));
 }
 
 float ctWindow::GetHeightScale() const
 {
-    return ((float)GetDefaultHeight() / (float)GetHeight());
+    return ((float)GetDefaultHeight() / (float)(GetHeight() * GetDevicePixelRatioCoff()));
 }
