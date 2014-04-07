@@ -2,5 +2,6 @@
     <qresource prefix="/texture">
         <file alias="txture.png">txture.png</file>
         <file alias="back.jpg">back.jpg</file>
+        <file alias="block7.jpg">hanoj/hanoj_art/blue_block7.png</file>
     </qresource>
 </RCC>

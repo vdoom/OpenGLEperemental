@@ -4,6 +4,7 @@
 #include "ctTimer.h"
 
 class ctPlane;
+class Block;
 
 class testScene : public ctScene
 {
@@ -17,7 +18,7 @@ private:
     ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
-
+    Block * m_block;
     bool dragMode;
 protected:
 public:

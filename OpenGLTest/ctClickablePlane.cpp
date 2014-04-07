@@ -61,6 +61,11 @@ void ctClickablePlane::Init()
     m_rectColor = QVector3D(1,1,0);
 
     GettingLineAttributes();
+//    static int ttt = 0;
+//    if(!ttt)
+//    {ttt = 1;
+//        GenerateVBOforRect();
+//    }
 }
 
 void ctClickablePlane::Draw()
@@ -134,6 +139,7 @@ void ctClickablePlane::GenerateVBOforRect()
 
 void ctClickablePlane::DrawRectLines()
 {
+    if(!rectDotIndexes) return;
     //glDisable(GL_DEPTH_TEST);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBOlines);
 

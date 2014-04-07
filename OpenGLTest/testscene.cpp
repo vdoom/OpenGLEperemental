@@ -7,6 +7,7 @@
 #include "shaders.h"
 #include "ctInput.h"
 #include "ctInputEvent.h"
+#include "hanoj/hBlock.h"
 #include <QDesktopWidget>
 
 #define Input GetWindow()->GetInput()->GetInputHelper()
@@ -35,9 +36,11 @@ void testScene::Init()
     qDebug()<<"init testScene";
     SetDefault(GetShaderManager(), 0, GetOpenGLContext());
     m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
-    m_plane = new ctClickablePlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
-    m_back = new ctPlane(GetShaderManager(), 0,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
+    m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
+    m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
     m_timer = new ctTimer();
+
+    m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,1), QVector3D(-50,-50,1), ctPlane::Textured, 7,Block::BC_BLUE);
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
     m_plane2->InitShader("texturedPlaneShader");
@@ -45,25 +48,19 @@ void testScene::Init()
     m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_back->SetTexture(":/texture/back.jpg");
-    //m_plane2->GetTransform()->RotateByX(0.2f);
-    //m_plane2->GetTransform()->RotateByX(90.0f);
-    //m_plane2->GetTransform()->RotateByZ(90.0f);
-    //m_plane->GetTransform()->RotateByZ(0.2f);
-    //m_plane2->GetTransform()->Move(QVector3D(-200,-170,0));
-    //m_plane->GetTransform()->Move(QVector3D(-200,-170,0));
-    //m_plane2->GenerateCompleteBuffer();
-   // m_plane->GenerateCompleteBuffer();
+    m_block->SetTexture(":/texture/block7.jpg");
+
     m_plane->Init();
     m_back->Init();
-    //m_plane->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
-    //m_plane2->GetTransform()->SetParent(m_plane->GetTransform());
-    //m_plane2->GetTransform()->Scale(QVector3D(10.0f, 10.0f, 10.0f));
+    //m_block->Init();
+
     ctObject* rootTransform = new ctObject();
     rootTransform->GetTransform()->Move(QVector3D(0,0,0));
     double scale = 1;//GetWindow()->GetDevicePixelRatioCoff();
 	m_plane->GetTransform()->Scale(QVector3D(1,1,1));
     m_plane->GetTransform()->SetParent(rootTransform->GetTransform());
     m_back->GetTransform()->SetParent(rootTransform->GetTransform());
+    //m_block->GetTransform()->SetParent(rootTransform->GetTransform());
     rootTransform->GetTransform()->Scale(QVector3D(scale,scale,scale));
 
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
@@ -76,8 +73,10 @@ void testScene::Init()
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
+    //AddObject(m_block);
     AddObject(m_back);
     AddObject(m_plane);
+
     AddObject(rootTransform);
 
     AddComponnent(m_timer);
@@ -137,6 +136,7 @@ void testScene::Draw()
     m_plane->SetProjectionMatrix(matrix);
     m_plane2->SetProjectionMatrix(matrix);
     m_back->SetProjectionMatrix(matrix);
+    //m_block->SetProjectionMatrix(matrix);
     //ctWindow::RenderScene();
 }
 
