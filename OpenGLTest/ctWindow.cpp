@@ -301,10 +301,10 @@ int ctWindow::GetDefaultWidth() const
 
 float ctWindow::GetWidthScale() const
 {
-    return ((float)GetDefaultWidth() / (float)(GetWidth() * GetDevicePixelRatioCoff()));
+    return ((float)GetDefaultWidth() / (float)(GetWidth()));
 }
 
 float ctWindow::GetHeightScale() const
 {
-    return ((float)GetDefaultHeight() / (float)(GetHeight() * GetDevicePixelRatioCoff()));
+    return ((float)GetDefaultHeight() / (float)(GetHeight()));
 }
