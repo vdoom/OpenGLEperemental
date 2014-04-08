@@ -45,11 +45,6 @@ void ctClickablePlane::Update()
 {
     ctPlane::Update();
     //GetTransform()->Move(QVector3D(0.5f,0,0));
-
-    if(!rectDotIndexes)
-    {
-        GenerateVBOforRect();
-    }
 }
 
 void ctClickablePlane::Init()
@@ -65,6 +60,10 @@ void ctClickablePlane::Init()
 //    {ttt = 1;
 //        GenerateVBOforRect();
 //    }
+    if(!rectDotIndexes)
+    {
+        GenerateVBOforRect();
+    }
 }
 
 void ctClickablePlane::Draw()

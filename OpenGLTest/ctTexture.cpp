@@ -38,6 +38,7 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     else
     {
         qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
+        return;
     }
     //QString strFileFormat(fileFormat);
     QImage * image = new QImage(strFileName);//, fileFormat);
@@ -58,6 +59,7 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
     internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
 
+    glBindTexture(GL_TEXTURE_2D,0);
     glGenTextures(1, &texture);
 
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -76,6 +78,7 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     delete image;
 
     m_textureIndex = texture;
+    qDebug()<<"textureIndex: "<<m_textureIndex;
     //return texture;
 }
 
