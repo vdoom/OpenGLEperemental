@@ -40,16 +40,6 @@ void testScene::Init()
     m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
     m_timer = new ctTimer();
 
-//    m_sound = new QMediaPlayer();
-    // ...
-    //m_sound-
-
-
-//    QMediaContent rrr(QUrl(":/texture/sound.wav"));
-//    m_sound->setMedia(rrr);
-//    m_sound->setVolume(100);
-    //m_sound->play();
-
     m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
@@ -57,12 +47,13 @@ void testScene::Init()
     //m_plane->InitShader("texturedPlaneShader");
     m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    m_back->SetTexture(":/texture/block.png");//(":/texture/back.jpg");
+    m_back->SetTexture(":/texture/back.jpg");
     m_block->SetTexture(":/texture/block7.png");
 
+    m_block->Init();
     m_plane->Init();
     m_back->Init();
-    m_block->Init();
+
 
     ctObject* rootTransform = new ctObject();
     rootTransform->GetTransform()->Move(QVector3D(0,0,0));
@@ -83,10 +74,10 @@ void testScene::Init()
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
-    AddObject(m_block);
-    //AddObject(m_back);
-    AddObject(m_plane);
 
+    AddObject(m_back);
+    AddObject(m_plane);
+    AddObject(m_block);
     AddObject(rootTransform);
 
     AddComponnent(m_timer);
@@ -145,7 +136,7 @@ void testScene::Draw()
     //ShowMatrix(m_plane->GetTransform()->GetLocalTransformMatrix().GetMatrix());
     m_plane->SetProjectionMatrix(matrix);
     m_plane2->SetProjectionMatrix(matrix);
-    //m_back->SetProjectionMatrix(matrix);
+    m_back->SetProjectionMatrix(matrix);
     m_block->SetProjectionMatrix(matrix);
     //ctWindow::RenderScene();
 }

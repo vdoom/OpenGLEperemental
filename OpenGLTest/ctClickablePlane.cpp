@@ -21,7 +21,7 @@ ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * 
 
 ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type), meshVBOlines(0), rectDotIndexes(0)
 {
-    SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.x(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
+    SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.y(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
     m_drawRect = true;
 }
 
@@ -46,9 +46,8 @@ void ctClickablePlane::Update()
     ctPlane::Update();
     //GetTransform()->Move(QVector3D(0.5f,0,0));
 
-    static int ttt = 0;
-    if(!ttt)
-    {ttt = 1;
+    if(!rectDotIndexes)
+    {
         GenerateVBOforRect();
     }
 }
