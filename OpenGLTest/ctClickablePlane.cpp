@@ -167,3 +167,10 @@ bool ctClickablePlane::IsIntersect(QVector3D t_pos)
 {
     return GetTransformedRect().IsIntersect(t_pos);
 }
+
+void ctClickablePlane::ResizeMesh(QVector3D t_AA, QVector3D t_BB)
+{
+    ctPlane::ResizeMesh(t_AA, t_BB);
+    SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.y(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
+    GenerateVBOforRect();
+}

@@ -3,6 +3,5 @@
         <file alias="txture.png">txture.png</file>
         <file alias="back.jpg">back.jpg</file>
         <file alias="block7.png">hanoj/hanoj_art/blue_block7.png</file>
-        <file alias="sound.wav">Click1.wav</file>
     </qresource>
 </RCC>

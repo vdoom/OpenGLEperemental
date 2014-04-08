@@ -25,6 +25,7 @@ private:
     void GettingLineAttributes();
     void GenerateVBOforRect();
     void DrawRectLines();
+    virtual void ResizeMesh(QVector3D t_AA, QVector3D t_BB);
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:

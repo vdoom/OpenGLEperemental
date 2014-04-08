@@ -40,6 +40,7 @@ private:
     void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    virtual void ResizeMesh(QVector3D t_AA, QVector3D t_BB);
 public:
     //ctPlane(){}
     //ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
@@ -54,14 +55,14 @@ public:
     void InitShader(const char * t_shaderProgrammName);
     void InitShader(QString t_shaderProgrammName);
     void SetColor(QVector3D t_color);
-    void SetTexture(const char * t_textureFileName);
+    void SetTexture(const char * t_textureFileName, bool t_needResize = false);
+    void SetTexture(ctTexture* t_texture);
     void Draw(QMatrix4x4);
     //void DrawTexturedOld(QMatrix4x4);
     void DrawColored(QMatrix4x4);
     void DrawTextured(QMatrix4x4);
     void GenerateCompleteBuffer();
     GLuint CreateTexture(const char *fileName, const char *fileFormat);
-    void SetTexture(ctTexture* t_texture);
 
     //----Overload-functions----
     virtual void Update();

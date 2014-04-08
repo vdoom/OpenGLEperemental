@@ -3,8 +3,10 @@
 #include "ctScene.h"
 #include "ctTimer.h"
 //#include <QMediaPlayer>
+#include <QVector>
 
 class ctPlane;
+//class ctClickablePlane;
 class Block;
 
 class testScene : public ctScene
@@ -20,6 +22,8 @@ private:
     ctTimer * m_timer;
     QString m_isClicked;
     Block * m_block;
+    Block * m_selected;
+    QVector<Block*> m_blocks;
     //QMediaPlayer * m_sound;
     bool dragMode;
 protected:
@@ -39,6 +43,8 @@ public:
     virtual void Update();
 
     void TimerTest();
+
+    Block* ManageRectClick(QVector<Block*>& t_blocks);
 };
 
 #endif // TESTSCENE_H

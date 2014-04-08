@@ -31,6 +31,8 @@ void testScene::Init()
 //    mydesk
     ctScene::Init();
     m_lastFPS = 0;
+    dragMode = false;
+    m_selected = 0;
     m_isClicked = "not";
 
     qDebug()<<"init testScene";
@@ -76,8 +78,20 @@ void testScene::Init()
 
 
     AddObject(m_back);
-    AddObject(m_plane);
     AddObject(m_block);
+    AddObject(m_plane);
+
+    for(int i = 0; i < 7; ++i)
+    {
+        m_blocks.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE));
+        m_blocks.last()->SetTexture(":/texture/block7.png",true);
+        m_blocks.last()->Init();
+        m_blocks.last()->GetTransform()->SetParent(rootTransform->GetTransform());
+        m_blocks.last()->GetTransform()->MoveBy(QVector3D(10*i,10*i,0));
+        m_blocks.last()->GetTransform()->Scale(QVector3D(0.5f, 0.5f, 1));
+        AddObject(m_blocks[i]);
+    }
+
     AddObject(rootTransform);
 
     AddComponnent(m_timer);
@@ -138,6 +152,10 @@ void testScene::Draw()
     m_plane2->SetProjectionMatrix(matrix);
     m_back->SetProjectionMatrix(matrix);
     m_block->SetProjectionMatrix(matrix);
+    for(int i = 0; i < 7; ++i)
+    {
+        m_blocks[i]->SetProjectionMatrix(matrix);
+    }
     //ctWindow::RenderScene();
 }
 
@@ -159,20 +177,54 @@ void testScene::EndDraw()
 void testScene::Update()
 {
     ctScene::Update();
-    if(Input.IsMouseLeftButtonPush())
+//    if(Input.IsMouseLeftButtonPush())
+//    {
+//        if(dynamic_cast<ctClickablePlane*>(m_plane)->IsIntersect(Input.GetMousePos3D()))
+//        {
+//            dragMode = true;
+//        }
+//    }
+//    if(Input.IsMouseLeftButtonRelease())
+//    {
+//        dragMode = false;
+//    }
+//    if(dragMode)
+//    {
+//        //m_plane->GetTransform()->MoveBy(QVector3D(0.5f,0.5f, 0));
+//        m_plane->GetTransform()->Move(Input.GetMousePos3D());
+//    }
+    ManageRectClick(m_blocks);
+}
+
+Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
+{
+    if(!dragMode)// return 0;
     {
-        if(dynamic_cast<ctClickablePlane*>(m_plane)->IsIntersect(Input.GetMousePos3D()))
+        if(Input.IsMouseLeftButtonPush())
         {
-            dragMode = true;
+            for(int i = 0; i < 7; ++i)
+            {
+                if(dynamic_cast<ctClickablePlane*>(t_blocks[i])->IsIntersect(Input.GetMousePos3D()))
+                {
+                    m_selected = t_blocks[i];
+                    dragMode = true;
+                    return m_selected;
+                }
+            }
+            return 0;
         }
+        return 0;
     }
-    if(Input.IsMouseLeftButtonRelease())
+    else
     {
-        dragMode = false;
-    }
-    if(dragMode)
-    {
-        //m_plane->GetTransform()->MoveBy(QVector3D(0.5f,0.5f, 0));
-        m_plane->GetTransform()->Move(Input.GetMousePos3D());
+        if(Input.IsMouseLeftButtonRelease())
+        {
+            dragMode = false;
+            m_selected = 0;
+        }
+        if(dragMode && m_selected)
+        {
+            m_selected->GetTransform()->Move(Input.GetMousePos3D());
+        }
     }
 }

@@ -33,7 +33,8 @@ ctPlane::~ctPlane()
     //UNDONE: NEED COMPLETE DESTRUSTION
     qDebug()<<"ctPlane Destroyed";
 
-    GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
+    if(meshVBO)
+        GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
     //glDeleteTextures(1, &textureIndex);
     delete[] planePositions;
     delete[] planeIndexes;
@@ -55,6 +56,9 @@ void ctPlane::GenerateCompleteBuffer()
         completeBuffer[positionsOffset + i] = planeTextureCoords[i];
     }
 
+    if(meshVBO)
+        GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
+    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
     GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBO);
     GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
 
@@ -111,7 +115,7 @@ GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
     return texture;
 }
 
-void ctPlane::SetTexture(const char* t_textureFileName)
+void ctPlane::SetTexture(const char* t_textureFileName, bool t_needResize)
 {
     if(!m_texture) m_texture = new ctTexture(t_textureFileName);
 
@@ -125,6 +129,13 @@ void ctPlane::SetTexture(const char* t_textureFileName)
 
     GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture->GetTextureIndex());
+
+    if(t_needResize)
+    {
+        m_AA = QVector3D((m_texture->GetWidth()/2), (m_texture->GetHeight()/2), m_AA.z());
+        m_BB = QVector3D(-(m_texture->GetWidth()/2), -(m_texture->GetHeight()/2), m_BB.z());
+        ResizeMesh(m_AA, m_BB);
+    }
 }
 
 // TODO: Refine To QVector4D for using Alpha
@@ -139,6 +150,36 @@ void ctPlane::SetColor(QVector3D t_color)
     }
 }
 
+void ctPlane::ResizeMesh(QVector3D t_AA, QVector3D t_BB)
+{
+    if(planePositions)
+    {
+        delete[] planePositions;
+    }
+
+    //Setup Dots Pos
+    planePositions = new float[12];
+
+    planePositions[0] = t_AA.x();
+    planePositions[1] = t_AA.y();
+    planePositions[2] = t_AA.z();
+
+    planePositions[3] = t_BB.x();
+    planePositions[4] = t_AA.y();
+    planePositions[5] = t_AA.z();
+
+    planePositions[6] = t_BB.x();
+    planePositions[7] = t_BB.y();
+    planePositions[8] = t_BB.z();
+
+    planePositions[9] = t_AA.x();
+    planePositions[10] = t_BB.y();
+    planePositions[11] = t_BB.z();
+
+    GenerateCompleteBuffer();
+}
+
+//TODO: NEED REFINE & MERGE TO GENERATE COMPLETE BUFFER
 void ctPlane::SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB)
 {
     //Setup Dots Pos
