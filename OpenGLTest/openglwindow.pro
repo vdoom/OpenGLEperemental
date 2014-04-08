@@ -11,6 +11,7 @@ INSTALLS += target
 
 QT += opengl
 QT += core
+QT += multimedia
 
 HEADERS += \
     ctLoger.h

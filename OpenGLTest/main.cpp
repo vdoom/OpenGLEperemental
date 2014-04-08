@@ -262,7 +262,6 @@ int main(int argc, char **argv)
     testAppWindow m_testWindow(&app);
 
     //m_testWindow.setFormat(format);
-
     m_testWindow.SetResolution(1024, 768);
     m_testWindow.resize(160,120);
     qDebug()<<"default width: "<<m_testWindow.GetDefaultWidth()<<"default height: "<<m_testWindow.GetDefaultHeight();

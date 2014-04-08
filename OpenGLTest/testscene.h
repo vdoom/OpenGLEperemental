@@ -2,6 +2,7 @@
 #define TESTSCENE_H
 #include "ctScene.h"
 #include "ctTimer.h"
+//#include <QMediaPlayer>
 
 class ctPlane;
 class Block;
@@ -19,6 +20,7 @@ private:
     ctTimer * m_timer;
     QString m_isClicked;
     Block * m_block;
+    //QMediaPlayer * m_sound;
     bool dragMode;
 protected:
 public:

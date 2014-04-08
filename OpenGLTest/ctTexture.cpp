@@ -45,6 +45,8 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     m_width = image->width();
     m_height = image->height();
 
+    qDebug()<<strFileName<<"width: "<< m_width<< " height: "<<m_height;
+
     uint8_t   *buffer;
     //uint32_t  size;
     GLint     format, internalFormat;
