@@ -3,5 +3,11 @@
         <file alias="txture.png">txture.png</file>
         <file alias="back.jpg">back.jpg</file>
         <file alias="block7.png">hanoj/hanoj_art/blue_block7.png</file>
+        <file alias="block6.png">hanoj/hanoj_art/blue_block6.png</file>
+        <file alias="block5.png">hanoj/hanoj_art/blue_block5.png</file>
+        <file alias="block4.png">hanoj/hanoj_art/blue_block4.png</file>
+        <file alias="block3.png">hanoj/hanoj_art/blue_block3.png</file>
+        <file alias="block2.png">hanoj/hanoj_art/blue_block2.png</file>
+        <file alias="block1.png">hanoj/hanoj_art/blue_block1.png</file>
     </qresource>
 </RCC>

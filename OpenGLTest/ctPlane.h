@@ -56,6 +56,7 @@ public:
     void InitShader(QString t_shaderProgrammName);
     void SetColor(QVector3D t_color);
     void SetTexture(const char * t_textureFileName, bool t_needResize = false);
+    void SetTexture(QString t_textureFileName, bool t_needResize = false);
     void SetTexture(ctTexture* t_texture);
     void Draw(QMatrix4x4);
     //void DrawTexturedOld(QMatrix4x4);

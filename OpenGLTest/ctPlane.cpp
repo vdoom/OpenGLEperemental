@@ -114,7 +114,10 @@ GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
 
     return texture;
 }
-
+void ctPlane::SetTexture(QString t_textureFileName, bool t_needResize)
+{
+    SetTexture(t_textureFileName.toStdString().c_str(), t_needResize);
+}
 void ctPlane::SetTexture(const char* t_textureFileName, bool t_needResize)
 {
     if(!m_texture) m_texture = new ctTexture(t_textureFileName);

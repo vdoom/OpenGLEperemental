@@ -84,11 +84,11 @@ void testScene::Init()
     for(int i = 0; i < 7; ++i)
     {
         m_blocks.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE));
-        m_blocks.last()->SetTexture(":/texture/block7.png",true);
+        m_blocks.last()->SetTexture(QString(":/texture/block")+QString::number(i+1)+QString(".png"),true);
         m_blocks.last()->Init();
         m_blocks.last()->GetTransform()->SetParent(rootTransform->GetTransform());
         m_blocks.last()->GetTransform()->MoveBy(QVector3D(10*i,10*i,0));
-        m_blocks.last()->GetTransform()->Scale(QVector3D(0.5f, 0.5f, 1));
+        m_blocks.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
         AddObject(m_blocks[i]);
     }
 
@@ -148,13 +148,18 @@ void testScene::Draw()
     //qDebug()<<m_frame;
     //m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);
     //ShowMatrix(m_plane->GetTransform()->GetLocalTransformMatrix().GetMatrix());
-    m_plane->SetProjectionMatrix(matrix);
-    m_plane2->SetProjectionMatrix(matrix);
-    m_back->SetProjectionMatrix(matrix);
-    m_block->SetProjectionMatrix(matrix);
-    for(int i = 0; i < 7; ++i)
+//    m_plane->SetProjectionMatrix(matrix);
+//    m_plane2->SetProjectionMatrix(matrix);
+//    m_back->SetProjectionMatrix(matrix);
+//    m_block->SetProjectionMatrix(matrix);
+//    for(int i = 0; i < 8; ++i)
+//    {
+//        m_blocks[i]->SetProjectionMatrix(matrix);
+//    }
+    QVector<ctObject*>::Iterator itr;
+    for( itr = m_objects->begin(); itr != m_objects->end(); ++itr)
     {
-        m_blocks[i]->SetProjectionMatrix(matrix);
+        (*itr)->SetProjectionMatrix(matrix);
     }
     //ctWindow::RenderScene();
 }
@@ -202,7 +207,7 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
     {
         if(Input.IsMouseLeftButtonPush())
         {
-            for(int i = 0; i < 7; ++i)
+            for(int i = 0; i < t_blocks.size(); ++i)
             {
                 if(dynamic_cast<ctClickablePlane*>(t_blocks[i])->IsIntersect(Input.GetMousePos3D()))
                 {
