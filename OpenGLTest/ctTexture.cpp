@@ -7,7 +7,7 @@ ctTexture::ctTexture() : m_textureIndex(0), m_width(0), m_height(0)
 {
 }
 
-ctTexture::ctTexture(const char *t_fileName, const char *t_fileFormat)
+ctTexture::ctTexture(const char *t_fileName, const char *t_fileFormat) : m_textureIndex(0), m_width(0), m_height(0)
 {
     LoadImageToTexture(t_fileName, t_fileFormat);
 }
@@ -48,12 +48,12 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
 
     qDebug()<<strFileName<<"width: "<< m_width<< " height: "<<m_height;
 
-    uint8_t   *buffer;
+    //uint8_t   *buffer;
     //uint32_t  size;
     GLint     format, internalFormat;
-    GLuint    texture;
+    GLuint    texture = 0;
 
-    buffer = new uint8_t[image->byteCount()];
+    //buffer = new uint8_t[image->byteCount()];
 
 
     format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
@@ -72,8 +72,9 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
 
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
             GL_UNSIGNED_BYTE, (const GLvoid*)(image->bits()));
+    glBindTexture(GL_TEXTURE_2D,0);
 
-    delete[] buffer;
+    //delete[] buffer;
 
     delete image;
 

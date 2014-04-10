@@ -25,7 +25,7 @@ ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLCo
     m_currentType = t_type;
     m_AA = t_AA;
     m_BB = t_BB;
-    SetupPlaneCoords(t_AA, t_BB);
+    //SetupPlaneCoords(t_AA, t_BB);
 }
 
 ctPlane::~ctPlane()
@@ -36,14 +36,56 @@ ctPlane::~ctPlane()
     if(meshVBO)
         GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
     //glDeleteTextures(1, &textureIndex);
-    delete[] planePositions;
-    delete[] planeIndexes;
-    delete[] planeTextureCoords;
+//    delete[] planePositions;
+//    delete[] planeIndexes;
+//    delete[] planeTextureCoords;
+    if(planeIndexes) delete[] planeIndexes;
     if(m_texture) delete m_texture;
 }
 
-void ctPlane::GenerateCompleteBuffer()
+void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB)
 {
+    float* planePositions = new float[12];
+
+    planePositions[0] = t_AA.x();
+    planePositions[1] = t_AA.y();
+    planePositions[2] = t_AA.z();
+
+    planePositions[3] = t_BB.x();
+    planePositions[4] = t_AA.y();
+    planePositions[5] = t_AA.z();
+
+    planePositions[6] = t_BB.x();
+    planePositions[7] = t_BB.y();
+    planePositions[8] = t_BB.z();
+
+    planePositions[9] = t_AA.x();
+    planePositions[10] = t_BB.y();
+    planePositions[11] = t_BB.z();
+
+    //SetupIndexes
+    if(planeIndexes) delete[] planeIndexes;
+    planeIndexes = new unsigned short[6];
+
+    planeIndexes[0] = 2;
+    planeIndexes[1] = 1;
+    planeIndexes[2] = 0;
+
+    planeIndexes[3] = 3;
+    planeIndexes[4] = 2;
+    planeIndexes[5] = 0;
+
+
+    float* planeTextureCoords = new float[8];
+    planeTextureCoords[0] = 1;
+    planeTextureCoords[1] = 1;
+    planeTextureCoords[2] = 0;
+    planeTextureCoords[3] = 1;
+    planeTextureCoords[4] = 0;
+    planeTextureCoords[5] = 0;
+    planeTextureCoords[6] = 1;
+    planeTextureCoords[7] = 0;
+
     const int positionsOffset = 12;
     const int texCoordOffset = 8;
     float * completeBuffer = new float[positionsOffset + texCoordOffset]; // positions count + texture coord count
@@ -64,56 +106,60 @@ void ctPlane::GenerateCompleteBuffer()
 
     GetOpenGLContext()->functions()->glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
         completeBuffer, GL_STATIC_DRAW);
+
     delete[] completeBuffer;
 
+    delete[] planePositions;
+    //delete[] planeIndexes;
+    delete[] planeTextureCoords;
 }
 
-GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
-{
-    QString strFileName(fileName);
+//GLuint ctPlane::CreateTexture(const char *fileName, const char *fileFormat = 0)
+//{
+//    QString strFileName(fileName);
 
-    QFile tmp(strFileName);
-    if(tmp.exists())
-    {
-        qDebug()<<"Texture: "<< strFileName<< " finded";
-    }
-    else
-    {
-        qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
-    }
-    //QString strFileFormat(fileFormat);
-    QImage * image = new QImage(strFileName);//, fileFormat);
+//    QFile tmp(strFileName);
+//    if(tmp.exists())
+//    {
+//        qDebug()<<"Texture: "<< strFileName<< " finded";
+//    }
+//    else
+//    {
+//        qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
+//    }
+//    //QString strFileFormat(fileFormat);
+//    QImage * image = new QImage(strFileName);//, fileFormat);
 
-    uint8_t   *buffer;
-    uint32_t  size;
-    GLint     format, internalFormat;
-    GLuint    texture;
+//    uint8_t   *buffer;
+//    uint32_t  size;
+//    GLint     format, internalFormat;
+//    GLuint    texture;
 
-    buffer = new uint8_t[image->byteCount()];
+//    buffer = new uint8_t[image->byteCount()];
 
 
-    format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
-    internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
+//    format = GL_RGBA;//(header->bitperpel == 24 ? GL_RGB : GL_RGBA);
+//    internalFormat = format;//(format == GL_RGB ? GL_RGB : GL_RGBA);
 
-    glGenTextures(1, &texture);
+//    glGenTextures(1, &texture);
 
-    glBindTexture(GL_TEXTURE_2D, texture);
+//    glBindTexture(GL_TEXTURE_2D, texture);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
-            GL_UNSIGNED_BYTE, (const GLvoid*)(image->bits()));
+//    glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image->width(), image->height(), 0, format,
+//            GL_UNSIGNED_BYTE, (const GLvoid*)(image->bits()));
 
-    delete[] buffer;
+//    delete[] buffer;
 
-    delete image;
+//    delete image;
 
-    return texture;
-}
+//    return texture;
+//}
 void ctPlane::SetTexture(QString t_textureFileName, bool t_needResize)
 {
     SetTexture(t_textureFileName.toStdString().c_str(), t_needResize);
@@ -155,76 +201,9 @@ void ctPlane::SetColor(QVector3D t_color)
 
 void ctPlane::ResizeMesh(QVector3D t_AA, QVector3D t_BB)
 {
-    if(planePositions)
-    {
-        delete[] planePositions;
-    }
-
-    //Setup Dots Pos
-    planePositions = new float[12];
-
-    planePositions[0] = t_AA.x();
-    planePositions[1] = t_AA.y();
-    planePositions[2] = t_AA.z();
-
-    planePositions[3] = t_BB.x();
-    planePositions[4] = t_AA.y();
-    planePositions[5] = t_AA.z();
-
-    planePositions[6] = t_BB.x();
-    planePositions[7] = t_BB.y();
-    planePositions[8] = t_BB.z();
-
-    planePositions[9] = t_AA.x();
-    planePositions[10] = t_BB.y();
-    planePositions[11] = t_BB.z();
-
-    GenerateCompleteBuffer();
-}
-
-//TODO: NEED REFINE & MERGE TO GENERATE COMPLETE BUFFER
-void ctPlane::SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB)
-{
-    //Setup Dots Pos
-    planePositions = new float[12];
-
-    planePositions[0] = t_AA.x();
-    planePositions[1] = t_AA.y();
-    planePositions[2] = t_AA.z();
-
-    planePositions[3] = t_BB.x();
-    planePositions[4] = t_AA.y();
-    planePositions[5] = t_AA.z();
-
-    planePositions[6] = t_BB.x();
-    planePositions[7] = t_BB.y();
-    planePositions[8] = t_BB.z();
-
-    planePositions[9] = t_AA.x();
-    planePositions[10] = t_BB.y();
-    planePositions[11] = t_BB.z();
-
-    //SetupIndexes
-    planeIndexes = new unsigned short[6];
-
-    planeIndexes[0] = 2;
-    planeIndexes[1] = 1;
-    planeIndexes[2] = 0;
-
-    planeIndexes[3] = 3;
-    planeIndexes[4] = 2;
-    planeIndexes[5] = 0;
-
-
-    planeTextureCoords = new float[8];
-    planeTextureCoords[0] = 1;
-    planeTextureCoords[1] = 1;
-    planeTextureCoords[2] = 0;
-    planeTextureCoords[3] = 1;
-    planeTextureCoords[4] = 0;
-    planeTextureCoords[5] = 0;
-    planeTextureCoords[6] = 1;
-    planeTextureCoords[7] = 0;
+    m_AA = t_AA;
+    m_BB = t_BB;
+    GenerateCompleteBuffer(t_AA, t_BB);
 }
 
 void ctPlane::Draw(QMatrix4x4 t_projectionMatrix)
@@ -239,22 +218,23 @@ void ctPlane::Draw(QMatrix4x4 t_projectionMatrix)
     }
 }
 
+// todo: NEED REFINE
 void ctPlane::DrawColored(QMatrix4x4 t_projectionMatrix)
 {
-    m_currentShader->bind();
-    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
-    GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
-    GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);
+//    m_currentShader->bind();
+//    m_currentShader->setUniformValue(matrixUniform, t_projectionMatrix);
+//    GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planePositions);
+//    GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);
 
-    GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
-    GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
+//    GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
+//    GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
 
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
+//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, planeIndexes);
 
-    GetOpenGLContext()->functions()->glDisableVertexAttribArray(colorAtribLoc);
-    GetOpenGLContext()->functions()->glDisableVertexAttribArray(posAtribLoc);
+//    GetOpenGLContext()->functions()->glDisableVertexAttribArray(colorAtribLoc);
+//    GetOpenGLContext()->functions()->glDisableVertexAttribArray(posAtribLoc);
 
-    m_currentShader->release();
+//    m_currentShader->release();
 }
 
 //void ctPlane::DrawTexturedOld(QMatrix4x4 t_projectionMatrix)
@@ -396,7 +376,7 @@ void ctPlane::GettingAttributes(QOpenGLShaderProgram * t_shaderProgram)
 void ctPlane::Init()
 {
     InitShader();
-    GenerateCompleteBuffer();
+    GenerateCompleteBuffer(m_AA, m_BB);
     m_isInitialized = true;
     qDebug()<<"Init ctPlane";
     //StartUpInit
@@ -419,6 +399,7 @@ void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, Q
     meshVBO = 0;
     //textureIndex = 0;
     m_texture = 0;
+    planeIndexes = 0;
 }
 
 ctEntity* ctPlane::Clone()

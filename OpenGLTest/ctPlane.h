@@ -31,12 +31,11 @@ private:
     GLuint transformMatrixUniform;
     //GLuint textureIndex;
     GLuint meshVBO;
-    float* planePositions;
+    //float* planePositions;
     unsigned short* planeIndexes;
-    float* planeTextureCoords;
+    //float* planeTextureCoords;
     float* planeColor;
     ctTexture* m_texture;
-    void SetupPlaneCoords(QVector3D t_AA, QVector3D t_BB);
     void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
@@ -62,8 +61,8 @@ public:
     //void DrawTexturedOld(QMatrix4x4);
     void DrawColored(QMatrix4x4);
     void DrawTextured(QMatrix4x4);
-    void GenerateCompleteBuffer();
-    GLuint CreateTexture(const char *fileName, const char *fileFormat);
+    void GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB);
+    //GLuint CreateTexture(const char *fileName, const char *fileFormat);
 
     //----Overload-functions----
     virtual void Update();
