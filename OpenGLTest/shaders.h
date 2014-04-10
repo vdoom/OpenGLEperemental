@@ -1,9 +1,15 @@
 #ifndef SHADERS_H
 #define SHADERS_H
+static const char *vertexModelShaderSource =
+    "attribute lowp vec4 posAttr;\n"
+    "uniform lowp mat4 modelMatrix;\n"
+    "uniform lowp mat4 viewProjectionMatrix;\n"
+    "void main() {\n"
+    "   gl_Position = (viewProjectionMatrix * modelMatrix) * posAttr;\n"
+    "}\n";
+
 static const char *vertexShaderSource =
     "attribute lowp vec4 posAttr;\n"
-    "attribute lowp vec3 colAttr;\n"
-    "varying lowp vec3 col;\n"
     "uniform lowp mat4 matrix;\n"
     "void main() {\n"
     "   col = colAttr;\n"
@@ -11,7 +17,7 @@ static const char *vertexShaderSource =
     "}\n";
 
 static const char *fragmentShaderSource =
-    "varying lowp vec3 col;\n"
+    "uniform lowp vec3 col;\n"
     "void main() {\n"
         "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
@@ -30,6 +36,7 @@ static const char *lineFragmentShaderSource =
         "   gl_FragColor = vec4(col.x, col.y, col.z, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
+//doNotUse
 static const char * texturedVertexShaderSource =
         "attribute lowp vec4 position;\n"
         "attribute lowp vec2 texcoord;\n"

@@ -31,9 +31,11 @@ private:
     GLuint transformMatrixUniform;
     //GLuint textureIndex;
     GLuint meshVBO;
+    QVector3D m_color;
     //float* planePositions;
     unsigned short* planeIndexes;
     //float* planeTextureCoords;
+    //TODO: NEED REMOVE planeColor
     float* planeColor;
     ctTexture* m_texture;
     void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
