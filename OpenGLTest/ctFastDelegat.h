@@ -117,12 +117,11 @@ class ctFastDelegat
 {
     //TODO: NEED CHECK FOR MEMMORY LEAKS!!!
 private:
-    //TODO: NEED REMOVE OLD ONE CONTAINER
-    IContainer* m_container;
+    //IContainer* m_container;
     QList<IContainer*>* m_containers;
 public:
 
-    ctFastDelegat() : m_container( 0 )
+    ctFastDelegat() : m_containers( 0 )
     {
         m_containers = 0;
     }
@@ -130,8 +129,8 @@ public:
     ~ctFastDelegat()
     {
         qDebug()<<"TryDestroyDelegat";
-        if( m_container )
-            delete m_container;
+        //if( m_container )
+        //    delete m_container;
 
         if(m_containers && m_containers->count() > 0)
         {
@@ -147,11 +146,11 @@ public:
         }
     }
 
-    template< class T, class U > void Connect( T* i_class, U i_method )
-    {
-        if( m_container ) delete m_container;
-        m_container = new Container< T, U >( i_class, i_method );
-    }
+//    template< class T, class U > void Connect( T* i_class, U i_method )
+//    {
+//        if( m_container ) delete m_container;
+//        m_container = new Container< T, U >( i_class, i_method );
+//    }
 
     template< class T, class U > void AppendConnect(T* i_class, U i_method)
     {
@@ -174,12 +173,12 @@ public:
         }
     }
 
-    void operator()()
-    {
-        Arguments<>* t_args = new Arguments<>();
-        m_container->Call(t_args);
-        delete t_args;
-    }
+//    void operator()()
+//    {
+//        Arguments<>* t_args = new Arguments<>();
+//        m_container->Call(t_args);
+//        delete t_args;
+//    }
 
    template< class T1 > void Call( T1 i_arg1 )
     {
@@ -195,12 +194,12 @@ public:
         }
     }
 
-    template< class T1 > void operator()( T1 i_arg1 )
-    {
-        Arguments<T1>* t_args = new Arguments< T1 >( i_arg1 );
-        m_container->Call(t_args);
-        delete t_args;
-    }
+//    template< class T1 > void operator()( T1 i_arg1 )
+//    {
+//        Arguments<T1>* t_args = new Arguments< T1 >( i_arg1 );
+//        m_container->Call(t_args);
+//        delete t_args;
+//    }
 
     template< class T1, class T2 >  void Call( T1 i_arg1, T2 i_arg2 )
      {
@@ -216,12 +215,12 @@ public:
          }
      }
 
-    template< class T1, class T2 > void operator()( T1 i_arg1, T2 i_arg2 )
-    {
-        Arguments< T1, T2 >* t_args = new Arguments< T1, T2 >( i_arg1, i_arg2 );
-        m_container->Call(t_args);
-        delete t_args;
-    }
+//    template< class T1, class T2 > void operator()( T1 i_arg1, T2 i_arg2 )
+//    {
+//        Arguments< T1, T2 >* t_args = new Arguments< T1, T2 >( i_arg1, i_arg2 );
+//        m_container->Call(t_args);
+//        delete t_args;
+//    }
 
     bool IsHasActions()
     {

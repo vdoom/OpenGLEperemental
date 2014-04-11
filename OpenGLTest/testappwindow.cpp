@@ -84,6 +84,5 @@ void testAppWindow::RenderScene()
 void testAppWindow::EndRenderScene()
 {
     ctWindow::EndRenderScene();
-
 }
 
