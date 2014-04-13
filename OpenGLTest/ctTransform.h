@@ -58,6 +58,9 @@ public:
     void SetVisible(bool t_visible);
 
     void SetParent(const ctTransform * t_transform);
+
+    QVector3D GetLocalPos();
+    QVector3D GetGlobalPos();
 };
 
 #endif // CTTRANSFORM_H

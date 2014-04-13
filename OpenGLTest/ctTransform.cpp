@@ -163,3 +163,15 @@ void ctTransform::UpdateGlobalTransformMatrix()
 {
     //TODO: NEED REFINE!!!
 }
+
+QVector3D ctTransform::GetLocalPos()
+{
+    QVector4D tmp = GetLocalTransformMatrix().GetMatrix().column(3);
+    return QVector3D(tmp.x(), tmp.y(), tmp.z());
+}
+
+QVector3D ctTransform::GetGlobalPos()
+{
+    QVector4D tmp = GetGlobalTransformMatrix().GetMatrix().column(3);
+    return QVector3D(tmp.x(), tmp.y(), tmp.z());
+}

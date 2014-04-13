@@ -50,7 +50,7 @@ void testScene::Init()
     m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_back->SetTexture(":/texture/back.jpg");
-    m_block->SetTexture(":/texture/block7.png");
+    m_block->SetTexture(":/texture/blue_7.png");
 
     m_block->Init();
     m_plane->Init();
@@ -81,16 +81,18 @@ void testScene::Init()
     AddObject(m_block);
     AddObject(m_plane);
 
-    for(int i = 0; i < 7; ++i)
-    {
-        m_blocks.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE));
-        m_blocks.last()->SetTexture(QString(":/texture/block")+QString::number(i+1)+QString(".png"),true);
-        m_blocks.last()->Init();
-        m_blocks.last()->GetTransform()->SetParent(rootTransform->GetTransform());
-        m_blocks.last()->GetTransform()->MoveBy(QVector3D(10*i,10*i,0));
-        m_blocks.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
-        AddObject(m_blocks[i]);
-    }
+    GenerateBlocks();
+    AligneBlocks();
+//    for(int i = 0; i < 7; ++i)
+//    {
+//        m_blocks.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE));
+//        m_blocks.last()->SetTexture(QString(":/texture/blue_")+QString::number(i+1)+QString(".png"),true);
+//        m_blocks.last()->Init();
+//        m_blocks.last()->GetTransform()->SetParent(rootTransform->GetTransform());
+//        m_blocks.last()->GetTransform()->MoveBy(QVector3D(10*i,10*i,0));
+//        m_blocks.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
+//        AddObject(m_blocks[i]);
+//    }
 
     AddObject(rootTransform);
 
@@ -199,20 +201,77 @@ void testScene::Update()
 //        //m_plane->GetTransform()->MoveBy(QVector3D(0.5f,0.5f, 0));
 //        m_plane->GetTransform()->Move(Input.GetMousePos3D());
 //    }
-    ManageRectClick(m_blocks);
+    //ManageRectClick(m_blocks);
+    ManageCollide();
 }
 
 Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
+{
+    return 0;
+//    if(!dragMode)// return 0;
+//    {
+//        if(Input.IsMouseLeftButtonPush())
+//        {
+//            for(int i = 0; i < t_blocks.size(); ++i)
+//            {
+//                if(dynamic_cast<ctClickablePlane*>(t_blocks[i])->IsIntersect(Input.GetMousePos3D()))
+//                {
+//                    m_selected = t_blocks[i];
+//                    dragMode = true;
+//                    return m_selected;
+//                }
+//            }
+//            return 0;
+//        }
+//        return 0;
+//    }
+//    else
+//    {
+//        if(Input.IsMouseLeftButtonRelease())
+//        {
+//            dragMode = false;
+//            m_selected = 0;
+//        }
+//        if(dragMode && m_selected)
+//        {
+//            m_selected->GetTransform()->Move(Input.GetMousePos3D());
+//        }
+//    }
+}
+
+void testScene::GenerateBlocks()
+{
+    for(int i = 0; i < 8; ++i)
+    {
+        m_blockSlots.push_back(new QVector<Block*>());
+        for(int j = 0; j < 7; ++j)
+        {
+           // m_blockSlots.last()->push_back();
+            m_blockSlots.last()->push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j, i));
+            m_blockSlots.last()->last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
+            m_blockSlots.last()->last()->Init();
+            //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
+            m_blockSlots.last()->last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
+
+            //if(i==2 && j==2){qDebug()<<m_blockSlots.last()->last()->GetTransform()->GetLocalTransformMatrix().GetMatrix().column(3);}
+            m_blockSlots.last()->last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
+            AddObject(m_blockSlots.last()->last());
+            AddCollider(m_blockSlots.last()->last());
+        }
+    }
+}
+
+ctClickablePlane* testScene::ManageCollide()
 {
     if(!dragMode)// return 0;
     {
         if(Input.IsMouseLeftButtonPush())
         {
-            for(int i = 0; i < t_blocks.size(); ++i)
+            for(int i = 0; i < m_coliderObjects.size(); ++i)
             {
-                if(dynamic_cast<ctClickablePlane*>(t_blocks[i])->IsIntersect(Input.GetMousePos3D()))
+                if(dynamic_cast<ctClickablePlane*>(m_coliderObjects[i])->IsIntersect(Input.GetMousePos3D()))
                 {
-                    m_selected = t_blocks[i];
+                    m_selected = m_coliderObjects[i];
                     dragMode = true;
                     return m_selected;
                 }
@@ -231,6 +290,23 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
         if(dragMode && m_selected)
         {
             m_selected->GetTransform()->Move(Input.GetMousePos3D());
+        }
+    }
+}
+
+void testScene::AddCollider(ctClickablePlane * t_clickPlane)
+{
+    m_coliderObjects.push_back(t_clickPlane);
+}
+
+void testScene::AligneBlocks()
+{
+    for(int i = 0; i < 8; ++i)
+    {
+        for(int j=0; j<7; ++j)
+        {
+            m_blockSlots[i]->at(j)->GetTransform()->Move(QVector3D((64 + (128*i))-512,
+                                                                   m_blockSlots[i]->at(j)->GetTransform()->GetLocalPos().y(), 1));
         }
     }
 }

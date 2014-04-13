@@ -6,7 +6,7 @@
 #include <QVector>
 
 class ctPlane;
-//class ctClickablePlane;
+class ctClickablePlane;
 class Block;
 
 class testScene : public ctScene
@@ -22,10 +22,18 @@ private:
     ctTimer * m_timer;
     QString m_isClicked;
     Block * m_block;
-    Block * m_selected;
+    ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
     //QMediaPlayer * m_sound;
     bool dragMode;
+
+    QVector<ctClickablePlane*> m_coliderObjects;
+
+    QVector<QVector<Block*>*> m_blockSlots;
+    QVector<Block*> m_movingStash;
+
+    void GenerateBlocks();
+    void AddCollider(ctClickablePlane* );
 protected:
 public:
     testScene();
@@ -43,8 +51,11 @@ public:
     virtual void Update();
 
     void TimerTest();
+    void AligneBlocks();
 
     Block* ManageRectClick(QVector<Block*>& t_blocks);
+
+    ctClickablePlane* ManageCollide();
 };
 
 #endif // TESTSCENE_H
