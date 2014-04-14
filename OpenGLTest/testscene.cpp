@@ -9,6 +9,7 @@
 #include "ctInputEvent.h"
 #include "hanoj/hBlock.h"
 #include <QDesktopWidget>
+#include "ctRand.h"
 
 #define Input GetWindow()->GetInput()->GetInputHelper()
 
@@ -241,23 +242,31 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
 
 void testScene::GenerateBlocks()
 {
+    QVector<Block*> m_tmp;
     for(int i = 0; i < 8; ++i)
     {
         m_blockSlots.push_back(new QVector<Block*>());
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
-            m_blockSlots.last()->push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j, i));
-            m_blockSlots.last()->last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
-            m_blockSlots.last()->last()->Init();
+            m_tmp.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7-j, i));
+            m_tmp.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(7-j)+QString(".png"),true);
+            m_tmp.last()->Init();
             //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
-            m_blockSlots.last()->last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
+            m_tmp.last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
 
             //if(i==2 && j==2){qDebug()<<m_blockSlots.last()->last()->GetTransform()->GetLocalTransformMatrix().GetMatrix().column(3);}
-            m_blockSlots.last()->last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
-            AddObject(m_blockSlots.last()->last());
-            AddCollider(m_blockSlots.last()->last());
+            m_tmp.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
+            AddObject(m_tmp.last());
+            AddCollider(m_tmp.last());
         }
+    }
+
+    for(int i = 0; i < m_tmp.size(); ++i)
+    {
+        int rnd = ctRand::intRandom(0, 7);
+        qDebug()<< i << " "<< rnd;
+        m_blockSlots[rnd]->push_back(m_tmp[i]);
     }
 }
 
@@ -286,6 +295,7 @@ ctClickablePlane* testScene::ManageCollide()
         {
             dragMode = false;
             m_selected = 0;
+            AligneBlocks();
         }
         if(dragMode && m_selected)
         {
@@ -303,10 +313,10 @@ void testScene::AligneBlocks()
 {
     for(int i = 0; i < 8; ++i)
     {
-        for(int j=0; j<7; ++j)
+        for(int j=0; j<m_blockSlots[i]->size(); ++j)
         {
             m_blockSlots[i]->at(j)->GetTransform()->Move(QVector3D((64 + (128*i))-512,
-                                                                   m_blockSlots[i]->at(j)->GetTransform()->GetLocalPos().y(), 1));
+                                                                   300 - (25*j), 1));
         }
     }
 }

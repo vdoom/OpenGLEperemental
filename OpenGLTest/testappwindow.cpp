@@ -11,6 +11,7 @@
 #include <QtOpenGL>
 #include <QtOpenGL/QGLFormat>
 #include "testscene.h"
+#include "ctRand.h"
 
 void testAppWindow::ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -57,6 +58,8 @@ void testAppWindow::initialize()
 
     qDebug()<<"init";
 
+    ctRand::RandomReset();
+    qDebug()<<ctRand::intRandom(0,2);
 }
 
 void testAppWindow::render()

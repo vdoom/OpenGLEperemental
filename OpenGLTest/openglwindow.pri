@@ -23,7 +23,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctFastDelegat.cpp \
     ctAsset.cpp \
     ctTexture.cpp \
-    hanoj/hBlock.cpp
+    hanoj/hBlock.cpp \
+    ctRand.cpp
 HEADERS += $$PWD/openglwindow.h \
     shadermanager.h \
     shaders.h \
@@ -51,7 +52,8 @@ HEADERS += $$PWD/openglwindow.h \
     ctFastDelegat.h \
     ctAsset.h \
     ctTexture.h \
-    hanoj/hBlock.h
+    hanoj/hBlock.h \
+    ctRand.h
 
 RESOURCES += \
     res.qrc
