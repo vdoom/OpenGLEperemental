@@ -245,9 +245,9 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
 void testScene::GenerateBlocks()
 {
     QVector<Block*> m_tmp;
-    for(int i = 0; i < 8; ++i)
+    for(int i = 0; i<8; ++i)m_blockSlots.push_back(new QVector<Block*>());
+    for(int i = 0; i < 6; ++i)
     {
-        m_blockSlots.push_back(new QVector<Block*>());
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
@@ -356,7 +356,7 @@ void testScene::TakeBlock(int t_col, int t_row)
 
     m_prevColumn = t_col;
 //-----------------------------------------------
-    Block* tmpBlock = m_blockSlots[t_col]->last();
+   // Block* tmpBlock = m_blockSlots[t_col]->last();
 	m_movingStash.push_front(m_blockSlots[t_col]->last());
     int counter = 1;
     for(int i = m_blockSlots[t_col]->size()-1; i >=0 ; i-- )
@@ -392,9 +392,16 @@ void testScene::DropBlock(int t_col)
 {
     if(m_movingStash.size()<=0 || t_col < 0) return;
 
-    if((m_blockSlots.size() == 0) ||
-            (m_blockSlots[t_col]->last()->GetBlockColor() == m_movingStash.last()->GetBlockColor() &&
-            m_blockSlots[t_col]->last()->GetBlockSize() > m_movingStash.first()->GetBlockSize()))
+    if((m_blockSlots[t_col]->size() == 0))
+	{
+		for(int i = 0; i < m_movingStash.size(); ++i)
+        {
+            m_blockSlots[t_col]->push_back(m_movingStash[i]);
+        }
+        m_movingStash.clear();
+	}
+	else if(m_blockSlots[t_col]->last()->GetBlockColor() == m_movingStash.last()->GetBlockColor() &&
+            m_blockSlots[t_col]->last()->GetBlockSize() > m_movingStash.first()->GetBlockSize())
     {
         for(int i = 0; i < m_movingStash.size(); ++i)
         {
