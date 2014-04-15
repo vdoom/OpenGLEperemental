@@ -23,6 +23,8 @@ Block::Block(ctShaderManager * t_shaders, ctScene * t_scene, QOpenGLContext * t_
 Block::Block(ctShaderManager * t_shaders, ctScene * t_scene, QOpenGLContext * t_OGLcontext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type, int t_blockSize, int t_blockColor): ctClickablePlane(t_shaders, t_scene, t_OGLcontext, t_AA, t_BB, t_type)
 {
     SetDefault(t_shaders, t_scene, t_OGLcontext);
+	m_blockColor = t_blockColor;
+	m_blockSize = t_blockSize;
 }
 
 Block::~Block()

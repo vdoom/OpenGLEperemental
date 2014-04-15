@@ -249,8 +249,8 @@ void testScene::GenerateBlocks()
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
-            m_tmp.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7-j, i));
-            m_tmp.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(7-j)+QString(".png"),true);
+            m_tmp.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j+1, i));
+            m_tmp.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
             m_tmp.last()->Init();
             //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
             m_tmp.last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
@@ -349,19 +349,50 @@ void testScene::TakeBlock(int t_col, int t_row)
 {
     if(t_col < 0 || t_row < 0) return;
 
+//-----------------------------------------------
+    Block* tmpBlock = m_blockSlots[t_col]->last();
+	m_movingStash.push_front(m_blockSlots[t_col]->last());
+    int counter = 1;
+    for(int i = m_blockSlots[t_col]->size()-1; i >=0 ; i-- )
+    {
+        if(i < m_blockSlots[t_col]->size()-1)
+        {
+			qDebug()<<"condition1: "<<(m_blockSlots[t_col]->at(i)->GetBlockSize())<<"condition2: "<<(m_blockSlots[t_col]->at(i+1)->GetBlockSize());
+            if(m_blockSlots[t_col]->at(i)->GetBlockColor() == m_blockSlots[t_col]->at(i+1)->GetBlockColor() &&
+                    m_blockSlots[t_col]->at(i)->GetBlockSize() == m_blockSlots[t_col]->at(i+1)->GetBlockSize()+1)
+            {
+                m_movingStash.push_front(m_blockSlots[t_col]->at(i));
+                ++counter;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    qDebug()<<"Blocks Count: "<<counter;
+//-----------------------------------------------
 
-    Block* block = m_blockSlots[t_col]->at(t_row);
-
-    m_blockSlots[t_col]->removeAt(t_row);
-    m_movingStash.push_back(block);
+//    Block* block = m_blockSlots[t_col]->at(t_row);
+//    m_blockSlots[t_col]->removeAt(t_row);
+//    m_movingStash.push_back(block);
+      for(int i = 0; i < counter; ++i)
+      {
+          m_blockSlots[t_col]->removeLast();
+      }
 }
 
 void testScene::DropBlock(int t_col)
 {
     if(m_movingStash.size()<=0 || t_col < 0) return;
-    Block* block = m_movingStash.last();
+    for(int i = 0; i < m_movingStash.size(); ++i)
+    {
+        m_blockSlots[t_col]->push_back(m_movingStash[i]);
+    }
     m_movingStash.clear();
-    m_blockSlots[t_col]->push_back(block);
+    //Block* block = m_movingStash.last();
+    //m_movingStash.clear();
+    //m_blockSlots[t_col]->push_back(block);
 }
 
 int testScene::GetColByPos(QVector2D t_pos)
