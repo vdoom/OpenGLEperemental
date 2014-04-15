@@ -12,6 +12,7 @@ class ctObject : public ctEntity
 {
 private:
     QOpenGLContext * m_OpenGLContext;
+    bool m_isVisible;
 protected:
     ctTransform * m_transform;
     ctMatrix4 m_projectionMatrix;
@@ -32,7 +33,14 @@ public:
     virtual void Freeze();
     virtual void Unfreeze();
     virtual ctEntity* Clone();
+
+    virtual void Hide();
+    virtual void Show();
     //-----------------
+
+    bool IsVisible();
+
+
 
     ctTransform * GetTransform();// const;
     ctMatrix4 GetProjectionMatrix();// const;

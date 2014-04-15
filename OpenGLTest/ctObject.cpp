@@ -88,6 +88,7 @@ void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, 
     m_scene = t_scene;
     m_OpenGLContext = t_OpenGLContext;
     m_transform = new ctTransform(this);
+    Show();
 }
 
 ctEntity* ctObject::Clone()
@@ -99,4 +100,24 @@ ctEntity* ctObject::Clone()
 //    tmp->GetTransform()->SetParent(m_transform->GetParent());
 //    return (ctEntity*)tmp;
     return this;
+}
+
+void ctObject::Show()
+{
+    m_isVisible = true;
+}
+
+void ctObject::Hide()
+{
+    m_isVisible = false;
+}
+
+bool ctObject::IsVisible()
+{
+    bool parentVisible = true;
+    if(GetTransform()->GetParent())
+    {
+        parentVisible = GetTransform()->GetParent()->GetGameObject()->IsVisible();
+    }
+    return m_isVisible && parentVisible;
 }

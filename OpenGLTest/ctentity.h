@@ -8,7 +8,6 @@ class ctEntity
 {
 private:
     bool m_isFreeze;
-    bool m_isVisible;
     bool m_isIgnoreParentvisibility;
     bool m_isFreezable;
     QString m_name;
@@ -23,8 +22,6 @@ public:
     virtual void Update() = 0;
     virtual void Draw() = 0;
     virtual void Init() = 0;
-    virtual void Hide();
-    virtual void Show();
     virtual void Freeze();
     virtual void Unfreeze();
     virtual ctEntity* Clone();
@@ -35,7 +32,6 @@ public:
     bool IsFreezable() const;
     void SetIsFreezable(bool);
     bool IsFreezed() const;
-    bool IsVisible() const;
     bool IsIgnoreParentVisibility();
     void SetIgnoreParentVisibility();
     QString GetTypeName() const;

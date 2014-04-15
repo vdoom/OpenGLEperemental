@@ -58,7 +58,7 @@ void testScene::Init()
     m_back->Init();
 
 
-    ctObject* rootTransform = new ctObject();
+    rootTransform = new ctObject();
     rootTransform->GetTransform()->Move(QVector3D(0,0,0));
     double scale = 1;//GetWindow()->GetDevicePixelRatioCoff();
     //m_plane->GetTransform()->Scale(QVector3D(1,1,1));
@@ -66,7 +66,7 @@ void testScene::Init()
     m_back->GetTransform()->SetParent(rootTransform->GetTransform());
     //m_block->GetTransform()->SetParent(rootTransform->GetTransform());
     rootTransform->GetTransform()->Scale(QVector3D(scale,scale,scale));
-
+    //rootTransform->Hide();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
@@ -188,23 +188,7 @@ void testScene::EndDraw()
 void testScene::Update()
 {
     ctScene::Update();
-//    if(Input.IsMouseLeftButtonPush())
-//    {
-//        if(dynamic_cast<ctClickablePlane*>(m_plane)->IsIntersect(Input.GetMousePos3D()))
-//        {
-//            dragMode = true;
-//        }
-//    }
-//    if(Input.IsMouseLeftButtonRelease())
-//    {
-//        dragMode = false;
-//    }
-//    if(dragMode)
-//    {
-//        //m_plane->GetTransform()->MoveBy(QVector3D(0.5f,0.5f, 0));
-//        m_plane->GetTransform()->Move(Input.GetMousePos3D());
-//    }
-    //ManageRectClick(m_blocks);
+
     ManageCollide();
 }
 
@@ -261,6 +245,7 @@ void testScene::GenerateBlocks()
             m_tmp.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
             AddObject(m_tmp.last());
             AddCollider(m_tmp.last());
+            m_tmp.last()->GetTransform()->SetParent(rootTransform->GetTransform());
         }
     }
 
@@ -271,7 +256,10 @@ void testScene::GenerateBlocks()
         int rnd2 = ctRand::intRandom(0,m_tmp.size()-1);
         qDebug()<< i << " "<< rnd;
         m_blockSlots[rnd]->push_back(m_tmp[rnd2]);
-        m_tmp.removeAt(rnd2);
+        //ON Qt 5.2
+        //m_tmp.removeAt(rnd2);
+        //ON Qt 5.1
+        m_tmp.remove(rnd2);
     }
 }
 
@@ -310,7 +298,9 @@ ctClickablePlane* testScene::ManageCollide()
         {
             for(int i = 0; i < m_movingStash.size(); ++i)
             {
-                m_movingStash[i]->GetTransform()->Move(Input.GetMousePos3D());
+                m_movingStash[i]->GetTransform()->Move(QVector3D(Input.GetMousePos3D().x(),
+                                                                 Input.GetMousePos3D().y() - (25*i),
+                                                                 1.5f));
             }
             //m_selected->GetTransform()->Move(Input.GetMousePos3D());
         }

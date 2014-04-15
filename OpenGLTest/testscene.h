@@ -20,6 +20,7 @@ private:
     ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
+    ctObject* rootTransform;
     //Block * m_block;
     //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;

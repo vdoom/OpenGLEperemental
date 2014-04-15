@@ -87,13 +87,14 @@ void ctScene::Draw()
 {
     for(int i = 0; i < m_objects->size(); ++i)
     {
-        ((ctObject*)(*m_objects)[i])->Draw();
+        if(((ctObject*)(*m_objects)[i])->GetTransform()->IsVisible())
+            ((ctObject*)(*m_objects)[i])->Draw();
     }
 
-    for(int i = 0; i < m_components->size(); ++i)
-    {
-        ((ctEntity*)(*m_components)[i])->Draw();
-    }
+//    for(int i = 0; i < m_components->size(); ++i)
+//    {
+//        ((ctEntity*)(*m_components)[i])->Draw();
+//    }
 }
 
 void ctScene::EndDraw()

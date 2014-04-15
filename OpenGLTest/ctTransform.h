@@ -8,7 +8,6 @@
 
 #include "ctMatrix4.h"
 
-class ctEntity;
 class ctObject;
 
 class ctTransform
@@ -18,12 +17,12 @@ private:
     ctTransform * m_parent;
     ctMatrix4 m_localTransform;
     ctMatrix4 m_globalTransform;//TODO: steel need refine!!!
-    ctEntity * m_entity;
+    ctObject * m_object;
 
     void UpdateGlobalTransformMatrix();
 public:
     ctTransform();
-    ctTransform(ctEntity * t_entity);
+    ctTransform(ctObject * t_entity);
     ~ctTransform();
 
     void SetDefault();
@@ -50,7 +49,7 @@ public:
     void RotateByY(float);
     void RotateByZ(float);
 
-    ctEntity * GetEntity() const;
+    ctObject * GetGameObject() const;
 
     bool GetParentsVisibility() const;
 

@@ -1,5 +1,5 @@
 #include "ctTransform.h"
-#include "ctEntity.h"
+#include "ctObject.h"
 #include "QDebug"
 
 ctTransform::ctTransform()
@@ -7,10 +7,10 @@ ctTransform::ctTransform()
     SetDefault();
 }
 
-ctTransform::ctTransform(ctEntity * t_entity)
+ctTransform::ctTransform(ctObject * t_entity)
 {
     SetDefault();
-    m_entity = t_entity;
+    m_object = t_entity;
 }
 
 ctTransform::~ctTransform()
@@ -92,16 +92,16 @@ ctMatrix4 operator * (ctMatrix4 & t_mat1, ctMatrix4 & t_mat2)
     return tmp;
 }
 
-ctEntity * ctTransform::GetEntity() const
+ctObject * ctTransform::GetGameObject() const
 {
-    return m_entity;
+    return m_object;
 }
 //TODO: NEED TEST !!!
 bool ctTransform::GetParentsVisibility() const
 {
     if(!m_parent)
     {
-        return m_entity->IsVisible();
+        return m_object->IsVisible();
     }
     else
     {
@@ -109,11 +109,11 @@ bool ctTransform::GetParentsVisibility() const
         while(parent)
         {
             parent = parent->GetParent();
-            if(!parent->GetEntity()->IsVisible())
+            if(!parent->GetGameObject()->IsVisible())
             {return false;}
-            if(!parent->GetParent()) return parent->GetEntity()->IsVisible();
+            if(!parent->GetParent()) return parent->GetGameObject()->IsVisible();
         }
-        parent->GetEntity()->IsVisible();
+        parent->GetGameObject()->IsVisible();
     }
 }
 
@@ -124,15 +124,15 @@ ctTransform * ctTransform::GetParent() const
 
 bool ctTransform::IsVisible() const
 {
-    if(!m_entity) return false;
-    return m_entity->IsVisible();
+    if(!m_object) return false;
+    return m_object->IsVisible();
 }
 
 void ctTransform::SetVisible(bool t_visible)
 {
-    if(!m_entity) return;
-    if(t_visible) m_entity->Show();
-    else m_entity->Hide();
+    if(!m_object) return;
+    if(t_visible) m_object->Show();
+    else m_object->Hide();
 }
 
 void ctTransform::SetLocalMatrix(const ctMatrix4 & t_matrix)
