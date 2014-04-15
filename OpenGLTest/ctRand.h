@@ -12,7 +12,7 @@ private:
 public:
     static int RandomReset()
     {
-        srand((unsigned int)ctTime::GetTime()->GetMiliSecsSinceEpoch());
+        srand(ctTime::GetTime()->GetMiliSecsSinceEpoch());
     }
 
     static int intRandom(int min, int max)

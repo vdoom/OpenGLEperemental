@@ -17,13 +17,11 @@ private:
     int m_lastFPS;
     int frameCounter;
     int msecsCounter;
-    ctPlane * m_plane;
-    ctPlane * m_plane2;
     ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
-    Block * m_block;
-    ctClickablePlane * m_selected;
+    //Block * m_block;
+    //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
     //QMediaPlayer * m_sound;
     bool dragMode;
@@ -32,6 +30,8 @@ private:
 
     QVector<QVector<Block*>*> m_blockSlots;
     QVector<Block*> m_movingStash;
+
+    int m_prevColumn;
 
     void GenerateBlocks();
     void AddCollider(ctClickablePlane* );

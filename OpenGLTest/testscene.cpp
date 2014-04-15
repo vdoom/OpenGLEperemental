@@ -33,36 +33,36 @@ void testScene::Init()
     ctScene::Init();
     m_lastFPS = 0;
     dragMode = false;
-    m_selected = 0;
+    //m_selected = 0;
     m_isClicked = "not";
 
     qDebug()<<"init testScene";
     SetDefault(GetShaderManager(), 0, GetOpenGLContext());
-    m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
-    m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
+    //m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
+    //m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
     m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
     m_timer = new ctTimer();
 
-    m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
+    //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
-    m_plane2->InitShader("texturedPlaneShader");
+    //m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
-    m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
+    //m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_back->SetTexture(":/texture/back.jpg");
-    m_block->SetTexture(":/texture/blue_7.png");
+    //m_block->SetTexture(":/texture/blue_7.png");
 
-    m_block->Init();
-    m_plane->Init();
+    //m_block->Init();
+    //m_plane->Init();
     m_back->Init();
 
 
     ctObject* rootTransform = new ctObject();
     rootTransform->GetTransform()->Move(QVector3D(0,0,0));
     double scale = 1;//GetWindow()->GetDevicePixelRatioCoff();
-	m_plane->GetTransform()->Scale(QVector3D(1,1,1));
-    m_plane->GetTransform()->SetParent(rootTransform->GetTransform());
+    //m_plane->GetTransform()->Scale(QVector3D(1,1,1));
+    //m_plane->GetTransform()->SetParent(rootTransform->GetTransform());
     m_back->GetTransform()->SetParent(rootTransform->GetTransform());
     //m_block->GetTransform()->SetParent(rootTransform->GetTransform());
     rootTransform->GetTransform()->Scale(QVector3D(scale,scale,scale));
@@ -79,8 +79,8 @@ void testScene::Init()
 
 
     AddObject(m_back);
-    AddObject(m_block);
-    AddObject(m_plane);
+    //AddObject(m_block);
+    //AddObject(m_plane);
 
     GenerateBlocks();
     AligneBlocks();
@@ -121,6 +121,8 @@ void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene,
     GetShaderManager()->SetUpShaderProgram("vertexModelShaderSource", "fragmentShaderSource", "coloredShader");
     GetShaderManager()->SetUpShaderProgram("lineVertexShaderSource", "lineFragmentShaderSource", "lineShader");
     GetShaderManager()->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
+
+    m_prevColumn = -1;
 }
 
 void testScene::BeginDraw()
@@ -262,11 +264,14 @@ void testScene::GenerateBlocks()
         }
     }
 
-    for(int i = 0; i < m_tmp.size(); ++i)
+    int tmpsize = m_tmp.size();
+    for(int i = 0; i < tmpsize; ++i)
     {
         int rnd = ctRand::intRandom(0, 7);
+        int rnd2 = ctRand::intRandom(0,m_tmp.size()-1);
         qDebug()<< i << " "<< rnd;
-        m_blockSlots[rnd]->push_back(m_tmp[i]);
+        m_blockSlots[rnd]->push_back(m_tmp[rnd2]);
+        m_tmp.removeAt(rnd2);
     }
 }
 
@@ -281,11 +286,11 @@ ctClickablePlane* testScene::ManageCollide()
                 Block* selectedBlock = dynamic_cast<Block*>(m_coliderObjects[i]);
                 if(selectedBlock->IsIntersect(Input.GetMousePos3D()))
                 {
-                    m_selected = m_coliderObjects[i];
+                    //m_selected = m_coliderObjects[i];
                     dragMode = true;
                     QPoint point = FindBlock(selectedBlock);
                     TakeBlock(point.x(), point.y());
-                    return m_selected;
+                    return 0;//m_selected;
                 }
             }
             return 0;
@@ -297,11 +302,11 @@ ctClickablePlane* testScene::ManageCollide()
         if(Input.IsMouseLeftButtonRelease())
         {
             dragMode = false;
-            m_selected = 0;
+            //m_selected = 0;
             DropBlock(GetColByPos(Input.GetMousePos2D()));
             AligneBlocks();
         }
-        if(dragMode && m_selected)
+        if(dragMode)// && m_selected)
         {
             for(int i = 0; i < m_movingStash.size(); ++i)
             {
@@ -349,6 +354,7 @@ void testScene::TakeBlock(int t_col, int t_row)
 {
     if(t_col < 0 || t_row < 0) return;
 
+    m_prevColumn = t_col;
 //-----------------------------------------------
     Block* tmpBlock = m_blockSlots[t_col]->last();
 	m_movingStash.push_front(m_blockSlots[t_col]->last());
@@ -385,11 +391,25 @@ void testScene::TakeBlock(int t_col, int t_row)
 void testScene::DropBlock(int t_col)
 {
     if(m_movingStash.size()<=0 || t_col < 0) return;
-    for(int i = 0; i < m_movingStash.size(); ++i)
+
+    if((m_blockSlots.size() == 0) ||
+            (m_blockSlots[t_col]->last()->GetBlockColor() == m_movingStash.last()->GetBlockColor() &&
+            m_blockSlots[t_col]->last()->GetBlockSize() > m_movingStash.first()->GetBlockSize()))
     {
-        m_blockSlots[t_col]->push_back(m_movingStash[i]);
+        for(int i = 0; i < m_movingStash.size(); ++i)
+        {
+            m_blockSlots[t_col]->push_back(m_movingStash[i]);
+        }
+        m_movingStash.clear();
     }
-    m_movingStash.clear();
+    else
+    {
+        for(int i = 0; i < m_movingStash.size(); ++i)
+        {
+            m_blockSlots[m_prevColumn]->push_back(m_movingStash[i]);
+        }
+        m_movingStash.clear();
+    }
     //Block* block = m_movingStash.last();
     //m_movingStash.clear();
     //m_blockSlots[t_col]->push_back(block);

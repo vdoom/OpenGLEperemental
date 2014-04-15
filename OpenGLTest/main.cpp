@@ -66,6 +66,7 @@
 #include "ctFastDelegat.h"
 #include <functional>
 #include <iostream>
+#include "ctRand.h"
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -247,7 +248,7 @@ void ShowMatrix(QMatrix4x4 t_mat)
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-
+    ctRand::RandomReset();
 //ctDelegat* tt;
     QResource::registerResource("res.rcc");
     QSurfaceFormat format;

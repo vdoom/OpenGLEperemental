@@ -34,6 +34,8 @@ public:
         }
         return s_instance;
     }
+
+    quint64 GetStartTime();
 };
 
 #endif // CTTIME_H

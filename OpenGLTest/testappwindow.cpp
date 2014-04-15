@@ -58,7 +58,7 @@ void testAppWindow::initialize()
 
     qDebug()<<"init";
 
-    ctRand::RandomReset();
+    //ctRand::RandomReset();
     qDebug()<<ctRand::intRandom(0,2);
 }
 

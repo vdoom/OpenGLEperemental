@@ -40,3 +40,10 @@ quint64 ctTime::GetDeltaTime() const
 {
     return GetMiliSecsSinceEpoch() - m_prevUpdateTime;
 }
+
+quint64 timeT = ctTime::GetTime()->GetMiliSecsSinceEpoch();
+
+quint64 ctTime::GetStartTime()
+{
+    return ::timeT;
+}
