@@ -178,8 +178,8 @@ void testScene::EndDraw()
     GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
     GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 	
-	GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos2D().x()));
-	GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos2D().y()));
+    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
+    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
 	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
@@ -278,10 +278,13 @@ ctClickablePlane* testScene::ManageCollide()
         {
             for(int i = 0; i < m_coliderObjects.size(); ++i)
             {
-                if(dynamic_cast<ctClickablePlane*>(m_coliderObjects[i])->IsIntersect(Input.GetMousePos3D()))
+                Block* selectedBlock = dynamic_cast<Block*>(m_coliderObjects[i]);
+                if(selectedBlock->IsIntersect(Input.GetMousePos3D()))
                 {
                     m_selected = m_coliderObjects[i];
                     dragMode = true;
+                    QPoint point = FindBlock(selectedBlock);
+                    TakeBlock(point.x(), point.y());
                     return m_selected;
                 }
             }
@@ -295,11 +298,16 @@ ctClickablePlane* testScene::ManageCollide()
         {
             dragMode = false;
             m_selected = 0;
+            DropBlock(GetColByPos(Input.GetMousePos2D()));
             AligneBlocks();
         }
         if(dragMode && m_selected)
         {
-            m_selected->GetTransform()->Move(Input.GetMousePos3D());
+            for(int i = 0; i < m_movingStash.size(); ++i)
+            {
+                m_movingStash[i]->GetTransform()->Move(Input.GetMousePos3D());
+            }
+            //m_selected->GetTransform()->Move(Input.GetMousePos3D());
         }
     }
 }
@@ -319,4 +327,52 @@ void testScene::AligneBlocks()
                                                                    300 - (25*j), 1));
         }
     }
+}
+
+QPoint testScene::FindBlock(Block *t_block)
+{
+    for(int i = 0; i < m_blockSlots.size(); ++i)
+    {
+        int tt = m_blockSlots[i]->lastIndexOf(t_block);
+        if(tt>=0)
+        {
+            qDebug()<<"col: "<<i<<"row: "<<tt;
+            return QPoint(i, tt);
+        }
+    }
+
+    qDebug()<<"didntFinde";
+    return QPoint(-1, -1);
+}
+
+void testScene::TakeBlock(int t_col, int t_row)
+{
+    if(t_col < 0 || t_row < 0) return;
+
+
+    Block* block = m_blockSlots[t_col]->at(t_row);
+
+    m_blockSlots[t_col]->removeAt(t_row);
+    m_movingStash.push_back(block);
+}
+
+void testScene::DropBlock(int t_col)
+{
+    if(m_movingStash.size()<=0 || t_col < 0) return;
+    Block* block = m_movingStash.last();
+    m_movingStash.clear();
+    m_blockSlots[t_col]->push_back(block);
+}
+
+int testScene::GetColByPos(QVector2D t_pos)
+{
+    for(int i = 0; i < 8; ++i)
+    {
+        if(t_pos.x() >= (128 * i)-512 && t_pos.x() < (128 * (i + 1))-512)
+        {
+            qDebug()<<"col: "<<i;
+            return i;
+        }
+    }
+    return -1;
 }

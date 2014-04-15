@@ -4,6 +4,7 @@
 #include "ctTimer.h"
 //#include <QMediaPlayer>
 #include <QVector>
+#include <QPoint>
 
 class ctPlane;
 class ctClickablePlane;
@@ -34,6 +35,10 @@ private:
 
     void GenerateBlocks();
     void AddCollider(ctClickablePlane* );
+    QPoint FindBlock(Block * t_block);
+    void TakeBlock(int t_col, int t_row);
+    void DropBlock(int t_col);
+    int GetColByPos(QVector2D t_pos);
 protected:
 public:
     testScene();
