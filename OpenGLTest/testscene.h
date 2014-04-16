@@ -62,6 +62,8 @@ public:
     Block* ManageRectClick(QVector<Block*>& t_blocks);
 
     ctClickablePlane* ManageCollide();
+
+    void ResetBlocks();
 };
 
 #endif // TESTSCENE_H

@@ -58,5 +58,6 @@
         <file alias="yellow_5.png">hanoj/hanoj_art/yellow_block5.png</file>
         <file alias="yellow_6.png">hanoj/hanoj_art/yellow_block6.png</file>
         <file alias="yellow_7.png">hanoj/hanoj_art/yellow_block7.png</file>
+        <file alias="reset.png">hanoj/hanoj_art/button_restart.png</file>
     </qresource>
 </RCC>

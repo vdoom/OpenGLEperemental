@@ -10,6 +10,7 @@
 #include "hanoj/hBlock.h"
 #include <QDesktopWidget>
 #include "ctRand.h"
+#include "ctButton.h"
 
 #define Input GetWindow()->GetInput()->GetInputHelper()
 
@@ -42,7 +43,7 @@ void testScene::Init()
     //m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
     m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
     m_timer = new ctTimer();
-
+    ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
@@ -51,11 +52,15 @@ void testScene::Init()
     //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     m_back->SetTexture(":/texture/back.jpg");
+    m_resetButton->SetTexture(":/texture/reset.png",true);
+    m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
     //m_block->SetTexture(":/texture/blue_7.png");
 
     //m_block->Init();
     //m_plane->Init();
     m_back->Init();
+    m_resetButton->Init();
+
 
 
     rootTransform = new ctObject();
@@ -66,6 +71,9 @@ void testScene::Init()
     m_back->GetTransform()->SetParent(rootTransform->GetTransform());
     //m_block->GetTransform()->SetParent(rootTransform->GetTransform());
     rootTransform->GetTransform()->Scale(QVector3D(scale,scale,scale));
+    m_resetButton->GetTransform()->SetParent(rootTransform->GetTransform());
+    m_resetButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
+    m_resetButton->GetTransform()->Move(QVector3D(-400,-320,0));
     //rootTransform->Hide();
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -79,21 +87,12 @@ void testScene::Init()
 
 
     AddObject(m_back);
+    AddObject(m_resetButton);
     //AddObject(m_block);
     //AddObject(m_plane);
 
     GenerateBlocks();
     AligneBlocks();
-//    for(int i = 0; i < 7; ++i)
-//    {
-//        m_blocks.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE));
-//        m_blocks.last()->SetTexture(QString(":/texture/blue_")+QString::number(i+1)+QString(".png"),true);
-//        m_blocks.last()->Init();
-//        m_blocks.last()->GetTransform()->SetParent(rootTransform->GetTransform());
-//        m_blocks.last()->GetTransform()->MoveBy(QVector3D(10*i,10*i,0));
-//        m_blocks.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
-//        AddObject(m_blocks[i]);
-//    }
 
     AddObject(rootTransform);
 
@@ -423,4 +422,9 @@ int testScene::GetColByPos(QVector2D t_pos)
         }
     }
     return -1;
+}
+
+void testScene::ResetBlocks()
+{
+    qDebug()<<"Try Reset!!!";
 }

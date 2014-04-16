@@ -16,12 +16,22 @@ ctButton::ctButton(ctShaderManager *t_shaders, ctScene *t_scene, QOpenGLContext 
 
 ctFastDelegat* ctButton::GetOnPush()
 {
-    return m_OnPush;
+    return &m_OnPush;
 }
 
 void ctButton::Update()
 {
     ctClickablePlane::Update();
+    static bool prevStatePush = false;
+    if(Input.IsMouseLeftButtonPush() && IsIntersect(Input.GetMousePos3D()) && !prevStatePush)
+    {
+        m_OnPush.Call();
+        prevStatePush = true;
+    }
+    if(Input.IsMouseLeftButtonRelease())
+    {
+        prevStatePush = false;
+    }
 
     //TODO: Check click & call OnPush || OnClick
 }
