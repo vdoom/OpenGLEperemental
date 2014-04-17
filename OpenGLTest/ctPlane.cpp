@@ -260,7 +260,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
                               (2 * sizeof(float)), (const GLvoid*)positionsOffset);
         GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
     }
-    else
+    else if(colorAtribLoc == -1 && m_currentType == ctPlane::Textured)
     {qDebug()<<"isShit color!!!";}
 
 //    GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 3, GL_FLOAT, GL_FALSE, 0, planeColor);

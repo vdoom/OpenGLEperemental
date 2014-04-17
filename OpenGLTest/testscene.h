@@ -62,7 +62,7 @@ public:
     void TimerTest();
     void AligneBlocks();
 
-    Block* ManageRectClick(QVector<Block*>& t_blocks);
+    //Block* ManageRectClick(QVector<Block*>& t_blocks);
 
     ctClickablePlane* ManageCollide();
 

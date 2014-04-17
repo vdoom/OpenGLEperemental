@@ -41,8 +41,9 @@ void testScene::Init()
     SetDefault(GetShaderManager(), 0, GetOpenGLContext());
     //m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     //m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
-    m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Textured);
+    m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Colored);
     m_timer = new ctTimer();
+	m_back->SetColor(QVector3D(0, 0.5f, 0));
     ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
     m_timer->SetTimer(5000, true);
@@ -51,7 +52,7 @@ void testScene::Init()
     //m_plane->InitShader("texturedPlaneShader");
     //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-    m_back->SetTexture(":/texture/back.jpg");
+    //m_back->SetTexture(":/texture/back.jpg");
     m_resetButton->SetTexture(":/texture/reset.png",true);
     m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
     //m_block->SetTexture(":/texture/blue_7.png");
@@ -191,9 +192,9 @@ void testScene::Update()
     ManageCollide();
 }
 
-Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
-{
-    return 0;
+//Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
+//{
+//    return 0;
 //    if(!dragMode)// return 0;
 //    {
 //        if(Input.IsMouseLeftButtonPush())
@@ -223,7 +224,7 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
 //            m_selected->GetTransform()->Move(Input.GetMousePos3D());
 //        }
 //    }
-}
+//}
 
 void testScene::GenerateBlocks()
 {
@@ -276,18 +277,29 @@ ctClickablePlane* testScene::ManageCollide()
     {
         if(Input.IsMouseLeftButtonPush())
         {
+			bool taked = false;
             for(int i = 0; i < m_coliderObjects.size(); ++i)
             {
                 Block* selectedBlock = dynamic_cast<Block*>(m_coliderObjects[i]);
                 if(selectedBlock->IsIntersect(Input.GetMousePos3D()))
                 {
+					taked = true;
                     //m_selected = m_coliderObjects[i];
                     dragMode = true;
                     QPoint point = FindBlock(selectedBlock);
-                    TakeBlock(point.x(), point.y());
+                    TakeBlock(point.x(), 0);
                     return 0;//m_selected;
                 }
             }
+			if(!taked)
+			{
+				int colIndex = GetColByPos(Input.GetMousePos2D());
+				if(m_blockSlots[colIndex]->size() > 0 && Input.GetMousePos2D().y() > -200)
+				{
+					dragMode = true;
+					TakeBlock(colIndex, 0);
+				}
+			}
             return 0;
         }
         return 0;
@@ -309,7 +321,6 @@ ctClickablePlane* testScene::ManageCollide()
                                                                  Input.GetMousePos3D().y() - (25*i),
                                                                  1.5f));
             }
-            //m_selected->GetTransform()->Move(Input.GetMousePos3D());
         }
     }
 }
@@ -338,7 +349,7 @@ QPoint testScene::FindBlock(Block *t_block)
         int tt = m_blockSlots[i]->lastIndexOf(t_block);
         if(tt>=0)
         {
-            qDebug()<<"col: "<<i<<"row: "<<tt;
+            //qDebug()<<"col: "<<i<<"row: "<<tt;
             return QPoint(i, tt);
         }
     }
@@ -360,7 +371,7 @@ void testScene::TakeBlock(int t_col, int t_row)
     {
         if(i < m_blockSlots[t_col]->size()-1)
         {
-			qDebug()<<"condition1: "<<(m_blockSlots[t_col]->at(i)->GetBlockSize())<<"condition2: "<<(m_blockSlots[t_col]->at(i+1)->GetBlockSize());
+			//qDebug()<<"condition1: "<<(m_blockSlots[t_col]->at(i)->GetBlockSize())<<"condition2: "<<(m_blockSlots[t_col]->at(i+1)->GetBlockSize());
             if(m_blockSlots[t_col]->at(i)->GetBlockColor() == m_blockSlots[t_col]->at(i+1)->GetBlockColor() &&
                     m_blockSlots[t_col]->at(i)->GetBlockSize() == m_blockSlots[t_col]->at(i+1)->GetBlockSize()+1)
             {
@@ -373,7 +384,7 @@ void testScene::TakeBlock(int t_col, int t_row)
             }
         }
     }
-    qDebug()<<"Blocks Count: "<<counter;
+    //qDebug()<<"Blocks Count: "<<counter;
 //-----------------------------------------------
 
 //    Block* block = m_blockSlots[t_col]->at(t_row);
@@ -423,9 +434,9 @@ int testScene::GetColByPos(QVector2D t_pos)
 {
     for(int i = 0; i < 8; ++i)
     {
-        if(t_pos.x() >= (128 * i)-512 && t_pos.x() < (128 * (i + 1))-512)
+        if(t_pos.x() >= (128 * i)-512 && t_pos.x() <= (128 * (i + 1))-512)
         {
-            qDebug()<<"col: "<<i;
+            //qDebug()<<"col: "<<i;
             return i;
         }
     }
