@@ -227,38 +227,46 @@ Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)
 
 void testScene::GenerateBlocks()
 {
-    QVector<Block*> m_tmp;
     for(int i = 0; i<8; ++i)m_blockSlots.push_back(new QVector<Block*>());
     for(int i = 0; i < 6; ++i)
     {
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
-            m_tmp.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j+1, i));
-            m_tmp.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
-            m_tmp.last()->Init();
+            m_reservedContainer.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j+1, i));
+            m_reservedContainer.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
+            m_reservedContainer.last()->Init();
             //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
-            m_tmp.last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
+            m_reservedContainer.last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
 
             //if(i==2 && j==2){qDebug()<<m_blockSlots.last()->last()->GetTransform()->GetLocalTransformMatrix().GetMatrix().column(3);}
-            m_tmp.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
-            AddObject(m_tmp.last());
-            AddCollider(m_tmp.last());
-            m_tmp.last()->GetTransform()->SetParent(rootTransform->GetTransform());
+            m_reservedContainer.last()->GetTransform()->Scale(QVector3D(0.17f, 0.17f, 1));
+            AddObject(m_reservedContainer.last());
+            AddCollider(m_reservedContainer.last());
+            m_reservedContainer.last()->GetTransform()->SetParent(rootTransform->GetTransform());
         }
     }
+    ReinitColumns(m_reservedContainer);
+}
 
-    int tmpsize = m_tmp.size();
+void testScene::ReinitColumns(QVector<Block *> t_blocks)
+{
+	QVector<Block*> tmp;
+	for(int i = 0; i<t_blocks.size(); ++i)tmp.push_back(t_blocks[i]);
+	//tmp = t_blocks;
+    for(int i = 0; i<8; ++i)m_blockSlots[i]->clear();
+
+    int tmpsize = m_reservedContainer.size();
     for(int i = 0; i < tmpsize; ++i)
     {
         int rnd = ctRand::intRandom(0, 7);
-        int rnd2 = ctRand::intRandom(0,m_tmp.size()-1);
+        int rnd2 = ctRand::intRandom(0,tmp.size()-1);
         qDebug()<< i << " "<< rnd;
-        m_blockSlots[rnd]->push_back(m_tmp[rnd2]);
+        m_blockSlots[rnd]->push_back(tmp[rnd2]);
         //ON Qt 5.2
-        //m_tmp.removeAt(rnd2);
+        tmp.removeAt(rnd2);
         //ON Qt 5.1
-        m_tmp.remove(rnd2);
+        //t_blocks.remove(rnd2);
     }
 }
 
@@ -427,4 +435,6 @@ int testScene::GetColByPos(QVector2D t_pos)
 void testScene::ResetBlocks()
 {
     qDebug()<<"Try Reset!!!";
+    ReinitColumns(m_reservedContainer);
+	AligneBlocks();
 }

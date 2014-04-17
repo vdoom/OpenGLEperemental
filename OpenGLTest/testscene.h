@@ -24,6 +24,7 @@ private:
     //Block * m_block;
     //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
+    QVector<Block*> m_reservedContainer;
     //QMediaPlayer * m_sound;
     bool dragMode;
 
@@ -40,6 +41,8 @@ private:
     void TakeBlock(int t_col, int t_row);
     void DropBlock(int t_col);
     int GetColByPos(QVector2D t_pos);
+
+    void ReinitColumns(QVector<Block*> t_blocks);
 protected:
 public:
     testScene();
