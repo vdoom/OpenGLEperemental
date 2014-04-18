@@ -2,6 +2,7 @@
 #include "ctShaderManager.h"
 #include "ctScene.h"
 #include "ctInput.h"
+#include "ctGLWidget.h"
 
 #include <QApplication>
 #include <QtCore/QCoreApplication>
@@ -98,6 +99,8 @@ void ctWindow::initialize()
         m_device = new QOpenGLPaintDevice;
     m_device->setSize(size());
 
+    m_GLWidget = new ctGLWidget();
+    qDebug()<<"Init GLWidget";
     if(m_scene)
     {
         m_scene->Init();
@@ -215,11 +218,15 @@ void ctWindow::Draw()
         m_input->Update();
     }
     //---------------------------
-    BeginRenderScene();
+    if(m_GLWidget)
+    {
+        m_GLWidget->updateGL();
+    }
+//    BeginRenderScene();
 
-    RenderScene();
+//    RenderScene();
 
-    EndRenderScene();
+//    EndRenderScene();
 }
 
 void ctWindow::SetShaderManager(ctShaderManager *t_shaderManager)
@@ -268,6 +275,8 @@ void ctWindow::SetDefault(QOpenGLContext *t_context)
     m_defaultHeight = 768;
     m_defaultWidth = 1024;
 	m_startupResolution = QVector2D(m_defaultWidth, m_defaultHeight);
+
+    //m_GLWidget = new ctGLWidget();
 }
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)

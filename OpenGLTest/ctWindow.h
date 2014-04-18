@@ -16,6 +16,7 @@ QT_END_NAMESPACE
 class ctScene;
 class ctShaderManager;
 class ctInput;
+class ctGLWidget;
 
 class ctWindow : public QWindow, protected QOpenGLFunctions
 {
@@ -28,6 +29,7 @@ private:
     QVector2D m_startupResolution;
     int m_defaultWidth, m_defaultHeight;
     bool m_update_pending;
+    ctGLWidget * m_GLWidget;
 protected:
     QOpenGLContext * m_context;
     QOpenGLPaintDevice *m_device;

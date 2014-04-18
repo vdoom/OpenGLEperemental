@@ -5,6 +5,8 @@
 #include <QColor>
 #include <QDebug>
 #include "ctShaderManager.h"
+#include "ctScene.h"
+#include <QGLFunctions>
 //ctPlane::ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 //{
 //    meshVBO = 0;
@@ -98,13 +100,14 @@ void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB)
         completeBuffer[positionsOffset + i] = planeTextureCoords[i];
     }
 
-    if(meshVBO)
-        GetOpenGLContext()->functions()->glDeleteBuffers(1, &meshVBO);
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
-    GetOpenGLContext()->functions()->glGenBuffers(1, &meshVBO);
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
 
-    GetOpenGLContext()->functions()->glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
+    if(meshVBO)
+        m_scene->GetContext()->functions()->glDeleteBuffers(1, &meshVBO);
+    m_scene->GetContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
+    m_scene->GetContext()->functions()->glGenBuffers(1, &meshVBO);
+    m_scene->GetContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+
+    m_scene->GetContext()->functions()->glBufferData(GL_ARRAY_BUFFER, (positionsOffset + texCoordOffset) * sizeof(GLfloat),
         completeBuffer, GL_STATIC_DRAW);
 
     delete[] completeBuffer;
@@ -131,7 +134,7 @@ void ctPlane::SetTexture(const char* t_textureFileName, bool t_needResize)
         return;
     }
 
-    GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
+    m_scene->GetContext()->functions()->glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_texture->GetTextureIndex());
 
     if(t_needResize)
@@ -239,26 +242,26 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     const int positionsOffset = 12 * sizeof(float);
     if(m_currentType == ctPlane::Textured)
     {
-        GetOpenGLContext()->functions()->glActiveTexture(GL_TEXTURE0);
+        m_scene->GetContext()->functions()->glActiveTexture(GL_TEXTURE0);
         //glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, m_texture->GetTextureIndex());
     }
 
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
+   m_scene->GetContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, meshVBO);
 
     if (posAtribLoc != -1)
     {
-        GetOpenGLContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
+        m_scene->GetContext()->functions()->glVertexAttribPointer(posAtribLoc, 3, GL_FLOAT, GL_FALSE,
             (3 * sizeof(float)), (const GLvoid*)0);
-        GetOpenGLContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
+        m_scene->GetContext()->functions()->glEnableVertexAttribArray(posAtribLoc);
     }
     else
     {qDebug()<<"isShit pos!!!";}
     if (colorAtribLoc != -1 && m_currentType == ctPlane::Textured)
     {
-        GetOpenGLContext()->functions()->glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
+        m_scene->GetContext()->functions()->glVertexAttribPointer(colorAtribLoc, 2, GL_FLOAT, GL_FALSE,
                               (2 * sizeof(float)), (const GLvoid*)positionsOffset);
-        GetOpenGLContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
+        m_scene->GetContext()->functions()->glEnableVertexAttribArray(colorAtribLoc);
     }
     else if(colorAtribLoc == -1 && m_currentType == ctPlane::Textured)
     {qDebug()<<"isShit color!!!";}
@@ -278,7 +281,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, planeIndexes);
 
-    GetOpenGLContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
+    m_scene->GetContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     m_currentShader->release();
 }

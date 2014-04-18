@@ -1,5 +1,6 @@
 #include "ctScene.h"
 #include "ctWindow.h"
+#include "ctGLWidget.h"
 
 ctScene::ctScene()
 {
@@ -222,3 +223,7 @@ ctWindow * ctScene::GetWindow() const
 //    painter.drawText(t_pos, t_str);
 //}
 
+QGLContext * ctScene::GetContext()
+{
+    m_GLWidget->context();
+}

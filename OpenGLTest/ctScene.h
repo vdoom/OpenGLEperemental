@@ -5,8 +5,11 @@
 
 #include "ctObject.h"
 
+#include <QGLContext>
+
 class ctShaderManager;
 class ctWindow;
+class ctGLWidget;
 
 class ctScene : public ctObject
 {
@@ -16,6 +19,7 @@ protected:
     QVector<ctObject*>* m_objects;
     QVector<ctEntity*>* m_components;
     ctWindow * m_window;
+    ctGLWidget * m_GLWidget;
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
     ctScene();
@@ -50,7 +54,7 @@ public:
     template<class T> QVector<T*> GetComponnetsByType();
     //--------------------------------------------------
 
-
+    QGLContext * GetContext();
 
 };
 
