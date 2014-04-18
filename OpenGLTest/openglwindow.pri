@@ -25,7 +25,8 @@ SOURCES += $$PWD/openglwindow.cpp \
     ctTexture.cpp \
     hanoj/hBlock.cpp \
     ctRand.cpp \
-    ctButton.cpp
+    ctButton.cpp \
+    ctGLWidget.cpp
 HEADERS += $$PWD/openglwindow.h \
     shadermanager.h \
     shaders.h \
@@ -55,7 +56,8 @@ HEADERS += $$PWD/openglwindow.h \
     ctTexture.h \
     hanoj/hBlock.h \
     ctRand.h \
-    ctButton.h
+    ctButton.h \
+    ctGLWidget.h
 
 RESOURCES += \
     res.qrc
