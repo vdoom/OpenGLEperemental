@@ -14,13 +14,13 @@
 //#include <QtOpenGL/QGLFormat>
 #include <QDebug>
 
-ctWindow::ctWindow(QWindow *parent) : QMainWindow(),  m_device(0)
+ctWindow::ctWindow(QWindow *parent) : QMainWindow()
 {
     //setSurfaceType(QWindow::OpenGLSurface);
     SetDefault();
 }
 
-ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(),  m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(), m_QApp(t_QApp)
 {
     SetDefault();
 }
@@ -31,7 +31,7 @@ ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(),  m_d
 //    SetDefault(t_context);
 //}
 
-ctWindow::ctWindow(QGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QMainWindow(),  m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QMainWindow(), m_QApp(t_QApp)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
     SetDefault(t_context);
@@ -43,7 +43,7 @@ ctWindow::~ctWindow()
     delete m_scene;
     delete m_shaderManager;
     //delete m_context;
-    delete m_device;
+    //delete m_device;
     delete m_input;
 
 
@@ -51,14 +51,14 @@ ctWindow::~ctWindow()
 
 bool ctWindow::event(QEvent *event)
 {
-//    if(m_input)
-//        m_input->event(event);
+    if(m_input)
+        m_input->event(event);
     switch (event->type()) {
     case QEvent::UpdateRequest:
         m_update_pending = false;
-        m_GLWidget->updateGL();
-        QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
-        //renderNow();
+        //m_GLWidget->updateGL();
+        //QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
+        renderNow();
         //qDebug()<<"UpdateRequest";
         return true;
     default:
@@ -164,7 +164,7 @@ void ctWindow::renderNow()
         qDebug()<<"Renderer: "<<(const char*)glGetString(GL_RENDERER);
         qDebug()<<"Shaders: "<<(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
         qDebug()<<"Vendor: "<<(const char*)glGetString(GL_VENDOR);
-        //initialize();
+        initialize();
         //        glGenRenderbuffers(1, &depthRenderbuffer);
         //                glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
 
@@ -175,8 +175,8 @@ void ctWindow::renderNow()
         //                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
     }
 
-    if(m_GLWidget) m_GLWidget->updateGL();
-    //render();
+    //if(m_GLWidget) m_GLWidget->updateGL();
+    render();
 
     //m_context->swapBuffers(this);
 
@@ -270,7 +270,8 @@ int ctWindow::GetHeight() const
 
 void ctWindow::SetDefault(QGLContext *t_context)
 {
-    m_GLWidget = new ctGLWidget(this);
+     m_input = new ctInput(this);
+    m_GLWidget = new ctGLWidget();
 
     setCentralWidget(m_GLWidget);
     //m_GLWidget->updateGL();
@@ -284,7 +285,7 @@ void ctWindow::SetDefault(QGLContext *t_context)
 
     m_update_pending = false;
 
-    m_input = new ctInput(this);
+
 
     m_defaultHeight = 768;
     m_defaultWidth = 1024;
@@ -295,9 +296,9 @@ void ctWindow::SetDefault(QGLContext *t_context)
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
 {
-    QPainter painter(m_GLWidget->context()->device());//(m_device);
-    painter.setPen(Qt::green);
-    painter.drawText(t_pos, t_str);
+//    QPainter painter(m_GLWidget->context()->device());//(m_device);
+//    painter.setPen(Qt::green);
+//    painter.drawText(t_pos, t_str);
 }
 
 QVector2D ctWindow::GetStartupResolution() const

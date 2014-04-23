@@ -10,10 +10,11 @@ class ctGLWidget : public QGLWidget
 private:
     ctScene* m_scene;
 protected:
-    virtual void paintGL();
-    virtual void initializeGL();
+    void paintGL();
+    void initializeGL();
+	void resizeGL(int w, int h){}
 public:
-    ctGLWidget(QWidget *parent = 0);
+    ctGLWidget();
     void SetScene(ctScene*);
     ctScene* GetScene();
 };

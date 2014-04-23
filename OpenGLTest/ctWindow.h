@@ -10,8 +10,6 @@
 
 QT_BEGIN_NAMESPACE
 class QPainter;
-class QOpenGLContext;
-class QOpenGLPaintDevice;
 class QApplication;
 QT_END_NAMESPACE
 
@@ -34,7 +32,7 @@ private:
 
 protected:
     //QGLContext * m_context;
-    QOpenGLPaintDevice *m_device;
+    //QOpenGLPaintDevice *m_device;
     ctGLWidget * m_GLWidget;
 
     bool event(QEvent *event);

@@ -3,30 +3,31 @@
 #include "ctScene.h"
 #include <QDebug>
 
-ctGLWidget::ctGLWidget(QWidget *parent) : QGLWidget(parent)
+ctGLWidget::ctGLWidget() : QGLWidget()
 {
     m_scene = 0;
     setAttribute(Qt::WA_PaintOnScreen);
     setAttribute(Qt::WA_NoSystemBackground);
-    setAutoBufferSwap(false);
+    setAutoBufferSwap(true);
     //m_showBubbles = true;
-    setMinimumSize(300, 250);
+    //setMinimumSize(300, 250);
     makeCurrent();
 }
 
 void ctGLWidget::paintGL()
 {
-//    glClearColor(1.0, 0.0, 1.0, 0.0);
-//    if(m_scene)
-//    {
-//        m_scene->BeginDraw();
-//        m_scene->Draw();
-//        m_scene->EndDraw();
-//        qDebug()<<"DrawGL";
-//    }
+    glClearColor(1.0, 0.0, 1.0, 0.0);
+    if(m_scene)
+    {
+        m_scene->BeginDraw();
+        m_scene->Draw();
+        m_scene->EndDraw();
+        qDebug()<<"DrawGL";
+    }
 //    else
 //    {qDebug()<<"HasentScene";}
-    //glClearColor(1.0, 0.0, 1.0, 0.0);
+//    glClearColor(1.0, 0.0, 1.0, 0.0);
+//    qDebug()<<"Clear";
 }
 
 void ctGLWidget::initializeGL()
