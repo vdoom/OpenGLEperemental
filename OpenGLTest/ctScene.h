@@ -19,12 +19,12 @@ protected:
     QVector<ctObject*>* m_objects;
     QVector<ctEntity*>* m_components;
     ctWindow * m_window;
-    ctGLWidget * m_GLWidget;
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    //ctGLWidget * m_GLWidget;
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
     ctScene();
     explicit ctScene(ctShaderManager *);
-    ctScene(ctShaderManager *, QOpenGLContext *);
+    ctScene(ctShaderManager *, QGLContext *);
     virtual ~ctScene();
 
     void AddObject(ctObject*);

@@ -2,28 +2,28 @@
 #define CTOBJECT_H
 
 #include "ctTransform.h"
+#include <QGLContext>
 #include "ctEntity.h"
 
 class ctShaderManager;
 class ctScene;
-class QOpenGLContext;
 
 class ctObject : public ctEntity
 {
 private:
-    QOpenGLContext * m_OpenGLContext;
+    QGLContext * m_OpenGLContext;
     bool m_isVisible;
 protected:
     ctTransform * m_transform;
     ctMatrix4 m_projectionMatrix;
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
     ctObject();
     explicit ctObject(ctShaderManager *);
     ctObject(ctShaderManager *, ctScene *);
-    ctObject(ctShaderManager *, ctScene *, QOpenGLContext *);
+    ctObject(ctShaderManager *, ctScene *, QGLContext *);
     virtual ~ctObject();
 
     //----Override-----
@@ -53,8 +53,8 @@ public:
     void SetShaderManager(ctShaderManager* t_shaderManager);
     ctShaderManager * GetShaderManager() const;
 
-    QOpenGLContext * GetOpenGLContext() const;
-    void SetOpenGLContext(const QOpenGLContext * t_context);
+    QGLContext * GetOpenGLContext() const;
+    void SetOpenGLContext(const QGLContext * t_context);
 };
 
 #endif // CTOBJECT_H

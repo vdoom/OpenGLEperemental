@@ -14,8 +14,8 @@ private:
 public:
     explicit ctButton(ctShaderManager *);
     ctButton(ctShaderManager *, ctScene *);
-    ctButton(ctShaderManager *, ctScene *, QOpenGLContext *);
-    ctButton(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type, ctInput*);
+    ctButton(ctShaderManager *, ctScene *, QGLContext *);
+    ctButton(ctShaderManager *, ctScene *, QGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type, ctInput*);
 
     ctFastDelegat* GetOnPush();
 

@@ -6,20 +6,21 @@
 
 #include <QApplication>
 #include <QtCore/QCoreApplication>
-#include <QtGui/QOpenGLContext>
+//#include <QtGui/QOpenGLContext>
+#include <QGLContext>
 #include <QtGui/QOpenGLPaintDevice>
 #include <QtGui/QPainter>
 #include <QtOpenGL>
-#include <QtOpenGL/QGLFormat>
+//#include <QtOpenGL/QGLFormat>
 #include <QDebug>
 
-ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0)
+ctWindow::ctWindow(QWindow *parent) : QMainWindow(),  m_device(0)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
     SetDefault();
 }
 
-ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(),  m_device(0), m_QApp(t_QApp)
 {
     SetDefault();
 }
@@ -30,7 +31,7 @@ ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_
 //    SetDefault(t_context);
 //}
 
-ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QMainWindow(),  m_device(0), m_QApp(t_QApp)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
     SetDefault(t_context);
@@ -41,7 +42,7 @@ ctWindow::~ctWindow()
     qDebug()<<"Destroy Window";
     delete m_scene;
     delete m_shaderManager;
-    delete m_context;
+    //delete m_context;
     delete m_device;
     delete m_input;
 
@@ -50,8 +51,8 @@ ctWindow::~ctWindow()
 
 bool ctWindow::event(QEvent *event)
 {
-    if(m_input)
-        m_input->event(event);
+//    if(m_input)
+//        m_input->event(event);
     switch (event->type()) {
     case QEvent::UpdateRequest:
         m_update_pending = false;
@@ -59,7 +60,7 @@ bool ctWindow::event(QEvent *event)
         //qDebug()<<"UpdateRequest";
         return true;
     default:
-        return QWindow::event(event);
+        return QMainWindow::event(event);
     }
 }
 
@@ -67,8 +68,8 @@ void ctWindow::exposeEvent(QExposeEvent *event)
 {
     Q_UNUSED(event);
 
-    if (isExposed())
-        renderNow();
+    //if (isExposed())
+     //   renderNow();
 }
 
 void ctWindow::render()
@@ -99,8 +100,8 @@ void ctWindow::initialize()
         m_device = new QOpenGLPaintDevice;
     m_device->setSize(size());
 
-    m_GLWidget = new ctGLWidget();
-    qDebug()<<"Init GLWidget";
+    qDebug()<<"QGLis Valid: "<< m_GLWidget->isValid();
+    qDebug()<<"Init GLWidget"<< m_GLWidget->context();
     if(m_scene)
     {
         m_scene->Init();
@@ -108,9 +109,9 @@ void ctWindow::initialize()
     //Initialization;
 }
 
-QOpenGLContext * ctWindow::GetOpenGLContext() const
+QGLContext * ctWindow::GetOpenGLContext() const
 {
-    return m_context;
+    return m_GLWidget->context();//m_context;
 }
 
 void ctWindow::renderLater()
@@ -126,29 +127,30 @@ void ctWindow::renderLater()
 void ctWindow::renderNow()
 {
     //qDebug()<<"RenderNow";
-    if (!isExposed())
-        return;
+    //if (!isExposed())
+      //  return;
 
-    bool needsInitialize = false;
+    static bool needsInitialize = false;
 
-    if (!m_context) {
-        m_context = new QOpenGLContext(this);
-        QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
-        QGLFormat::setDefaultFormat(format);
-        QSurfaceFormat t_format = requestedFormat();
-        //t_format.setSamples(16);
-        //t_format.setDepthBufferSize(24);
-        //setFormat(t_format);
-        m_context->setFormat(t_format);
-        m_context->create();
+//    if (!m_context) {
+//       // m_context = new QOpenGLContext(this);
+//        QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
+//        QGLFormat::setDefaultFormat(format);
+//        //QSurfaceFormat t_format = requestedFormat();
+//        //t_format.setSamples(16);
+//        //t_format.setDepthBufferSize(24);
+//        //setFormat(t_format);
+//        //m_context->setFormat(t_format);
+//        //m_context->create();
 
+//        //needsInitialize = true;
+//    }
+
+   // m_context->makeCurrent(this);
+
+    if (!needsInitialize) {
         needsInitialize = true;
-    }
-
-    m_context->makeCurrent(this);
-
-    if (needsInitialize) {
-        initializeOpenGLFunctions();
+        //initializeOpenGLFunctions();
         initialize();
         //GLuint depthRenderbuffer;
 
@@ -170,7 +172,7 @@ void ctWindow::renderNow()
 
     render();
 
-    m_context->swapBuffers(this);
+    //m_context->swapBuffers(this);
 
     //if (m_animating)
         renderLater();
@@ -214,8 +216,8 @@ void ctWindow::Draw()
     //-----temporary-soluton-----
     if(m_scene)
     {
-        m_scene->Update();
-        m_input->Update();
+        //m_scene->Update();
+       // m_input->Update();
     }
     //---------------------------
     if(m_GLWidget)
@@ -259,10 +261,15 @@ int ctWindow::GetHeight() const
     return height() * GetDevicePixelRatioCoff();
 }
 
-void ctWindow::SetDefault(QOpenGLContext *t_context)
+void ctWindow::SetDefault(QGLContext *t_context)
 {
+    m_GLWidget = new ctGLWidget();
+
+    setCentralWidget(m_GLWidget);
+    m_GLWidget->updateGL();
+
     SetScene(0);
-    setSurfaceType(QWindow::OpenGLSurface);
+    //setSurfaceType(QWindow::OpenGLSurface);
     if(!t_context)
         m_shaderManager = new ctShaderManager();
     else

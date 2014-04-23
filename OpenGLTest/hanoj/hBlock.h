@@ -18,13 +18,13 @@ public:
 private:
     int m_blockSize, m_blockColor;
 protected:
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
     explicit Block(ctShaderManager *);
     Block(ctShaderManager *, ctScene *);
-    Block(ctShaderManager *, ctScene *, QOpenGLContext *);
-    Block(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
-    Block(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type, int t_blockSize, int t_blockColor);
+    Block(ctShaderManager *, ctScene *, QGLContext *);
+    Block(ctShaderManager *, ctScene *, QGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
+    Block(ctShaderManager *, ctScene *, QGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type, int t_blockSize, int t_blockColor);
     virtual ~Block();
 
     virtual void Update();

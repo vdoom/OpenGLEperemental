@@ -16,7 +16,7 @@ ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene)
     SetDefault(t_shaderManager, t_scene, 0);
 }
 
-ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
 {
     SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 }
@@ -72,17 +72,17 @@ ctShaderManager * ctObject::GetShaderManager() const
     return m_shaderManager;
 }
 
-QOpenGLContext * ctObject::GetOpenGLContext() const
+QGLContext * ctObject::GetOpenGLContext() const
 {
     return m_OpenGLContext;
 }
 
-void ctObject::SetOpenGLContext(const QOpenGLContext *t_context)
+void ctObject::SetOpenGLContext(const QGLContext *t_context)
 {
-    m_OpenGLContext = const_cast<QOpenGLContext*>(t_context);
+    m_OpenGLContext = const_cast<QGLContext*>(t_context);
 }
 
-void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
 {
     m_shaderManager = t_shaderManager;
     m_scene = t_scene;

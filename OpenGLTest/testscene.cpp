@@ -21,7 +21,7 @@ testScene::testScene()
 testScene::testScene(ctShaderManager * t_shaderManager) : ctScene(t_shaderManager)
 {}
 
-testScene::testScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext)
+testScene::testScene(ctShaderManager * t_shaderManager, QGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext)
 {}
 
 testScene::~testScene()
@@ -107,7 +107,7 @@ void testScene::TimerTest()
     qDebug()<<"TimerTested";
 }
 
-void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
 {
     ctScene::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 
@@ -175,13 +175,13 @@ void testScene::EndDraw()
     ctScene::EndDraw();
     m_frame+=1.0f;
     if(m_frame > 360) m_frame = m_frame - 360;
-    ctTime::GetTime()->Update();
 
-    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
-    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+
+//    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+//    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 	
-    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
-    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
+//    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
+//    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
 	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
@@ -190,6 +190,7 @@ void testScene::Update()
     ctScene::Update();
 
     ManageCollide();
+    ctTime::GetTime()->Update();
 }
 
 //Block* testScene::ManageRectClick(QVector<Block *> &t_blocks)

@@ -21,7 +21,7 @@
 //    //m_transform = new ctTransform();
 //}
 
-ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
+ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
     SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
     m_currentType = t_type;
@@ -311,13 +311,13 @@ void ctPlane::InitShader(QString t_shaderProgrammName)
     m_currentShader = m_shaderManager->GetShaderProgram(t_shaderProgrammName);
     GettingAttributes(m_currentShader);
 }
-void ctPlane::InitShader(QOpenGLShaderProgram *t_initedShader)
+void ctPlane::InitShader(QGLShaderProgram *t_initedShader)
 {
     m_currentShader = t_initedShader;
     GettingAttributes(m_currentShader);
 }
 
-void ctPlane::GettingAttributes(QOpenGLShaderProgram * t_shaderProgram)
+void ctPlane::GettingAttributes(QGLShaderProgram * t_shaderProgram)
 {
     if(m_currentType == Colored)
     {
@@ -358,7 +358,7 @@ void ctPlane::Update()
     //Update Some States
 }
 
-void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContex)
+void ctPlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContex)
 {
     ctObject::SetDefault(t_shaderManager, t_scene, t_OpenGLContex);
     meshVBO = 0;
