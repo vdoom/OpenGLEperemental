@@ -280,6 +280,7 @@ void ctPlane::DrawTextured(QMatrix4x4 t_projectionMatrix)
     m_currentShader->setUniformValue(transformMatrixUniform, m_transform->GetGlobalTransformMatrix().GetMatrix());
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, planeIndexes);
+    qDebug()<<"DrawTextured";
 
     m_scene->GetContext()->functions()->glBindBuffer(GL_ARRAY_BUFFER, 0);
 

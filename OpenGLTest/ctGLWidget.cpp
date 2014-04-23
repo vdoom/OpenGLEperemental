@@ -16,22 +16,25 @@ ctGLWidget::ctGLWidget(QWidget *parent) : QGLWidget(parent)
 
 void ctGLWidget::paintGL()
 {
-    //qDebug()<<"repaint";
-    glClearColor(1.0, 0.0, 1.0, 0.0);
-    if(m_scene)
-    {
-        m_scene->BeginDraw();
-        m_scene->Draw();
-        m_scene->EndDraw();
-    }
-    //glClearColor(1.0, 0.0, 0.0, 0.0);
+//    glClearColor(1.0, 0.0, 1.0, 0.0);
+//    if(m_scene)
+//    {
+//        m_scene->BeginDraw();
+//        m_scene->Draw();
+//        m_scene->EndDraw();
+//        qDebug()<<"DrawGL";
+//    }
+//    else
+//    {qDebug()<<"HasentScene";}
+    //glClearColor(1.0, 0.0, 1.0, 0.0);
 }
 
 void ctGLWidget::initializeGL()
 {
-    glClearColor(1.0, 0.0, 0.0, 0.0);
+    makeCurrent();
+    glClearColor(1.0, 0.0, 1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
-    qDebug()<<"QGLContext is valid: "<< isValid();
+    qDebug()<<"QGLContext is valid11: "<< isValid();
 }
 
 void ctGLWidget::SetScene(ctScene * t_scene)

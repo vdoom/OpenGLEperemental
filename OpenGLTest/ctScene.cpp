@@ -88,7 +88,7 @@ void ctScene::Draw()
 {
     for(int i = 0; i < m_objects->size(); ++i)
     {
-        if(((ctObject*)(*m_objects)[i])->GetTransform()->IsVisible())
+        //if(((ctObject*)(*m_objects)[i])->GetTransform()->IsVisible())
             ((ctObject*)(*m_objects)[i])->Draw();
     }
 

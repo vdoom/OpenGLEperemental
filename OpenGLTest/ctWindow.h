@@ -1,9 +1,9 @@
 #ifndef CTWINDOW_H
 #define CTWINDOW_H
 
-#include <QtGui/QWindow>
+//#include <QtGui/QWindow>
 #include <QMainWindow>
-#include <QtGui/QOpenGLFunctions>
+//#include <QtGui/QOpenGLFunctions>
 #include <QGLContext>
 #include <QPainter>
 #include <QVector2D>
@@ -20,7 +20,7 @@ class ctShaderManager;
 class ctInput;
 class ctGLWidget;
 
-class ctWindow : public QMainWindow, protected QOpenGLFunctions
+class ctWindow : public QMainWindow
 {
     Q_OBJECT
 private:
@@ -31,13 +31,14 @@ private:
     QVector2D m_startupResolution;
     int m_defaultWidth, m_defaultHeight;
     bool m_update_pending;
-    ctGLWidget * m_GLWidget;
+
 protected:
     //QGLContext * m_context;
     QOpenGLPaintDevice *m_device;
+    ctGLWidget * m_GLWidget;
 
     bool event(QEvent *event);
-    void exposeEvent(QExposeEvent *event);
+    //void exposeEvent(QExposeEvent *event);
     virtual void SetDefault(QGLContext *t_context = 0);
     virtual void BeginRenderScene();
     virtual void RenderScene();
@@ -54,8 +55,8 @@ public:
     virtual void initialize();
     virtual void Draw();
 
-    QGLContext * GetOpenGLContext() const;
-    QOpenGLPaintDevice * GetOpenGLDevice() const;
+    QGLContext * GetOpenGLContext();
+    //QOpenGLPaintDevice * GetOpenGLDevice() const;
 
     void SetScene(ctScene* t_scene);
     ctScene * GetScene() const;

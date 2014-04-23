@@ -38,7 +38,8 @@ void testScene::Init()
     m_isClicked = "not";
 
     qDebug()<<"init testScene";
-    SetDefault(GetShaderManager(), 0, GetOpenGLContext());
+    //GetWindow()->GetOpenGLContext()->makeCurrent();
+    SetDefault(GetShaderManager(), 0, GetWindow()->GetOpenGLContext());//GetOpenGLContext());
     //m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     //m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
     m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Colored);
@@ -76,7 +77,7 @@ void testScene::Init()
     m_resetButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
     m_resetButton->GetTransform()->Move(QVector3D(-400,-320,0));
     //rootTransform->Hide();
-    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+    glClearColor(1.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
     glEnable(GL_DEPTH_TEST);
@@ -145,7 +146,6 @@ void testScene::BeginDraw()
 void testScene::Draw()
 {
     ctScene::Draw();
-
     QMatrix4x4 matrix;
     matrix.ortho((0 - GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultHeight()/2), (0 - GetWindow()->GetDefaultHeight()/2), 0, 10000.0f);//((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
     //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
@@ -177,11 +177,11 @@ void testScene::EndDraw()
     if(m_frame > 360) m_frame = m_frame - 360;
 
 
-//    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
-//    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 	
-//    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
-//    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
+    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
+    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
 	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
