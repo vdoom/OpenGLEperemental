@@ -9,6 +9,7 @@ class QMatrix4x4;
 
 class testAppWindow : public ctWindow
 {
+    Q_OBJECT
 private:
 //    float m_frame;
 //    int m_lastFPS;

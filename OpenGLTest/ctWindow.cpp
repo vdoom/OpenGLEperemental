@@ -17,11 +17,19 @@
 ctWindow::ctWindow(QWindow *parent) : QMainWindow()
 {
     //setSurfaceType(QWindow::OpenGLSurface);
+m_input = new ctInput(this);
+    m_GLWidget = new ctGLWidget();
+
+    setCentralWidget(m_GLWidget);
     SetDefault();
 }
 
 ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(), m_QApp(t_QApp)
 {
+m_input = new ctInput(this);
+    m_GLWidget = new ctGLWidget();
+
+    setCentralWidget(m_GLWidget);
     SetDefault();
 }
 
@@ -34,7 +42,11 @@ ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(), m_QA
 ctWindow::ctWindow(QGLContext *t_context, QApplication * t_QApp,  QWindow *parent) : QMainWindow(), m_QApp(t_QApp)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
-    SetDefault(t_context);
+m_input = new ctInput(this);
+    m_GLWidget = new ctGLWidget();
+
+    setCentralWidget(m_GLWidget);
+     SetDefault(t_context);
 }
 
 ctWindow::~ctWindow()
@@ -89,12 +101,19 @@ void ctWindow::render()
     //render(&painter);
     Draw();//RenderScene();
     renderLater();
+
+    static bool ss = false;
+    if(!ss)
+    {
+        ss = true;
+        qDebug()<<"dddd";
+    }
 }
 
-void ctWindow::render(QPainter *painter)
-{
-    Q_UNUSED(painter);
-}
+//void ctWindow::render(QPainter *painter)
+//{
+//    Q_UNUSED(painter);
+//}
 
 void ctWindow::initialize()
 {
@@ -270,18 +289,19 @@ int ctWindow::GetHeight() const
 
 void ctWindow::SetDefault(QGLContext *t_context)
 {
-     m_input = new ctInput(this);
-    m_GLWidget = new ctGLWidget();
 
-    setCentralWidget(m_GLWidget);
+qDebug()<<"SetDefault";
     //m_GLWidget->updateGL();
 
     SetScene(0);
     //setSurfaceType(QWindow::OpenGLSurface);
+    if(m_shaderManager)
+    {
     if(!m_GLWidget->isValid())
         m_shaderManager = new ctShaderManager();
     else
         m_shaderManager = new ctShaderManager(GetOpenGLContext());
+    }
 
     m_update_pending = false;
 
@@ -296,9 +316,11 @@ void ctWindow::SetDefault(QGLContext *t_context)
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
 {
-//    QPainter painter(m_GLWidget->context()->device());//(m_device);
+//    QPainter painter;//(m_device);
+//    painter.begin(m_GLWidget);
 //    painter.setPen(Qt::green);
 //    painter.drawText(t_pos, t_str);
+//    painter.end();
 }
 
 QVector2D ctWindow::GetStartupResolution() const
@@ -309,7 +331,7 @@ QVector2D ctWindow::GetStartupResolution() const
 void ctWindow::SetResolution(int t_width, int t_height)
 {
     m_startupResolution = QVector2D(t_width, t_height);
-    resize(t_width, t_height);
+    //resize(t_width, t_height);
 }
 
 int ctWindow::GetDefaultHeight() const

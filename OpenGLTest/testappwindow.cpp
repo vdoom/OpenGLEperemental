@@ -24,11 +24,18 @@ void testAppWindow::ShowMatrix(QMatrix4x4 t_mat)
 testAppWindow::testAppWindow(QWindow *parent) : ctWindow(parent)
 {
    // m_lastFPS = 0;
+
+
 }
 
 testAppWindow::testAppWindow(QApplication * t_QApp, QWindow *parent) : ctWindow(t_QApp, parent)
 {
    // m_lastFPS = 0;
+    SetScene(new testScene(GetShaderManager(), GetOpenGLContext()));
+    //GetScene()->Init();
+    GetScene()->SetShaderManager(GetShaderManager());
+    GetScene()->SetWindow(this);
+
 }
 
 //testAppWindow::testAppWindow(QOpenGLContext *t_context, QWindow *parent) : ctWindow(t_context, parent)
@@ -39,6 +46,11 @@ testAppWindow::testAppWindow(QApplication * t_QApp, QWindow *parent) : ctWindow(
 testAppWindow::testAppWindow(QGLContext *t_context, QApplication *t_QApp, QWindow *parent) : ctWindow(t_context, t_QApp, parent)
 {
 //    m_lastFPS = 0;
+    SetScene(new testScene(GetShaderManager(), GetOpenGLContext()));
+    //GetScene()->Init();
+    GetScene()->SetShaderManager(GetShaderManager());
+    GetScene()->SetWindow(this);
+
 }
 
 testAppWindow::~testAppWindow()
@@ -53,6 +65,7 @@ void testAppWindow::initialize()
     //GetScene()->Init();
     GetScene()->SetShaderManager(GetShaderManager());
     GetScene()->SetWindow(this);
+
 
     ctWindow::initialize();
 

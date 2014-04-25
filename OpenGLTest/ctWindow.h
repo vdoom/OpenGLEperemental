@@ -48,7 +48,7 @@ public:
     explicit ctWindow(QGLContext * t_context, QApplication * t_QApp = 0, QWindow *parent = 0);
     virtual ~ctWindow();
 
-    virtual void render(QPainter *painter);
+   // virtual void render(QPainter *painter);
     virtual void render();
     virtual void initialize();
     virtual void Draw();

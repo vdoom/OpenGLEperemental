@@ -14,7 +14,7 @@ protected:
     void initializeGL();
 	void resizeGL(int w, int h){}
 public:
-    ctGLWidget();
+    ctGLWidget(ctScene* tt = 0);
     void SetScene(ctScene*);
     ctScene* GetScene();
 };
