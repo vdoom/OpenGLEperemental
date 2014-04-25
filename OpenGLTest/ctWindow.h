@@ -78,7 +78,7 @@ public:
 
 public slots:
     void renderLater();
-    void renderNow();
+    void renderNow11();
 };
 
 #endif // CTWINDOW_H

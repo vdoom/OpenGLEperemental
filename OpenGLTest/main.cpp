@@ -269,7 +269,7 @@ int main(int argc, char **argv)
     qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
-    m_testWindow.show();
+    m_testWindow.showMaximized();
 
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);

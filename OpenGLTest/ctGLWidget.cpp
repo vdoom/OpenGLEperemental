@@ -29,7 +29,7 @@ makeCurrent();
         m_scene->BeginDraw();
         m_scene->Draw();
         m_scene->EndDraw();
-        qDebug()<<"DrawGL";
+        //qDebug()<<"DrawGL";
     }
     makeCurrent();
     //painter.drawText(20, 40, framesPerSecond + " fps");

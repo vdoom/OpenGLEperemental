@@ -42,7 +42,7 @@ void testScene::Init()
     SetDefault(GetShaderManager(), 0, GetWindow()->GetOpenGLContext());//GetOpenGLContext());
     //m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
     //m_plane = new ctClickablePlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,50,0), QVector3D(-50,-50,0), ctPlane::Textured);
-    m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,0.5), QVector3D(-512, -384, 0.5), ctPlane::Colored);
+    m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,-10), QVector3D(-512, -384, -10), ctPlane::Colored);
     m_timer = new ctTimer();
     m_back->SetColor(QVector3D(0.5f, 0.5f, 0));
     ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
@@ -61,7 +61,7 @@ void testScene::Init()
 
     //m_block->Init();
     //m_plane->Init();
-   // m_back->Init();
+    m_back->Init();
     m_resetButton->Init();
 
 
@@ -89,7 +89,7 @@ void testScene::Init()
     m_frame = 0;
 
 
-    //AddObject(m_back);
+    AddObject(m_back);
     AddObject(m_resetButton);
     //AddObject(m_block);
     //AddObject(m_plane);

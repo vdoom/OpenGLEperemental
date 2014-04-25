@@ -13,23 +13,48 @@
 #include <QtOpenGL>
 //#include <QtOpenGL/QGLFormat>
 #include <QDebug>
+#include <QGroupBox>
+#include <QGridLayout>
+#include <QTimer>
 
 ctWindow::ctWindow(QWindow *parent) : QMainWindow()
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
-    m_GLWidget = new ctGLWidget();
 
-    setCentralWidget(m_GLWidget);
+
+    m_GLWidget = new ctGLWidget();
+    QGroupBox * groupBox = new QGroupBox(this);
+    setCentralWidget(groupBox);
+    groupBox->setTitle("OpenGL ES Example");
+    QGridLayout *layout = new QGridLayout(groupBox);
+    layout->addWidget(m_GLWidget,1,0,8,1);
+    groupBox->setLayout(layout);
+
+
     SetDefault();
 }
 
 ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QMainWindow(), m_QApp(t_QApp)
 {
 m_input = new ctInput(this);
-    m_GLWidget = new ctGLWidget();
 
+//m_GLWidget = new ctGLWidget();
+//QGroupBox * groupBox = new QGroupBox(this);
+//setCentralWidget(groupBox);
+//groupBox->setTitle("OpenGL ES Example");
+//QGridLayout *layout = new QGridLayout(groupBox);
+//layout->addWidget(m_GLWidget,1,0,8,1);
+//groupBox->setLayout(layout);
+
+    m_GLWidget = new ctGLWidget();
     setCentralWidget(m_GLWidget);
+
+    QTimer *timer = new QTimer(this);
+    timer->setInterval(10);
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow11()));
+    timer->start();
+
     SetDefault();
 }
 
@@ -43,9 +68,16 @@ ctWindow::ctWindow(QGLContext *t_context, QApplication * t_QApp,  QWindow *paren
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
-    m_GLWidget = new ctGLWidget();
+//    m_GLWidget = new ctGLWidget();
 
-    setCentralWidget(m_GLWidget);
+//    setCentralWidget(m_GLWidget);
+m_GLWidget = new ctGLWidget();
+QGroupBox * groupBox = new QGroupBox(this);
+setCentralWidget(groupBox);
+groupBox->setTitle("OpenGL ES Example");
+QGridLayout *layout = new QGridLayout(groupBox);
+layout->addWidget(m_GLWidget,1,0,8,1);
+groupBox->setLayout(layout);
      SetDefault(t_context);
 }
 
@@ -63,19 +95,27 @@ ctWindow::~ctWindow()
 
 bool ctWindow::event(QEvent *event)
 {
+    //event->type();
     if(m_input)
         m_input->event(event);
-    switch (event->type()) {
-    case QEvent::UpdateRequest:
-        m_update_pending = false;
-        //m_GLWidget->updateGL();
-        //QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
-        renderNow();
-        //qDebug()<<"UpdateRequest";
-        return true;
-    default:
-        return QMainWindow::event(event);
-    }
+//    switch (event->type()) {
+//    case QEvent::UpdateRequest:
+//        //renderNow11();
+//        break;
+//    }
+//        m_update_pending = false;
+//        //m_GLWidget->updateGL();
+//        QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
+
+//        //qDebug()<<"UpdateRequest";
+
+//         renderNow11();
+//        break;//return true;
+//    default:
+//        break;//return true;
+//    }
+     //QCoreApplication::postEvent(this, event);
+    //QMainWindow::event(event);
 }
 
 //void ctWindow::exposeEvent(QExposeEvent *event)
@@ -145,7 +185,7 @@ void ctWindow::renderLater()
     }
 }
 
-void ctWindow::renderNow()
+void ctWindow::renderNow11()
 {
     //qDebug()<<"RenderNow";
     //if (!isExposed())
