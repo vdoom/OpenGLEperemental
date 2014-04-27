@@ -20,7 +20,7 @@ private:
     ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
-    ctObject* rootTransform;
+    //ctObject* rootTransform;
     //Block * m_block;
     //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
@@ -43,6 +43,9 @@ private:
     int GetColByPos(QVector2D t_pos);
 
     void ReinitColumns(QVector<Block*> t_blocks);
+
+    const float m_verticalAligneBlock;
+    const float m_horisontalAligneBlock;
 protected:
 public:
     testScene();
@@ -67,6 +70,8 @@ public:
     ctClickablePlane* ManageCollide();
 
     void ResetBlocks();
+
+    bool IsWin();
 };
 
 #endif // TESTSCENE_H

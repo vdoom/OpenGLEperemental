@@ -16,7 +16,7 @@ private:
     bool m_isCyclic;
 public:
     ctTimer();
-    ~ctTimer(){qDebug()<<"TimerDestroyed";}
+    virtual ~ctTimer(){qDebug()<<"TimerDestroyed";}
 
     virtual void Update();
     virtual void Draw();

@@ -357,6 +357,7 @@ void ctPlane::Draw()
 
 void ctPlane::Update()
 {
+    ctObject::Update();
     //Update Some States
 }
 

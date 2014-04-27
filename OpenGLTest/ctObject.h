@@ -18,6 +18,7 @@ protected:
     ctMatrix4 m_projectionMatrix;
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
+    QVector<ctEntity*>* m_components;
     virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
     ctObject();
@@ -27,7 +28,7 @@ public:
     virtual ~ctObject();
 
     //----Override-----
-    virtual void Update(){}//=0;
+    virtual void Update();
     virtual void Draw(){}//=0;
     virtual void Init(){}//=0;
     virtual void Freeze();
@@ -39,8 +40,12 @@ public:
     //-----------------
 
     bool IsVisible();
-
-
+    //-----------------------------------------
+    ctEntity* GetComponentByUUID(QUuid t_uuid);
+    QVector<ctEntity*> GetComponentByName(QString t_name);
+    template<class T> QVector<T*> GetComponnetsByType();
+    void AddComponnent(ctEntity*);
+    //-----------------------------------------
 
     ctTransform * GetTransform();// const;
     ctMatrix4 GetProjectionMatrix();// const;

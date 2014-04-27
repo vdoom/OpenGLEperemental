@@ -8,11 +8,11 @@ public:
     {
         BC_BLUE = 0,
         BC_CYAN = 1,
-        BC_GRAY = 2,
+        BC_RED = 2,
         BC_GREEN = 3,
         BC_ORANGE = 4,
         BC_PURPPLE = 5,
-        BC_RED = 6,
+        BC_GRAY = 6,
         BC_YELLOW = 7
     };
 private:

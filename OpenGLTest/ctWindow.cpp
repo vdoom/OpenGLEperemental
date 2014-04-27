@@ -371,7 +371,7 @@ QVector2D ctWindow::GetStartupResolution() const
 void ctWindow::SetResolution(int t_width, int t_height)
 {
     m_startupResolution = QVector2D(t_width, t_height);
-    //resize(t_width, t_height);
+    resize(t_width, t_height);
 }
 
 int ctWindow::GetDefaultHeight() const
