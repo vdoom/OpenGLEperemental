@@ -12,6 +12,7 @@
 #include "ctRand.h"
 #include "ctButton.h"
 #include "ctMover.h"
+#include "hanoj/hCircles.h"
 #define Input GetWindow()->GetInput()->GetInputHelper()
 
 testScene::testScene() : m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
@@ -48,12 +49,14 @@ void testScene::Init()
     ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
-    ctMover * t_mover = new ctMover();
-    m_resetButton->AddComponnent(t_mover);
-    t_mover->SetUp(QVector3D(400,400, 1), QVector3D(-400, -400, 1),10000, true, m_resetButton->GetTransform());
-    t_mover->Start();
+   // ctMover * t_mover = new ctMover();
+    //m_resetButton->AddComponnent(t_mover);
+   // t_mover->SetUp(QVector3D(400,400, 1), QVector3D(-400, -400, 1),10000, true, m_resetButton->GetTransform());
+    //t_mover->Start();
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
+    hCircles * t_circles = new hCircles(GetShaderManager(), this, GetOpenGLContext());
+    t_circles->Init();
     //m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
     //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
@@ -93,7 +96,8 @@ void testScene::Init()
     m_frame = 0;
 
 
-    AddObject(m_back);
+    AddObject(t_circles);
+    //AddObject(m_back);
     AddObject(m_resetButton);
     //AddObject(m_block);
     //AddObject(m_plane);
@@ -206,7 +210,7 @@ void testScene::GenerateBlocks()
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
-            m_reservedContainer.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, j+1, i));
+            m_reservedContainer.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,-10), QVector3D(-50,-10,-10), ctPlane::Textured, j+1, i));
             m_reservedContainer.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
             m_reservedContainer.last()->Init();
             //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
@@ -237,9 +241,9 @@ void testScene::ReinitColumns(QVector<Block *> t_blocks)
         qDebug()<< i << " "<< rnd;
         m_blockSlots[rnd]->push_back(tmp[rnd2]);
         //ON Qt 5.2
-       // tmp.removeAt(rnd2);
+        tmp.removeAt(rnd2);
         //ON Qt 5.1
-        tmp.remove(rnd2);
+        //tmp.remove(rnd2);
     }
 }
 
@@ -291,7 +295,7 @@ ctClickablePlane* testScene::ManageCollide()
             {
                 m_movingStash[i]->GetTransform()->Move(QVector3D(Input.GetMousePos3D().x(),
                                                                  Input.GetMousePos3D().y() - (m_verticalAligneBlock * i),
-                                                                 2.0f));
+                                                                 3.0f));
             }
         }
     }
@@ -444,3 +448,4 @@ bool testScene::IsWin()
     }
     return true;
 }
+

@@ -16,6 +16,7 @@ class ctScene : public ctObject
 private:
     //TODO: make m_scene as privat in this class
 protected:
+    //TODO: Should delete m_objects container
     QVector<ctObject*>* m_objects;
     ctWindow * m_window;
     //ctGLWidget * m_GLWidget;

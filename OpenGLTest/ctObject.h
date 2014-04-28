@@ -18,6 +18,7 @@ protected:
     ctMatrix4 m_projectionMatrix;
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
+    //TDOD: Should delete continer m_components
     QVector<ctEntity*>* m_components;
     virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:

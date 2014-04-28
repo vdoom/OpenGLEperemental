@@ -60,4 +60,22 @@
         <file alias="yellow_7.png">hanoj/hanoj_art/yellow_block7.png</file>
         <file alias="reset.png">hanoj/hanoj_art/button_restart.png</file>
     </qresource>
+    <qresource prefix="/texture/circles">
+        <file alias="blue1.png">hanoj/hanoj_art/circles/blue1.png</file>
+        <file alias="blue2.png">hanoj/hanoj_art/circles/blue2.png</file>
+        <file alias="blue3.png">hanoj/hanoj_art/circles/blue3.png</file>
+        <file alias="blue4.png">hanoj/hanoj_art/circles/blue4.png</file>
+        <file alias="green1.png">hanoj/hanoj_art/circles/green1.png</file>
+        <file alias="green2.png">hanoj/hanoj_art/circles/green2.png</file>
+        <file alias="green3.png">hanoj/hanoj_art/circles/green3.png</file>
+        <file alias="green4.png">hanoj/hanoj_art/circles/green4.png</file>
+        <file alias="red1.png">hanoj/hanoj_art/circles/red1.png</file>
+        <file alias="red2.png">hanoj/hanoj_art/circles/red2.png</file>
+        <file alias="red3.png">hanoj/hanoj_art/circles/red3.png</file>
+        <file alias="red4.png">hanoj/hanoj_art/circles/red4.png</file>
+        <file alias="yellow1.png">hanoj/hanoj_art/circles/yellow1.png</file>
+        <file alias="yellow2.png">hanoj/hanoj_art/circles/yellow2.png</file>
+        <file alias="yellow3.png">hanoj/hanoj_art/circles/yellow3.png</file>
+        <file alias="yellow4.png">hanoj/hanoj_art/circles/yellow4.png</file>
+    </qresource>
 </RCC>
