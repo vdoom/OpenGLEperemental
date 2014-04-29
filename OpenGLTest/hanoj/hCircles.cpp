@@ -32,12 +32,12 @@ void hCircles::Init()
         {
             ctPlane* tmpPlane = new ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext(),QVector3D(1,1,1), QVector3D(-1,-1,1), ctPlane::Textured);
             tmpPlane->SetTexture(hCircles::GetCircleResPath(i,j), true);
-            tmpPlane->GetTransform()->Scale(QVector3D(0.001f,0.001f,1));
+            tmpPlane->GetTransform()->Scale(QVector3D(0.001,0.0013,1));
             tmpPlane->GetTransform()->SetParent(GetTransform());
             tmpPlane->Init();
             m_circles.push_back(tmpPlane);
             ctMover * m_mover = new ctMover();
-            m_mover->SetUp(QVector3D(1,1,-2), QVector3D(-1, -1, -2), 10000, true, tmpPlane->GetTransform());
+            m_mover->SetUp(QVector3D(-2.3f+(0.8*i), -1.2, -1),QVector3D(-0.3f+(0.8*i),1.2,-1), 10000, true, tmpPlane->GetTransform(), ((float)j/5));
             tmpPlane->AddComponnent(m_mover);
             m_mover->Start();
         }

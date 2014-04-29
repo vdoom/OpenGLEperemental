@@ -27,8 +27,9 @@ public:
     virtual void Draw(){}
     virtual void Init(){}
 
-    void SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool t_cyclic, ctTransform * t_transform);
+    void SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool t_cyclic, ctTransform * t_transform, float t_elaps = 0);
     void SetTransform(ctTransform * t_transform);
+    void SetElapse(float);
     void Start();
     void Stop();
     bool IsCyclic();

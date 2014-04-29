@@ -22,7 +22,7 @@ makeCurrent();
 
     //painter.beginNativePainting();
 
-    glClearColor(0.0, 0.0, 1.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
 
     if(m_scene)
     {
@@ -45,7 +45,7 @@ makeCurrent();
 void ctGLWidget::initializeGL()
 {
     makeCurrent();
-    glClearColor(0.0, 1.0, 1.0, 0.0);
+    glClearColor(1.0, 1.0, 1.0, 0.0);
     glEnable(GL_DEPTH_TEST);
     qDebug()<<"\n\nQGLContext is valid11: \n\n"<< isValid();
 

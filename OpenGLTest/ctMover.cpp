@@ -16,9 +16,9 @@ ctMover::~ctMover()
 
 void ctMover::Update()
 {
+	static bool first = false;
     if(m_isWorking)
     {
-        m_elapsed += ctTime::GetTime()->GetDeltaTime();
         float tmpMult = m_elapsed / m_duration;
         if(tmpMult > 1) tmpMult = 1;
         if(m_paretnTransform)
@@ -37,10 +37,18 @@ void ctMover::Update()
                 m_isWorking = false;
             }
         }
+		if(!first)
+		{
+			first = true;
+		}
+		else
+		{
+			m_elapsed += ctTime::GetTime()->GetDeltaTime();
+		}
     }
 }
 
-void ctMover::SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool t_cyclic, ctTransform * t_transform)
+void ctMover::SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool t_cyclic, ctTransform * t_transform, float t_elaps)
 {
     m_startPos = t_startPos;
     m_endPos = t_endPos;
@@ -48,6 +56,10 @@ void ctMover::SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool
     m_isCyclic = t_cyclic;
     m_paretnTransform = t_transform;
     m_delta = t_endPos - t_startPos;
+    //if(t_elaps != 0)
+    {
+        SetElapse(t_elaps);
+    }
 }
 
 void ctMover::SetTransform(ctTransform * t_transform)
@@ -57,7 +69,7 @@ void ctMover::SetTransform(ctTransform * t_transform)
 void ctMover::Start()
 {
     m_isWorking = true;
-    m_elapsed = 0;//+= ctTime::GetTime()->GetDeltaTime();
+    //m_elapsed = 0;//+= ctTime::GetTime()->GetDeltaTime();
     //m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
     //m_endTime = m_start
 }
@@ -80,4 +92,8 @@ bool ctMover::IsWork()
 ctFastDelegat* ctMover::GetDelegatOnFinish()
 {
     return &m_OnFinish;
+}
+void ctMover::SetElapse(float t_elaps)
+{
+    m_elapsed = m_duration * t_elaps;
 }
