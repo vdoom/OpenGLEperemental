@@ -104,7 +104,7 @@ AddObject(t_circles);
     //AddObject(m_plane);
 
     GenerateBlocks();
-    AligneBlocks();
+    AligneBlocks(true);
 
     //AddObject(rootTransform);
 
@@ -214,6 +214,7 @@ void testScene::GenerateBlocks()
             m_reservedContainer.push_back(new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,-10), QVector3D(-50,-10,-10), ctPlane::Textured, j+1, i));
             m_reservedContainer.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
             m_reservedContainer.last()->Init();
+            //m_reservedContainer.last()->
             //m_blockSlots.last()->last()->GetTransform()->SetParent(rootTransform->GetTransform());
             m_reservedContainer.last()->GetTransform()->MoveBy(QVector3D(20*i,10*j,0));
 
@@ -307,14 +308,22 @@ void testScene::AddCollider(ctClickablePlane * t_clickPlane)
     m_coliderObjects.push_back(t_clickPlane);
 }
 
-void testScene::AligneBlocks()
+void testScene::AligneBlocks(bool t_fast)
 {
     for(int i = 0; i < 8; ++i)
     {
         for(int j=0; j<m_blockSlots[i]->size(); ++j)
         {
-            m_blockSlots[i]->at(j)->GetTransform()->Move(QVector3D((64 + (m_horisontalAligneBlock * i)) - 512,
+            if(t_fast)
+            {
+                m_blockSlots[i]->at(j)->GetTransform()->Move(QVector3D((64 + (m_horisontalAligneBlock * i)) - 512,
                                                                    300 - (m_verticalAligneBlock * j), 1));
+            }
+            else
+            {
+                m_blockSlots[i]->at(j)->AutoMove(m_blockSlots[i]->at(j)->GetTransform()->GetLocalPos(), QVector3D((64 + (m_horisontalAligneBlock * i)) - 512,
+                                                                                                              300 - (m_verticalAligneBlock * j), 1));
+            }
         }
     }
 

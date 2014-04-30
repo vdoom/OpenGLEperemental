@@ -16,6 +16,7 @@ private:
     float m_elapsed;
     float m_duration;
     float m_currentPos;
+    float m_prevElapsed;
     bool m_isCyclic;
     bool m_isWorking;
     ctFastDelegat m_OnFinish;
@@ -35,6 +36,7 @@ public:
     bool IsCyclic();
     void SetCyclic(bool t_isCyclic);
     bool IsWork();
+    void SetNewPoses(QVector3D t_start, QVector3D t_end);
 
     ctFastDelegat* GetDelegatOnFinish();
     //explicit ctMover(QObject *parent = 0);

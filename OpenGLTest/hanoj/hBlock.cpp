@@ -7,6 +7,9 @@ void Block::SetDefault(ctShaderManager * t_shaders, ctScene * t_scene, QGLContex
     m_blockColor = BC_BLUE;
     m_blockSize = 7;
     qDebug()<<"Block";
+    m_mover = 0;
+    m_mover = new ctMover();
+
 }
 
 Block::Block(ctShaderManager * t_shaders) : ctClickablePlane(t_shaders)
@@ -41,6 +44,10 @@ void Block::Draw()
 void Block::Init()
 {
     ctClickablePlane::Init();
+    m_mover->SetUp(QVector3D(100,10,1), QVector3D(-1,-1,1), 100, false, GetTransform(), 0);
+    m_mover->Init();
+    m_mover->SetName(QString("QQQQQ"));
+    AddComponnent(m_mover);
 }
 ctEntity* Block::Clone()
 {
@@ -55,4 +62,14 @@ int Block::GetBlockColor() const
 int Block::GetBlockSize() const
 {
     return m_blockSize;
+}
+
+void Block::AutoMove(QVector3D t_start, QVector3D t_end)
+{
+    //if(m_mover)
+    //{
+    //qDebug()<<"AutoMove from"<<t_start<<" to:"<<t_end;
+        m_mover->SetNewPoses(t_start, t_end);
+        m_mover->Start();
+    //}
 }

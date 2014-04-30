@@ -27,7 +27,7 @@ void ctMover::Update()
         }
         if(tmpMult >= 1)
         {
-            m_OnFinish.Call();
+            //m_OnFinish.Call();
             if(m_isCyclic)
             {
                 m_elapsed = 0;
@@ -50,12 +50,11 @@ void ctMover::Update()
 
 void ctMover::SetUp(QVector3D t_startPos, QVector3D t_endPos, float t_time, bool t_cyclic, ctTransform * t_transform, float t_elaps)
 {
-    m_startPos = t_startPos;
-    m_endPos = t_endPos;
     m_duration = t_time;
     m_isCyclic = t_cyclic;
     m_paretnTransform = t_transform;
-    m_delta = t_endPos - t_startPos;
+    SetNewPoses(t_startPos, t_endPos);
+    m_prevElapsed = t_elaps;
     //if(t_elaps != 0)
     {
         SetElapse(t_elaps);
@@ -69,6 +68,15 @@ void ctMover::SetTransform(ctTransform * t_transform)
 void ctMover::Start()
 {
     m_isWorking = true;
+    if(m_prevElapsed == 0)
+    {
+        m_elapsed = 0;
+    }
+    else
+    {
+        SetElapse(m_prevElapsed);
+    }
+   // m_elapsed = 0;
     //m_elapsed = 0;//+= ctTime::GetTime()->GetDeltaTime();
     //m_startTime = ctTime::GetTime()->GetMiliSecsSinceEpoch();
     //m_endTime = m_start
@@ -96,4 +104,10 @@ ctFastDelegat* ctMover::GetDelegatOnFinish()
 void ctMover::SetElapse(float t_elaps)
 {
     m_elapsed = m_duration * t_elaps;
+}
+void ctMover::SetNewPoses(QVector3D t_start, QVector3D t_end)
+{
+    m_startPos = t_start;
+    m_endPos = t_end;
+    m_delta = t_end - t_start;
 }

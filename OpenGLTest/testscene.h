@@ -63,7 +63,7 @@ public:
     virtual void Update();
 
     void TimerTest();
-    void AligneBlocks();
+    void AligneBlocks(bool t_fast = false);
 
     //Block* ManageRectClick(QVector<Block*>& t_blocks);
 

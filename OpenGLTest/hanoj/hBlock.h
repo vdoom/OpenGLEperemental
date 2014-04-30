@@ -1,6 +1,8 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 #include "ctClickablePlane.h"
+#include "ctMover.h"
+
 class Block : public ctClickablePlane
 {
 public:
@@ -17,6 +19,7 @@ public:
     };
 private:
     int m_blockSize, m_blockColor;
+    ctMover* m_mover;
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
@@ -34,6 +37,8 @@ public:
     //-----------------------------------------
     int GetBlockSize() const;
     int GetBlockColor() const;
+
+    void AutoMove(QVector3D t_start, QVector3D t_end);
 
     static QString GetColor(int t_colorCode)
     {
