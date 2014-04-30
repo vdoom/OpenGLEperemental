@@ -46,7 +46,6 @@ void Block::Init()
     ctClickablePlane::Init();
     m_mover->SetUp(QVector3D(100,10,1), QVector3D(-1,-1,1), 100, false, GetTransform(), 0);
     m_mover->Init();
-    m_mover->SetName(QString("QQQQQ"));
     AddComponnent(m_mover);
 }
 ctEntity* Block::Clone()
