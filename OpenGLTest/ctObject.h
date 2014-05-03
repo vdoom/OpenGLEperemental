@@ -50,7 +50,7 @@ public:
 
     ctTransform * GetTransform();// const;
     ctMatrix4 GetProjectionMatrix();// const;
-    void SetProjectionMatrix(ctMatrix4 & t_projMat);
+    virtual void SetProjectionMatrix(ctMatrix4 & t_projMat);
     void SetProjectionMatrix(QMatrix4x4 & t_projMat);
 
     void SetScene(ctScene* t_scene);

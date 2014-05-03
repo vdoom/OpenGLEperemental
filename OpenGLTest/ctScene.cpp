@@ -71,6 +71,10 @@ void ctScene::Init()
     {
         ((ctEntity*)(*m_components)[i])->Init();
     }
+
+    matrix.ortho((0 - GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultHeight()/2), (0 - GetWindow()->GetDefaultHeight()/2), 0, 10000.0f);//((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
+    //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
+    matrix.translate(0, 0 , -50);
 }
 
 void ctScene::BeginDraw()
@@ -184,4 +188,14 @@ QGLContext * ctScene::GetContext()
     return GetWindow()->GetOpenGLContext();
     //qDebug()<<m_GLWidget->context();
     //return m_GLWidget->context();
+}
+
+bool ctScene::IsDragMode()
+{
+    return m_dragMode;
+}
+
+void ctScene::SetDragMode(bool t_dragMode)
+{
+    m_dragMode = t_dragMode;
 }

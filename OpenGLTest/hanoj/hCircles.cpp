@@ -55,10 +55,12 @@ void hCircles::Update()
 
 void hCircles::Draw()
 {
+    glDisable(GL_DEPTH_TEST);
     ctObject::Draw();
     for(int i = 0; i < m_circles.count(); ++i)
     {
         //qDebug()<<"Draw Circle";
         m_circles[i]->Draw();
     }
+    glEnable(GL_DEPTH_TEST);
 }

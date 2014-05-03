@@ -39,6 +39,7 @@ void Block::Update()
 }
 void Block::Draw()
 {
+    qDebug()<<"DrawBlock";
     ctClickablePlane::Draw();
 }
 void Block::Init()

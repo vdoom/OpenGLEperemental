@@ -40,6 +40,7 @@ public:
 
     void AutoMove(QVector3D t_start, QVector3D t_end);
 
+
     static QString GetColor(int t_colorCode)
     {
         switch(t_colorCode)

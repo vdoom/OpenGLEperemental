@@ -15,6 +15,8 @@ class ctScene : public ctObject
 {
 private:
     //TODO: make m_scene as privat in this class
+    bool m_dragMode;
+
 protected:
     //TODO: Should delete m_objects container
     QVector<ctObject*>* m_objects;
@@ -22,6 +24,7 @@ protected:
     //ctGLWidget * m_GLWidget;
     virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
+     QMatrix4x4 matrix;
     ctScene();
     explicit ctScene(ctShaderManager *);
     ctScene(ctShaderManager *, QGLContext *);
@@ -52,6 +55,10 @@ public:
 
     QGLContext * GetContext();
 
+    bool IsDragMode();
+    void SetDragMode(bool t_dragMode);
+
+    QMatrix4x4* GetProjectionMatrix(){return &matrix;}
 };
 
 #endif // CTSCENE_H

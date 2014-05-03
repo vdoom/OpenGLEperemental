@@ -13,6 +13,7 @@
 #include "ctButton.h"
 #include "ctMover.h"
 #include "hanoj/hCircles.h"
+#include "hanoj/hBricks.h"
 #define Input GetWindow()->GetInput()->GetInputHelper()
 
 testScene::testScene() : m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
@@ -34,7 +35,8 @@ void testScene::Init()
 //    mydesk
     ctScene::Init();
     m_lastFPS = 0;
-    dragMode = false;
+    //dragMode = false;
+    SetDragMode(false);
     //m_selected = 0;
     m_isClicked = "not";
 
@@ -46,6 +48,7 @@ void testScene::Init()
     m_back = new ctPlane(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,-20), QVector3D(-512, -384, -20), ctPlane::Colored);
     m_timer = new ctTimer();
     m_back->SetColor(QVector3D(0.61f, 1.0f, 0.85f));
+    m_bricks = new hBricks(GetShaderManager(), this, GetOpenGLContext(), 0);
     ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
@@ -58,6 +61,8 @@ void testScene::Init()
     hCircles * t_circles = new hCircles(GetShaderManager(), this, GetOpenGLContext());
     t_circles->GetTransform()->Move(QVector3D(0,0,0));
     t_circles->Init();
+    m_bricks->Init();
+    m_bricks->SetProjectionMatrixtt(*GetProjectionMatrix());
     //m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
     //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
@@ -97,18 +102,19 @@ void testScene::Init()
     m_frame = 0;
 
 
-AddObject(t_circles);
+    AddObject(t_circles);
     AddObject(m_back);
     AddObject(m_resetButton);
+    AddObject(m_bricks);
     //AddObject(m_block);
     //AddObject(m_plane);
 
-    GenerateBlocks();
-    AligneBlocks(true);
+    //GenerateBlocks();
+    //AligneBlocks(true);
 
     //AddObject(rootTransform);
 
-    AddComponnent(m_timer);
+    //AddComponnent(m_timer);
     //AddObject(m_timer);
     //AddObject(m_plane2);
 }
@@ -156,10 +162,7 @@ void testScene::BeginDraw()
 void testScene::Draw()
 {
     ctScene::Draw();
-    QMatrix4x4 matrix;
-    matrix.ortho((0 - GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultWidth() /2), (GetWindow()->GetDefaultHeight()/2), (0 - GetWindow()->GetDefaultHeight()/2), 0, 10000.0f);//((0 - GetWindow()->width()/2), (GetWindow()->width()/2), (GetWindow()->height()/2), (0 - GetWindow()->height()/2), 0, 10000.0f);
-    //matrix.perspective(60, 4.0/3.0, 0.1, 1000.0);
-    matrix.translate(0, 0 , -50);
+
     //matrix.rotate(m_frame/*100.0f * m_frame / screen()->refreshRate()*/, 0, 1, 0);
     //qDebug()<<m_frame;
     //m_plane->GetTransform()->RotateByY(0.01f);//.GetMatrix().rotate(m_frame, 0, 1, 0);
@@ -177,6 +180,7 @@ void testScene::Draw()
     {
         (*itr)->SetProjectionMatrix(matrix);
     }
+    //if(m_bricks)m_bricks->SetProjectionMatrixtt(matrix);
     //ctWindow::RenderScene();
 }
 
@@ -199,7 +203,7 @@ void testScene::Update()
 {
     ctScene::Update();
 
-    ManageCollide();
+    //ManageCollide();
     ctTime::GetTime()->Update();
 }
 
@@ -243,15 +247,15 @@ void testScene::ReinitColumns(QVector<Block *> t_blocks)
         qDebug()<< i << " "<< rnd;
         m_blockSlots[rnd]->push_back(tmp[rnd2]);
         //ON Qt 5.2
-        tmp.removeAt(rnd2);
+        //tmp.removeAt(rnd2);
         //ON Qt 5.1
-        //tmp.remove(rnd2);
+        tmp.remove(rnd2);
     }
 }
 
 ctClickablePlane* testScene::ManageCollide()
 {
-    if(!dragMode)// return 0;
+    if(!IsDragMode())// return 0;
     {
         if(Input.IsMouseLeftButtonPush())
         {
@@ -263,7 +267,8 @@ ctClickablePlane* testScene::ManageCollide()
                 {
 					taked = true;
                     //m_selected = m_coliderObjects[i];
-                    dragMode = true;
+                    SetDragMode(true);
+                    //dragMode = true;
                     QPoint point = FindBlock(selectedBlock);
                     TakeBlock(point.x(), 0);
                     return 0;//m_selected;
@@ -274,7 +279,8 @@ ctClickablePlane* testScene::ManageCollide()
 				int colIndex = GetColByPos(Input.GetMousePos2D());
 				if(m_blockSlots[colIndex]->size() > 0 && Input.GetMousePos2D().y() > -200)
 				{
-					dragMode = true;
+                    SetDragMode(true);
+                    //dragMode = true;
 					TakeBlock(colIndex, 0);
 				}
 			}
@@ -286,12 +292,13 @@ ctClickablePlane* testScene::ManageCollide()
     {
         if(Input.IsMouseLeftButtonRelease())
         {
-            dragMode = false;
+            SetDragMode(false);
+            //dragMode = false;
             //m_selected = 0;
             DropBlock(GetColByPos(Input.GetMousePos2D()));
             AligneBlocks();
         }
-        if(dragMode)// && m_selected)
+        if(IsDragMode())// && m_selected)
         {
             for(int i = 0; i < m_movingStash.size(); ++i)
             {
@@ -338,12 +345,9 @@ QPoint testScene::FindBlock(Block *t_block)
         int tt = m_blockSlots[i]->lastIndexOf(t_block);
         if(tt>=0)
         {
-            //qDebug()<<"col: "<<i<<"row: "<<tt;
             return QPoint(i, tt);
         }
     }
-
-    qDebug()<<"didntFinde";
     return QPoint(-1, -1);
 }
 
@@ -435,8 +439,12 @@ int testScene::GetColByPos(QVector2D t_pos)
 void testScene::ResetBlocks()
 {
     qDebug()<<"Try Reset!!!";
-    ReinitColumns(m_reservedContainer);
-	AligneBlocks();
+    if(m_bricks)
+    {
+        m_bricks->ResetBlocks();
+    }
+    //ReinitColumns(m_reservedContainer);
+    //AligneBlocks();
 }
 
 bool testScene::IsWin()

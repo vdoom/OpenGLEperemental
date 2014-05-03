@@ -78,4 +78,7 @@
         <file alias="yellow3.png">hanoj/hanoj_art/circles/yellow3.png</file>
         <file alias="yellow4.png">hanoj/hanoj_art/circles/yellow4.png</file>
     </qresource>
+    <qresource prefix="/texture/GUI">
+        <file alias="win.png">hanoj/hanoj_art/wintxt.png</file>
+    </qresource>
 </RCC>

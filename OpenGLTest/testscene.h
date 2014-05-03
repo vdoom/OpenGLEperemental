@@ -9,6 +9,7 @@
 class ctPlane;
 class ctClickablePlane;
 class Block;
+class hBricks;
 
 class testScene : public ctScene
 {
@@ -20,13 +21,13 @@ private:
     ctPlane * m_back;
     ctTimer * m_timer;
     QString m_isClicked;
+    hBricks * m_bricks;
     //ctObject* rootTransform;
     //Block * m_block;
     //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
     QVector<Block*> m_reservedContainer;
     //QMediaPlayer * m_sound;
-    bool dragMode;
 
     QVector<ctClickablePlane*> m_coliderObjects;
 
