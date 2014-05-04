@@ -7,6 +7,7 @@
 #include "../hanoj/hBlock.h"
 
 #define Input GetScene()->GetWindow()->GetInput()->GetInputHelper()
+
 hBricks::hBricks() : ctObject(), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {}
 hBricks::hBricks(ctShaderManager * t_shaders) : ctObject(t_shaders), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
@@ -39,7 +40,7 @@ void hBricks::Draw()
     for(int i = 0; i < m_blocks.count(); i++)
     {
         //m_blocks.at(i)->SetProjectionMatrix(GetProjectionMatrix());
-        m_blocks.at(i)->Draw();
+        m_blocks.at((m_blocks.count()-1)-i)->Draw();
     }
     glEnable(GL_DEPTH_TEST);
 }
@@ -57,6 +58,7 @@ void hBricks::SetInput(ctInput* t_input)
 
 void hBricks::AligneBlocks(bool t_fast)
 {
+    qDebug()<<"AligneBlocks";
     for(int i = 0; i < 8; ++i)
     {
         for(int j=0; j<m_blockSlots[i]->size(); ++j)
@@ -258,6 +260,12 @@ void hBricks::TakeBlock(int t_col, int t_row)
     m_prevColumn = t_col;
 //-----------------------------------------------
     m_movingStash.push_front(m_blockSlots[t_col]->last());
+
+    QVector3D tmp = m_blockSlots[t_col]->last()->GetTransform()->GetLocalPos();
+    tmp.setZ(3);
+    qDebug()<<"blockTaked";
+    m_blockSlots[t_col]->last()->GetTransform()->Move(tmp);
+
     int counter = 1;
     for(int i = m_blockSlots[t_col]->size()-1; i >=0 ; i-- )
     {
@@ -268,6 +276,11 @@ void hBricks::TakeBlock(int t_col, int t_row)
                     m_blockSlots[t_col]->at(i)->GetBlockSize() == m_blockSlots[t_col]->at(i+1)->GetBlockSize()+1)
             {
                 m_movingStash.push_front(m_blockSlots[t_col]->at(i));
+
+                QVector3D tmp = m_blockSlots[t_col]->at(i)->GetTransform()->GetLocalPos();
+                tmp.setZ(3);
+                qDebug()<<"blockTaked";
+                m_blockSlots[t_col]->at(i)->GetTransform()->Move(tmp);
                 ++counter;
             }
             else
@@ -276,6 +289,10 @@ void hBricks::TakeBlock(int t_col, int t_row)
             }
         }
     }
+    //qDebug()<<"StartSort";
+    //qSort(m_blocks);
+    Quicksort(&m_blocks,0,m_blocks.count()-1);
+    //qDebug()<<"EndSort";
 //-----------------------------------------------
       for(int i = 0; i < counter; ++i)
       {
@@ -316,14 +333,44 @@ void hBricks::SetProjectionMatrixtt(QMatrix4x4 & t_projMat)
 
 int hBricks::MoreThen(Block *t_block1, Block *t_block2)
 {
-    if(t_block1->GetTransform()->GetGlobalPos().z() < t_block2->GetTransform()->GetGlobalPos().z()) return -1;
-    else if(t_block1->GetTransform()->GetGlobalPos().z() == t_block2->GetTransform()->GetGlobalPos().z()) return 0;
-    else if(t_block1->GetTransform()->GetGlobalPos().z() > t_block2->GetTransform()->GetGlobalPos().z()) return 1;
+    if(t_block1->GetTransform()->GetLocalPos().z() < t_block2->GetTransform()->GetLocalPos().z()) return -1;
+    else if(t_block1->GetTransform()->GetLocalPos().z() > t_block2->GetTransform()->GetLocalPos().z()) return 1;
+    else if(t_block1->GetTransform()->GetLocalPos().z() == t_block2->GetTransform()->GetLocalPos().z()) return 0;
 }
 
-void Swap(Block* t_block1, Block* t_block2)
+void hBricks::Swap(Block* t_block1, Block* t_block2)
 {
     Block* tmp = t_block2;
     t_block2 = t_block1;
     t_block1 = tmp;
+}
+
+void hBricks::Quicksort(QVector<Block *>* m, int a, int b)
+{
+    if (a >= b) return;
+    int c = Partition( m, a, b);
+
+    Quicksort( m, a, c-1);
+    Quicksort( m, c+1, b);
+    //qDebug()<<"SortEnd";
+}
+
+int hBricks::Partition(QVector<Block *>* m, int a, int b)
+{
+    int i = a;
+    for (int j = a; j <= b; j++)         // просматриваем с a по b
+    {
+        if(m->at(j)->GetTransform()->GetLocalPos().z() >= m->at(a)->GetTransform()->GetLocalPos().z())//if (MoreThen(m->at(j), m->at(a)) <= 0)  // если элемент m[j] не превосходит m[b],
+        {
+           // qDebug()<<"--";
+            //qDebug()<<m->at(j)->GetTransform()->GetLocalPos().z()<<m->at(a)->GetTransform()->GetLocalPos().z();
+
+            Block* tmp = m->at(a);
+            m->replace(a, m->at(j));
+            m->replace(j, tmp);
+           // qDebug()<<m->at(j)->GetTransform()->GetLocalPos().z()<<m->at(a)->GetTransform()->GetLocalPos().z();
+            i++;                         // таким образом последний обмен: m[b] и m[i], после чего i++
+        }
+    }
+    return i - 1;
 }

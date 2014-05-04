@@ -40,6 +40,10 @@ public:
 
     void AutoMove(QVector3D t_start, QVector3D t_end);
 
+//    bool operator <(const Block &a, const Block &b)
+//    {
+//        if(a.GetTransform()->)
+//    }
 
     static QString GetColor(int t_colorCode)
     {

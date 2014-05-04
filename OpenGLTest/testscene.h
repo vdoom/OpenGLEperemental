@@ -19,6 +19,7 @@ private:
     int frameCounter;
     int msecsCounter;
     ctPlane * m_back;
+    ctPlane * m_winSprite;
     ctTimer * m_timer;
     QString m_isClicked;
     hBricks * m_bricks;

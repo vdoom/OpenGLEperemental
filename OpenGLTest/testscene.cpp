@@ -49,7 +49,8 @@ void testScene::Init()
     m_timer = new ctTimer();
     m_back->SetColor(QVector3D(0.61f, 1.0f, 0.85f));
     m_bricks = new hBricks(GetShaderManager(), this, GetOpenGLContext(), 0);
-    ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 0.5), ctPlane::Textured, GetWindow()->GetInput());
+    ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_winSprite = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(10,10,1), QVector3D(-10,-10,1), ctPlane::Textured);
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
    // ctMover * t_mover = new ctMover();
@@ -70,12 +71,15 @@ void testScene::Init()
     //m_back->SetTexture(":/texture/back.jpg");
     m_resetButton->SetTexture(":/texture/reset.png",true);
     m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
+
+    m_winSprite->SetTexture(":/texture/GUI/win.png",true);
     //m_block->SetTexture(":/texture/blue_7.png");
 
     //m_block->Init();
     //m_plane->Init();
     m_back->Init();
     m_resetButton->Init();
+    m_winSprite->Init();
 
 
 
@@ -106,6 +110,7 @@ void testScene::Init()
     AddObject(m_back);
     AddObject(m_resetButton);
     AddObject(m_bricks);
+    AddObject(m_winSprite);
     //AddObject(m_block);
     //AddObject(m_plane);
 
