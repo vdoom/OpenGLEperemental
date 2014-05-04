@@ -9,20 +9,30 @@
 #define Input GetScene()->GetWindow()->GetInput()->GetInputHelper()
 
 hBricks::hBricks() : ctObject(), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
-{}
+{m_winText = 0;}
 hBricks::hBricks(ctShaderManager * t_shaders) : ctObject(t_shaders), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
-{}
+{m_winText = 0;}
 hBricks::hBricks(ctShaderManager * t_shader, ctScene * t_scene, ctInput * t_input) : ctObject(t_shader, t_scene), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {
+    m_winText = 0;
     //SetInput(t_input);
 }
 hBricks::hBricks(ctShaderManager * t_shader, ctScene * t_scene, QGLContext * t_OpenGLContext, ctInput * t_input) : ctObject(t_shader, t_scene, t_OpenGLContext), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {
+    m_winText = 0;
     //SetInput(t_input);
 }
 
 hBricks::~hBricks()
-{}
+{
+   QVector<Block*>::iterator itor;
+   for(itor = m_blocks.begin(); itor != m_blocks.end(); ++itor)
+   {
+       delete (*itor);
+   }
+   if(m_blocks.count() > 0)
+       m_blocks.remove(0, m_blocks.count() - 1);
+}
 
 void hBricks::Update()
 {
@@ -207,6 +217,10 @@ bool hBricks::IsWin()
             }
         }
     }
+    if(m_winText)
+    {
+        m_winText->Show();
+    }
     return true;
 }
 
@@ -373,4 +387,9 @@ int hBricks::Partition(QVector<Block *>* m, int a, int b)
         }
     }
     return i - 1;
+}
+
+void hBricks::SetWinPlane(ctPlane *t_plane)
+{
+    m_winText = t_plane;
 }

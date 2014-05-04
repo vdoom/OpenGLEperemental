@@ -131,6 +131,7 @@ bool ctObject::IsVisible()
     {
         parentVisible = GetTransform()->GetParent()->GetGameObject()->IsVisible();
     }
+    if(!m_isVisible) return false;
     return m_isVisible && parentVisible;
 }
 

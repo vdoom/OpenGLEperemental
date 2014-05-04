@@ -5,6 +5,7 @@
 
 class Block;
 class ctInput;
+class ctPlane;
 
 class hBricks : public ctObject
 {
@@ -17,6 +18,7 @@ private:
     const float m_verticalAligneBlock;
     const float m_horisontalAligneBlock;
     int m_prevColumn;
+    ctPlane * m_winText;
 public:
     hBricks();
     explicit hBricks(ctShaderManager *);
@@ -47,6 +49,8 @@ public:
     void Swap(Block* t_block1, Block* t_block2);
     int Partition(QVector <Block*>* m, int a, int b);
     void Quicksort( QVector <Block*>* m, int a, int b);
+    void SetWinPlane(ctPlane* t_plane);
+
     /*
 int partition<T>( T[] m, int a, int b) where T :IComparable<T>
 {

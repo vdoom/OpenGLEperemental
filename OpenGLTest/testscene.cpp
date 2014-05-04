@@ -27,7 +27,9 @@ testScene::testScene(ctShaderManager * t_shaderManager, QGLContext * t_OpenGLCon
 {}
 
 testScene::~testScene()
-{}
+{
+
+}
 
 void testScene::Init()
 {
@@ -64,6 +66,7 @@ void testScene::Init()
     t_circles->Init();
     m_bricks->Init();
     m_bricks->SetProjectionMatrixtt(*GetProjectionMatrix());
+    m_bricks->SetWinPlane(m_winSprite);
     //m_plane2->InitShader("texturedPlaneShader");
     //m_plane->InitShader("texturedPlaneShader");
     //m_plane2->SetTexture("D:\\OpenGLEperemental\\OpenGLTest\\txture.png");//(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
@@ -80,6 +83,7 @@ void testScene::Init()
     m_back->Init();
     m_resetButton->Init();
     m_winSprite->Init();
+    m_winSprite->Hide();
 
 
 
@@ -444,6 +448,7 @@ int testScene::GetColByPos(QVector2D t_pos)
 void testScene::ResetBlocks()
 {
     qDebug()<<"Try Reset!!!";
+    m_winSprite->Hide();
     if(m_bricks)
     {
         m_bricks->ResetBlocks();
