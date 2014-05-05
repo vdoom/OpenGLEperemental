@@ -1,11 +1,14 @@
 #include "ctShaderManager.h"
+#include <QDebug>
 
 ctShaderManager::ctShaderManager()
 {
+    qDebug()<<"ERROR Shaders withput context";
 }
 
 ctShaderManager::ctShaderManager(QGLContext *t_OpenGLContext)
 {
+    qDebug()<<"Sheders with context";
     m_OpenGLContext = t_OpenGLContext;
 }
 
@@ -39,7 +42,7 @@ int ctShaderManager::AddFragmentShader(const char * t_shaderTxt, const char *t_n
 
 int ctShaderManager::AddFragmentShader(QString t_shaderTxt, QString t_name)
 {
-    QGLShader* tmpShader = new QGLShader(QGLShader::Fragment);//, 0);
+    QGLShader* tmpShader = new QGLShader(QGLShader::Fragment, m_OpenGLContext);//, 0);
     tmpShader->compileSourceCode(t_shaderTxt);
     m_fragmentShaders.insert(t_name, tmpShader);
     return 0;
@@ -54,7 +57,7 @@ int ctShaderManager::AddVertexShader(const char *t_shaderTxt, const char *t_name
 
 int ctShaderManager::AddVertexShader(QString t_shaderTxt, QString t_name)
 {
-    QGLShader* tmpShader = new QGLShader(QGLShader::Vertex);//, 0);
+    QGLShader* tmpShader = new QGLShader(QGLShader::Vertex, m_OpenGLContext);//, 0);
     tmpShader->compileSourceCode(t_shaderTxt);
     m_vertexShaders.insert(t_name, tmpShader);
     return 0;
