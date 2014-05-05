@@ -5,7 +5,9 @@
 #include <QVector3D>
 #include <QMatrix4x4>
 #include "shadermanager.h"
-#include <QtGui/QOpenGLFunctions>
+//#include <QtGui/QOpenGLFunctions>
+#include <QGLFunctions>
+#include <QGLShaderProgram>
 #include "ctTransform.h"
 #include "ctTexture.h"
 
@@ -20,7 +22,7 @@ public:
 private:
     friend ctEntity* Clone();
     //ShaderManager * m_shaderManagerOld;
-    QOpenGLShaderProgram * m_currentShader;
+    QGLShaderProgram * m_currentShader;
     QVector3D m_AA;
     QVector3D m_BB;
     PlaneType m_currentType;
@@ -38,21 +40,21 @@ private:
     //TODO: NEED REMOVE planeColor
     float* planeColor;
     ctTexture* m_texture;
-    void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
+    void GettingAttributes(QGLShaderProgram * t_shaderProgram);
 protected:
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
     virtual void ResizeMesh(QVector3D t_AA, QVector3D t_BB);
 public:
     //ctPlane(){}
     //ctPlane(ShaderManager *t_shaderManager, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     explicit ctPlane(ctShaderManager *){}
     ctPlane(ctShaderManager *, ctScene *){}
-    ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *){}
-    ctPlane(ctShaderManager *, ctScene *, QOpenGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
+    ctPlane(ctShaderManager *, ctScene *, QGLContext *){}
+    ctPlane(ctShaderManager *, ctScene *, QGLContext *, QVector3D t_AA, QVector3D t_BB, PlaneType t_type);
     virtual ~ctPlane();
 
     void InitShader();
-    void InitShader(QOpenGLShaderProgram * t_initedShader);
+    void InitShader(QGLShaderProgram * t_initedShader);
     void InitShader(const char * t_shaderProgrammName);
     void InitShader(QString t_shaderProgrammName);
     void SetColor(QVector3D t_color);

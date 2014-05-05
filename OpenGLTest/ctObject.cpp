@@ -16,7 +16,7 @@ ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene)
     SetDefault(t_shaderManager, t_scene, 0);
 }
 
-ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
 {
     SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 }
@@ -24,6 +24,17 @@ ctObject::ctObject(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGL
 ctObject::~ctObject()
 {
     delete m_transform;
+
+    if(m_components)
+    {
+        QVector<ctEntity*>::iterator itor;
+        for(itor = m_components->begin(); itor != m_components->end(); ++itor)
+        {
+            delete (*itor);
+        }
+        if(m_components->count()>0)
+            m_components->remove(0, m_components->count() - 1);
+    }
 }
 
 ctTransform * ctObject::GetTransform()// const
@@ -72,22 +83,23 @@ ctShaderManager * ctObject::GetShaderManager() const
     return m_shaderManager;
 }
 
-QOpenGLContext * ctObject::GetOpenGLContext() const
+QGLContext * ctObject::GetOpenGLContext() const
 {
     return m_OpenGLContext;
 }
 
-void ctObject::SetOpenGLContext(const QOpenGLContext *t_context)
+void ctObject::SetOpenGLContext(const QGLContext *t_context)
 {
-    m_OpenGLContext = const_cast<QOpenGLContext*>(t_context);
+    m_OpenGLContext = const_cast<QGLContext*>(t_context);
 }
 
-void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
+void ctObject::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
 {
     m_shaderManager = t_shaderManager;
     m_scene = t_scene;
     m_OpenGLContext = t_OpenGLContext;
     m_transform = new ctTransform(this);
+    m_components = new QVector<ctEntity*>();
     Show();
 }
 
@@ -119,5 +131,53 @@ bool ctObject::IsVisible()
     {
         parentVisible = GetTransform()->GetParent()->GetGameObject()->IsVisible();
     }
+    if(!m_isVisible) return false;
     return m_isVisible && parentVisible;
+}
+
+QVector<ctEntity*> ctObject::GetComponentByName(QString t_name)
+{
+    QVector<ctEntity*> tmp;
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        if((*m_components)[i]->GetName() == t_name)
+        {tmp.append((*m_components)[i]);}
+    }
+    return tmp;
+}
+
+template<class T> QVector<T*> ctObject::GetComponnetsByType()
+{
+    QVector<T*> tmp;
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        T* tmpVar = dynamic_cast<T*>((*m_components)[i]);
+        if(tmp)
+        {
+            tmp.append(tmpVar);
+        }
+    }
+    return tmp;
+}
+
+ctEntity* ctObject::GetComponentByUUID(QUuid t_uuid)
+{
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        if((*m_components)[i]->GetUuid() == t_uuid) return (*m_components)[i];
+    }
+    return 0;
+}
+
+void ctObject::AddComponnent(ctEntity * t_entity)
+{
+    m_components->append(t_entity);
+}
+
+void ctObject::Update()
+{
+    for(int i = 0; i < m_components->size(); ++i)
+    {
+        ((ctEntity*)(*m_components)[i])->Update();
+    }
 }

@@ -19,7 +19,7 @@ static const char *vertexShaderSource =
 static const char *fragmentShaderSource =
     "uniform lowp vec3 col;\n"
     "void main() {\n"
-        "   gl_FragColor = vec4(col, 1.0);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
+        "   gl_FragColor = vec4(col, 0.5);\n"//vec4(1.0, 1.0, 1.0, 1.0);\n"
     "}\n";
 
 static const char *lineVertexShaderSource =

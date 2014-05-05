@@ -9,6 +9,7 @@
 class ctPlane;
 class ctClickablePlane;
 class Block;
+class hBricks;
 
 class testScene : public ctScene
 {
@@ -18,15 +19,16 @@ private:
     int frameCounter;
     int msecsCounter;
     ctPlane * m_back;
+    ctPlane * m_winSprite;
     ctTimer * m_timer;
     QString m_isClicked;
-    ctObject* rootTransform;
+    hBricks * m_bricks;
+    //ctObject* rootTransform;
     //Block * m_block;
     //ctClickablePlane * m_selected;
     QVector<Block*> m_blocks;
     QVector<Block*> m_reservedContainer;
     //QMediaPlayer * m_sound;
-    bool dragMode;
 
     QVector<ctClickablePlane*> m_coliderObjects;
 
@@ -43,15 +45,18 @@ private:
     int GetColByPos(QVector2D t_pos);
 
     void ReinitColumns(QVector<Block*> t_blocks);
+
+    const float m_verticalAligneBlock;
+    const float m_horisontalAligneBlock;
 protected:
 public:
     testScene();
     explicit testScene(ctShaderManager *);
-    explicit testScene(ctShaderManager *, QOpenGLContext *);
+    explicit testScene(ctShaderManager *, QGLContext *);
     virtual ~testScene();
 
     virtual void Init();
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 
     virtual void BeginDraw();
     virtual void Draw();
@@ -60,13 +65,15 @@ public:
     virtual void Update();
 
     void TimerTest();
-    void AligneBlocks();
+    void AligneBlocks(bool t_fast = false);
 
     //Block* ManageRectClick(QVector<Block*>& t_blocks);
 
     ctClickablePlane* ManageCollide();
 
     void ResetBlocks();
+
+    bool IsWin();
 };
 
 #endif // TESTSCENE_H

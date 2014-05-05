@@ -2,32 +2,34 @@
 #define CTOBJECT_H
 
 #include "ctTransform.h"
+#include <QGLContext>
 #include "ctEntity.h"
 
 class ctShaderManager;
 class ctScene;
-class QOpenGLContext;
 
 class ctObject : public ctEntity
 {
 private:
-    QOpenGLContext * m_OpenGLContext;
+    QGLContext * m_OpenGLContext;
     bool m_isVisible;
 protected:
     ctTransform * m_transform;
     ctMatrix4 m_projectionMatrix;
     ctScene * m_scene;
     ctShaderManager * m_shaderManager;
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    //TDOD: Should delete continer m_components
+    QVector<ctEntity*>* m_components;
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
     ctObject();
     explicit ctObject(ctShaderManager *);
     ctObject(ctShaderManager *, ctScene *);
-    ctObject(ctShaderManager *, ctScene *, QOpenGLContext *);
+    ctObject(ctShaderManager *, ctScene *, QGLContext *);
     virtual ~ctObject();
 
     //----Override-----
-    virtual void Update(){}//=0;
+    virtual void Update();
     virtual void Draw(){}//=0;
     virtual void Init(){}//=0;
     virtual void Freeze();
@@ -39,12 +41,16 @@ public:
     //-----------------
 
     bool IsVisible();
-
-
+    //-----------------------------------------
+    ctEntity* GetComponentByUUID(QUuid t_uuid);
+    QVector<ctEntity*> GetComponentByName(QString t_name);
+    template<class T> QVector<T*> GetComponnetsByType();
+    void AddComponnent(ctEntity*);
+    //-----------------------------------------
 
     ctTransform * GetTransform();// const;
     ctMatrix4 GetProjectionMatrix();// const;
-    void SetProjectionMatrix(ctMatrix4 & t_projMat);
+    virtual void SetProjectionMatrix(ctMatrix4 & t_projMat);
     void SetProjectionMatrix(QMatrix4x4 & t_projMat);
 
     void SetScene(ctScene* t_scene);
@@ -53,8 +59,8 @@ public:
     void SetShaderManager(ctShaderManager* t_shaderManager);
     ctShaderManager * GetShaderManager() const;
 
-    QOpenGLContext * GetOpenGLContext() const;
-    void SetOpenGLContext(const QOpenGLContext * t_context);
+    QGLContext * GetOpenGLContext() const;
+    void SetOpenGLContext(const QGLContext * t_context);
 };
 
 #endif // CTOBJECT_H

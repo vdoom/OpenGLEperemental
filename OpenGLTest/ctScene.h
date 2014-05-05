@@ -5,27 +5,32 @@
 
 #include "ctObject.h"
 
+#include <QGLContext>
+
 class ctShaderManager;
 class ctWindow;
+class ctGLWidget;
 
 class ctScene : public ctObject
 {
 private:
     //TODO: make m_scene as privat in this class
+    bool m_dragMode;
+
 protected:
+    //TODO: Should delete m_objects container
     QVector<ctObject*>* m_objects;
-    QVector<ctEntity*>* m_components;
     ctWindow * m_window;
-    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
+    //ctGLWidget * m_GLWidget;
+    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
 public:
+     QMatrix4x4 matrix;
     ctScene();
     explicit ctScene(ctShaderManager *);
-    ctScene(ctShaderManager *, QOpenGLContext *);
+    ctScene(ctShaderManager *, QGLContext *);
     virtual ~ctScene();
 
     void AddObject(ctObject*);
-    void AddComponnent(ctEntity*);
-    //TODO: ADD FUNCTIONS FOR DELETING OBJECTS !!!
 
     virtual void Update();
     virtual void BeginDraw();
@@ -41,17 +46,19 @@ public:
 //    void DrawText(QPointF t_pos, QString t_str);
 
     ctObject* GetObjectByUUID(QUuid t_uuid);
-    ctEntity* GetComponentByUUID(QUuid t_uuid);
 
     QVector<ctObject*> GetObjectsByName(QString t_name);
-    QVector<ctEntity*> GetComponentByName(QString t_name);
     //TODO: NEED TEST!!!
     template<class T> QVector<T*> GetObjectsByType();// GetObjectByType<ctPlane>();
-    template<class T> QVector<T*> GetComponnetsByType();
+
     //--------------------------------------------------
 
+    QGLContext * GetContext();
 
+    bool IsDragMode();
+    void SetDragMode(bool t_dragMode);
 
+    QMatrix4x4* GetProjectionMatrix(){return &matrix;}
 };
 
 #endif // CTSCENE_H
