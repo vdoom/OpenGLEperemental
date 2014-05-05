@@ -23,7 +23,7 @@ public:
     hBricks();
     explicit hBricks(ctShaderManager *);
     hBricks(ctShaderManager *, ctScene *, ctInput *);
-    hBricks(ctShaderManager *, ctScene *, QGLContext *, ctInput *);
+    hBricks(ctShaderManager *, ctScene *, QOpenGLContext *, ctInput *);
     virtual ~hBricks();
 
     virtual void Update();

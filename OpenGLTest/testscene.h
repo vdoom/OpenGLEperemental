@@ -52,11 +52,11 @@ protected:
 public:
     testScene();
     explicit testScene(ctShaderManager *);
-    explicit testScene(ctShaderManager *, QGLContext *);
+    explicit testScene(ctShaderManager *, QOpenGLContext *);
     virtual ~testScene();
 
     virtual void Init();
-    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 
     virtual void BeginDraw();
     virtual void Draw();

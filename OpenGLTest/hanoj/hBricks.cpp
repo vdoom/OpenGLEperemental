@@ -17,7 +17,7 @@ hBricks::hBricks(ctShaderManager * t_shader, ctScene * t_scene, ctInput * t_inpu
     m_winText = 0;
     //SetInput(t_input);
 }
-hBricks::hBricks(ctShaderManager * t_shader, ctScene * t_scene, QGLContext * t_OpenGLContext, ctInput * t_input) : ctObject(t_shader, t_scene, t_OpenGLContext), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
+hBricks::hBricks(ctShaderManager * t_shader, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, ctInput * t_input) : ctObject(t_shader, t_scene, t_OpenGLContext), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {
     m_winText = 0;
     //SetInput(t_input);

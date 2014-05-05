@@ -12,7 +12,7 @@ public:
     hCircles();
     explicit hCircles(ctShaderManager *);
     hCircles(ctShaderManager *, ctScene *);
-    hCircles(ctShaderManager *, ctScene *, QGLContext *);
+    hCircles(ctShaderManager *, ctScene *, QOpenGLContext *);
 
     virtual ~hCircles();
 

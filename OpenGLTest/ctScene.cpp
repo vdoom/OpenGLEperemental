@@ -1,6 +1,6 @@
 #include "ctScene.h"
 #include "ctWindow.h"
-#include "ctGLWidget.h"
+//#include "ctGLWidget.h"
 
 ctScene::ctScene()
 {
@@ -12,7 +12,7 @@ ctScene::ctScene(ctShaderManager * t_shaderManager)
     SetDefault(t_shaderManager, 0, 0);
 }
 
-ctScene::ctScene(ctShaderManager * t_shaderManager, QGLContext * t_OpenGLContext)
+ctScene::ctScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext)
 {
     SetDefault(t_shaderManager, 0, t_OpenGLContext);
 }
@@ -160,7 +160,7 @@ template<class T> QVector<T*> ctScene::GetObjectsByType()
 
 //------------------------------------------------------------
 
-void ctScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
+void ctScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
 {
     ctObject::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
     m_objects = new QVector<ctObject*>();
@@ -183,7 +183,7 @@ ctWindow * ctScene::GetWindow() const
 //    painter.drawText(t_pos, t_str);
 //}
 
-QGLContext * ctScene::GetContext()
+QOpenGLContext * ctScene::GetContext()
 {
     return GetWindow()->GetOpenGLContext();
     //qDebug()<<m_GLWidget->context();

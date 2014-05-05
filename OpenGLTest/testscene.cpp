@@ -23,7 +23,7 @@ testScene::testScene() : m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(1
 testScene::testScene(ctShaderManager * t_shaderManager) : ctScene(t_shaderManager), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {}
 
-testScene::testScene(ctShaderManager * t_shaderManager, QGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
+testScene::testScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext), m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
 {}
 
 testScene::~testScene()
@@ -133,7 +133,7 @@ void testScene::TimerTest()
     qDebug()<<"TimerTested";
 }
 
-void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
+void testScene::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
 {
     ctScene::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 

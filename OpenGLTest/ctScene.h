@@ -5,11 +5,8 @@
 
 #include "ctObject.h"
 
-#include <QGLContext>
-
 class ctShaderManager;
 class ctWindow;
-class ctGLWidget;
 
 class ctScene : public ctObject
 {
@@ -22,12 +19,12 @@ protected:
     QVector<ctObject*>* m_objects;
     ctWindow * m_window;
     //ctGLWidget * m_GLWidget;
-    virtual void SetDefault(ctShaderManager *, ctScene *, QGLContext *);
+    virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
 public:
      QMatrix4x4 matrix;
     ctScene();
     explicit ctScene(ctShaderManager *);
-    ctScene(ctShaderManager *, QGLContext *);
+    ctScene(ctShaderManager *, QOpenGLContext *);
     virtual ~ctScene();
 
     void AddObject(ctObject*);
@@ -53,7 +50,7 @@ public:
 
     //--------------------------------------------------
 
-    QGLContext * GetContext();
+    QOpenGLContext * GetContext();
 
     bool IsDragMode();
     void SetDragMode(bool t_dragMode);

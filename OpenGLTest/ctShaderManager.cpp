@@ -6,7 +6,7 @@ ctShaderManager::ctShaderManager()
     qDebug()<<"ERROR Shaders withput context";
 }
 
-ctShaderManager::ctShaderManager(QGLContext *t_OpenGLContext)
+ctShaderManager::ctShaderManager(QOpenGLContext *t_OpenGLContext)
 {
     qDebug()<<"Sheders with context";
     m_OpenGLContext = t_OpenGLContext;
@@ -42,7 +42,7 @@ int ctShaderManager::AddFragmentShader(const char * t_shaderTxt, const char *t_n
 
 int ctShaderManager::AddFragmentShader(QString t_shaderTxt, QString t_name)
 {
-    QGLShader* tmpShader = new QGLShader(QGLShader::Fragment, m_OpenGLContext);//, 0);
+    QOpenGLShader* tmpShader = new QOpenGLShader(QOpenGLShader::Fragment);//, 0);
     tmpShader->compileSourceCode(t_shaderTxt);
     m_fragmentShaders.insert(t_name, tmpShader);
     return 0;
@@ -57,13 +57,13 @@ int ctShaderManager::AddVertexShader(const char *t_shaderTxt, const char *t_name
 
 int ctShaderManager::AddVertexShader(QString t_shaderTxt, QString t_name)
 {
-    QGLShader* tmpShader = new QGLShader(QGLShader::Vertex, m_OpenGLContext);//, 0);
+    QOpenGLShader* tmpShader = new QOpenGLShader(QOpenGLShader::Vertex);//, 0);
     tmpShader->compileSourceCode(t_shaderTxt);
     m_vertexShaders.insert(t_name, tmpShader);
     return 0;
 }
 
-QGLShaderProgram* ctShaderManager::SetUpShaderProgram(const char *t_vertexShaderName, const char *t_fragmentShaderName, const char *t_name)
+QOpenGLShaderProgram* ctShaderManager::SetUpShaderProgram(const char *t_vertexShaderName, const char *t_fragmentShaderName, const char *t_name)
 {
     QString vertexShaderName(t_vertexShaderName);
     QString fragmentShaderName(t_fragmentShaderName);
@@ -71,9 +71,9 @@ QGLShaderProgram* ctShaderManager::SetUpShaderProgram(const char *t_vertexShader
     return SetUpShaderProgram(vertexShaderName, fragmentShaderName, shaderProgtramName);
 }
 
-QGLShaderProgram* ctShaderManager::SetUpShaderProgram(QString t_vertexShaderName, QString t_fragmentShaderName, QString t_name)
+QOpenGLShaderProgram* ctShaderManager::SetUpShaderProgram(QString t_vertexShaderName, QString t_fragmentShaderName, QString t_name)
 {
-    QGLShaderProgram * tmpProgram = new QGLShaderProgram();
+    QOpenGLShaderProgram * tmpProgram = new QOpenGLShaderProgram();
     tmpProgram->addShader(m_vertexShaders[t_vertexShaderName]);
     tmpProgram->addShader(m_fragmentShaders[t_fragmentShaderName]);
     tmpProgram->link();
@@ -81,7 +81,7 @@ QGLShaderProgram* ctShaderManager::SetUpShaderProgram(QString t_vertexShaderName
     return tmpProgram;
 }
 
-QGLShaderProgram* ctShaderManager::GetShaderProgram(QString t_name)
+QOpenGLShaderProgram* ctShaderManager::GetShaderProgram(QString t_name)
 {
     if(m_shaderPrograms.contains(t_name))
     {
@@ -95,7 +95,7 @@ QGLShaderProgram* ctShaderManager::GetShaderProgram(QString t_name)
     }
 }
 
-QGLShaderProgram* ctShaderManager::GetShaderProgram(const char *t_name)
+QOpenGLShaderProgram* ctShaderManager::GetShaderProgram(const char *t_name)
 {
     QString name(t_name);
     return GetShaderProgram(name);

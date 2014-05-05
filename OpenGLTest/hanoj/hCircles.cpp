@@ -8,7 +8,7 @@ hCircles::hCircles(ctShaderManager *t_shaderManager) : ctObject(t_shaderManager)
 {}
 hCircles::hCircles(ctShaderManager *t_shaderManager, ctScene *t_scene) : ctObject(t_shaderManager, t_scene)
 {}
-hCircles::hCircles(ctShaderManager *t_shaderManager, ctScene *t_scene, QGLContext *t_GLContext) : ctObject(t_shaderManager, t_scene, t_GLContext)
+hCircles::hCircles(ctShaderManager *t_shaderManager, ctScene *t_scene, QOpenGLContext *t_GLContext) : ctObject(t_shaderManager, t_scene, t_GLContext)
 {}
 
 hCircles::~hCircles()

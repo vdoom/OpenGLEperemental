@@ -43,7 +43,7 @@ testAppWindow::testAppWindow(QApplication * t_QApp, QWindow *parent) : ctWindow(
 ////    m_lastFPS = 0;
 //}
 
-testAppWindow::testAppWindow(QGLContext *t_context, QApplication *t_QApp, QWindow *parent) : ctWindow(t_context, t_QApp, parent)
+testAppWindow::testAppWindow(QOpenGLContext *t_context, QApplication *t_QApp, QWindow *parent) : ctWindow(t_context, t_QApp, parent)
 {
 //    m_lastFPS = 0;
     SetScene(new testScene(GetShaderManager(), GetOpenGLContext()));
@@ -82,7 +82,7 @@ void testAppWindow::render()
     //renderLater();
 }
 
-void testAppWindow::SetDefault(QGLContext *t_context)
+void testAppWindow::SetDefault(QOpenGLContext *t_context)
 {
     ctWindow::SetDefault(t_context);
 }

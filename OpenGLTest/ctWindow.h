@@ -1,24 +1,26 @@
 #ifndef CTWINDOW_H
 #define CTWINDOW_H
 
-//#include <QtGui/QWindow>
-#include <QMainWindow>
-//#include <QtGui/QOpenGLFunctions>
-#include <QGLContext>
+#include <QtGui/QWindow>
+//#include <QMainWindow>
+#include <QtGui/QOpenGLFunctions>
+//#include <QGLContext>
 #include <QPainter>
 #include <QVector2D>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
+class QOpenGLContext;
+class QOpenGLPaintDevice;
 class QApplication;
 QT_END_NAMESPACE
 
 class ctScene;
 class ctShaderManager;
 class ctInput;
-class ctGLWidget;
+//class ctGLWidget;
 
-class ctWindow : public QMainWindow
+class ctWindow : public QWindow, protected QOpenGLFunctions
 {
     Q_OBJECT
 private:
@@ -31,13 +33,13 @@ private:
     bool m_update_pending;
 
 protected:
-    //QGLContext * m_context;
-    //QOpenGLPaintDevice *m_device;
-    ctGLWidget * m_GLWidget;
+    QOpenGLContext * m_context;
+    QOpenGLPaintDevice *m_device;
+    //ctGLWidget * m_GLWidget;
 
     bool event(QEvent *event);
-    //void exposeEvent(QExposeEvent *event);
-    virtual void SetDefault(QGLContext *t_context = 0);
+    void exposeEvent(QExposeEvent *event);
+    virtual void SetDefault(QOpenGLContext *t_context = 0);
     virtual void BeginRenderScene();
     virtual void RenderScene();
     virtual void EndRenderScene();
@@ -45,16 +47,16 @@ public:
     explicit ctWindow(QWindow *parent = 0);
     explicit ctWindow(QApplication * t_QApp, QWindow *parent = 0);
     //explicit ctWindow(QOpenGLContext * t_context, QWindow *parent = 0);
-    explicit ctWindow(QGLContext * t_context, QApplication * t_QApp = 0, QWindow *parent = 0);
+    explicit ctWindow(QOpenGLContext * t_context, QApplication * t_QApp = 0, QWindow *parent = 0);
     virtual ~ctWindow();
 
-   // virtual void render(QPainter *painter);
+    virtual void render(QPainter *painter);
     virtual void render();
     virtual void initialize();
     virtual void Draw();
 
-    QGLContext * GetOpenGLContext();
-    //QOpenGLPaintDevice * GetOpenGLDevice() const;
+    QOpenGLContext * GetOpenGLContext();
+    QOpenGLPaintDevice * GetOpenGLDevice() const;
 
     void SetScene(ctScene* t_scene);
     ctScene * GetScene() const;

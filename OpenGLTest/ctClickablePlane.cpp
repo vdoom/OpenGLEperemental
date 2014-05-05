@@ -13,13 +13,13 @@ ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * 
     m_drawRect = false;
 }
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext), meshVBOlines(0), rectDotIndexes(0)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect());
     m_drawRect = false;
 }
 
-ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type), meshVBOlines(0), rectDotIndexes(0)
+ctClickablePlane::ctClickablePlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, ctPlane::PlaneType t_type) : ctPlane(t_shaderManager, t_scene, t_OpenGLContext, t_AA, t_BB, t_type), meshVBOlines(0), rectDotIndexes(0)
 {
     SetRect(ctRect(QVector3D(t_BB.x(), t_AA.y(), 1), QVector3D(t_AA.x(), t_AA.y(), 1), QVector3D(t_BB.x(), t_BB.y(), 1), QVector3D(t_AA.x(), t_BB.y(), 1)));
     m_drawRect = false;
@@ -74,7 +74,7 @@ void ctClickablePlane::Draw()
         DrawRectLines();
 }
 
-void ctClickablePlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QGLContext * t_OpenGLContext)
+void ctClickablePlane::SetDefault(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext)
 {
     ctPlane::SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
 }
