@@ -50,7 +50,7 @@ m_input = new ctInput(this);
   //  setCentralWidget(m_GLWidget);
 
     QTimer *timer = new QTimer(this);
-    timer->setInterval(10);
+    timer->setInterval(16);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow11()));
     timer->start();
 
@@ -196,8 +196,8 @@ void ctWindow::renderNow11()
     if (!m_context) {
         m_context = new QOpenGLContext(this);
 
-        QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
-        QGLFormat::setDefaultFormat(format);
+        //QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
+        //QGLFormat::setDefaultFormat(format);
         QSurfaceFormat t_format = requestedFormat();
         //t_format.setSamples(16);
         //t_format.setDepthBufferSize(24);

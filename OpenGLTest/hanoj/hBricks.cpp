@@ -50,7 +50,7 @@ void hBricks::Draw()
     for(int i = 0; i < m_blocks.count(); i++)
     {
         //m_blocks.at(i)->SetProjectionMatrix(GetProjectionMatrix());
-        m_blocks.at((m_blocks.count()-1)-i)->Draw();
+        m_blocks.at(i)->Draw();
     }
     glEnable(GL_DEPTH_TEST);
 }
@@ -140,7 +140,7 @@ void hBricks::ManageCollide()
             for(int i = 0; i < m_movingStash.size(); ++i)
             {
                 m_movingStash[i]->GetTransform()->Move(QVector3D(Input.GetMousePos3D().x(),
-                                                                 Input.GetMousePos3D().y() - (m_verticalAligneBlock * i),
+                                                                 Input.GetMousePos3D().y() - (m_verticalAligneBlock * i)-50,
                                                                  3.0f));
             }
         }
@@ -361,12 +361,25 @@ void hBricks::Swap(Block* t_block1, Block* t_block2)
 
 void hBricks::Quicksort(QVector<Block *>* m, int a, int b)
 {
-    if (a >= b) return;
-    int c = Partition( m, a, b);
-
-    Quicksort( m, a, c-1);
-    Quicksort( m, c+1, b);
-    //qDebug()<<"SortEnd";
+	Block* tmp;
+    for (int i = 1, j; i < m->size(); ++i) // цикл проходов, i - номер прохода
+    {
+        tmp = m->at(i);
+        for (j = i - 1; j >= 0 &&
+			 m->at(j)->GetTransform()->GetLocalPos().z() > tmp->GetTransform()->GetLocalPos().z(); --j)
+		{// поиск места элемента в готовой последовательности
+            //m->at(j + 1) = m->at(j);    // сдвигаем элемент направо, пока не дошли
+			m->replace(j+1, m->at(j));
+		}
+        //m->at(j + 1) = tmp; // место найдено, вставить элемент
+		m->replace(j+1, tmp);
+    }
+//    if (a >= b) return;
+//    int c = Partition( m, a, b);
+//
+//    Quicksort( m, a, c-1);
+//    Quicksort( m, c+1, b);
+//    //qDebug()<<"SortEnd";
 }
 
 int hBricks::Partition(QVector<Block *>* m, int a, int b)
