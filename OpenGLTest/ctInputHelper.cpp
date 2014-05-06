@@ -24,17 +24,23 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
 		{
 			QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
 			m_mouseButtons[MB_LEFT] = MBS_PUSH;
-            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
-            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			if(tmp->touchPoints().count() > 0)
+			{
+            	m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            	m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			}
             break;
 		}
         case QEvent::TouchCancel:
         case QEvent::TouchEnd:
         {
             QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
-                m_mouseButtons[MB_LEFT] = MBS_RELEASE;
-            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
-            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			m_mouseButtons[MB_LEFT] = MBS_RELEASE;
+			if(tmp->touchPoints().count() > 0)
+			{
+            	m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            	m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			}
             break;//return true;
         }
         case QEvent::TouchUpdate:
@@ -42,8 +48,11 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
             QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
             m_touches.clear();
             m_touches.append(tmp->touchPoints());
-            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
-            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			if(tmp->touchPoints().count() > 0)
+			{
+            	m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            	m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+			}
             break;
         }
         case QEvent::MouseButtonPress:

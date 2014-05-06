@@ -20,7 +20,22 @@ void ctMover::Update()
     if(m_isWorking)
     {
         float tmpMult = m_elapsed / m_duration;
-        if(tmpMult > 1) tmpMult = 1;
+        //if(tmpMult > 1) tmpMult = 1;
+		if(tmpMult>1)
+		{
+			if(IsCyclic())
+			{
+				while(tmpMult>1)
+				{
+					tmpMult-=1;
+				}
+			}
+			else
+			{
+				tmpMult = 1;
+			}
+			m_OnFinish.Call();
+		}
         if(m_paretnTransform)
         {
             m_paretnTransform->Move(m_startPos + (m_delta * tmpMult));
