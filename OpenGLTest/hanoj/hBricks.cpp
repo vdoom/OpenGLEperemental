@@ -367,11 +367,9 @@ void hBricks::Quicksort(QVector<Block *>* m, int a, int b)
         tmp = m->at(i);
         for (j = i - 1; j >= 0 &&
 			 m->at(j)->GetTransform()->GetLocalPos().z() > tmp->GetTransform()->GetLocalPos().z(); --j)
-		{// поиск места элемента в готовой последовательности
-            //m->at(j + 1) = m->at(j);    // сдвигаем элемент направо, пока не дошли
+		{
 			m->replace(j+1, m->at(j));
 		}
-        //m->at(j + 1) = tmp; // место найдено, вставить элемент
 		m->replace(j+1, tmp);
     }
 //    if (a >= b) return;
