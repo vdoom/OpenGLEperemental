@@ -1,5 +1,7 @@
 #include "hCircles.h"
 #include "ctMover.h"
+#include "ctRand.h"
+#include <QList>
 
 hCircles::hCircles() : ctObject()
 {
@@ -26,20 +28,38 @@ hCircles::~hCircles()
 
 void hCircles::Init()
 {
-    for(int i = 0; i < 4; ++i)
+    QList<ctPlane*> tmp;
+    for(int q = 0; q < 2; ++q)
+    for(int i = 0; i < 6; ++i)
     {
         for(int j = 1; j < 5; ++j)
         {
             ctPlane* tmpPlane = new ctPlane(GetShaderManager(), GetScene(), GetOpenGLContext(),QVector3D(1,1,1), QVector3D(-1,-1,1), ctPlane::Textured);
             tmpPlane->SetTexture(hCircles::GetCircleResPath(i,j), true);
-            tmpPlane->GetTransform()->Scale(QVector3D(0.001,0.0013,1));
+            tmpPlane->GetTransform()->Scale(QVector3D(0.0015,0.0020,1));
             tmpPlane->GetTransform()->SetParent(GetTransform());
             tmpPlane->Init();
-            m_circles.push_back(tmpPlane);
+            tmp.push_back(tmpPlane);
+        }
+    }
+    int tmpSize = tmp.count();
+    for(int i = 0; i < tmpSize; ++i )
+    {
+        int rnd = ctRand::intRandom(0, tmp.count()-1);
+        m_circles.push_back(tmp.at(rnd));
+        tmp.removeAt(rnd);
+    }
+
+    int counter = 0;
+    for(int i = 0; i < 6; ++i)
+    {
+        for(int j = 0; j < 8; ++j)
+        {
             ctMover * m_mover = new ctMover();
-            m_mover->SetUp(QVector3D(-2.3f+(0.8*i), -1.2, -1),QVector3D(-0.3f+(0.8*i),1.2,-1), 10000, true, tmpPlane->GetTransform(), ((float)j/5));
-            tmpPlane->AddComponnent(m_mover);
+            m_mover->SetUp(QVector3D(-2.3f+(0.6*i), -1.2, -1),QVector3D(-0.3f+(0.6*i),1.2,-1), 10000, true, m_circles.at(counter)->GetTransform(), ((float)(j)/8.0f));
+            m_circles.at(counter)->AddComponnent(m_mover);
             m_mover->Start();
+            ++counter;
         }
     }
 }
@@ -59,7 +79,6 @@ void hCircles::Draw()
     ctObject::Draw();
     for(int i = 0; i < m_circles.count(); ++i)
     {
-        //qDebug()<<"Draw Circle";
         m_circles[i]->Draw();
     }
     glEnable(GL_DEPTH_TEST);

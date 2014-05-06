@@ -24,6 +24,8 @@ public:
     {
         QString mainPath(":/texture/circles/");
         QString color("red");
+		if(t_color>3)
+		{t_color-=3;}
         switch(t_color)
         {
         case 0:
