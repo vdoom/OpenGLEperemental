@@ -14,6 +14,7 @@
 #include "ctMover.h"
 #include "hanoj/hCircles.h"
 #include "hanoj/hBricks.h"
+
 #define Input GetWindow()->GetInput()->GetInputHelper()
 
 testScene::testScene() : m_verticalAligneBlock(33.0f), m_horisontalAligneBlock(128.0f)
@@ -158,6 +159,7 @@ void testScene::BeginDraw()
     glViewport(0, 0, GetWindow()->GetWidth(), GetWindow()->GetHeight());
     //------------------------------------------------------------
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1,1,1,1);
     ++frameCounter;
     if(msecsCounter<1000)msecsCounter += ctTime::GetTime()->GetDeltaTime();
     else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
@@ -203,8 +205,8 @@ void testScene::EndDraw()
     GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
     GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 	
-    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(Input.GetMousePos3D().x()));
-    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(Input.GetMousePos3D().y()));
+    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().x()));
+    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().y()));
 	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }

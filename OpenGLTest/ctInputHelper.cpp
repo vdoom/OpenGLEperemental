@@ -1,6 +1,8 @@
 #include "ctInputHelper.h"
 #include "ctInput.h"
 #include <QVector3D>
+#include <QList>
+#include <QTouchEvent>
 #include <QDebug>
 
 ctInputHelper::ctInputHelper(ctInput * t_input)
@@ -19,13 +21,29 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
     switch (event->type())
     {
         case QEvent::TouchBegin:
+		{
+			QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
+			m_mouseButtons[MB_LEFT] = MBS_PUSH;
+            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+            break;
+		}
         case QEvent::TouchCancel:
         case QEvent::TouchEnd:
+        {
+            QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
+                m_mouseButtons[MB_LEFT] = MBS_RELEASE;
+            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
+            break;//return true;
+        }
         case QEvent::TouchUpdate:
         {
             QTouchEvent* tmp = static_cast<QTouchEvent *>(event);
             m_touches.clear();
             m_touches.append(tmp->touchPoints());
+            m_mousePos.setX(tmp->touchPoints().at(0).pos().x());
+            m_mousePos.setY(tmp->touchPoints().at(0).pos().y());
             break;
         }
         case QEvent::MouseButtonPress:
@@ -41,6 +59,7 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
 //            }
             m_mousePos.setX(tmp->x());
             m_mousePos.setY(tmp->y());
+			qDebug()<<"X: "<<tmp->x()<<" Y: "<<tmp->y();
             break;//return true;
         }
         case QEvent::MouseButtonRelease:
@@ -70,10 +89,11 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
 
 void ctInputHelper::Update()
 {
+	//qDebug()<<"Update InputHelper";
     for(int i = 0; i < 3; ++i)
     {
         if(m_mouseButtons[i] == MBS_PUSH)
-            m_mouseButtons[i] == MBS_PRESS_N_HOLD;
+            m_mouseButtons[i] = MBS_PRESS_N_HOLD;
 
         if(m_mouseButtons[i] == MBS_RELEASE)
             m_mouseButtons[i] = MBS_NONE;

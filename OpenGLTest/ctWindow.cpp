@@ -16,7 +16,7 @@
 
 #include <QTimer>
 
-ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0)
+ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_input(0)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
@@ -34,7 +34,7 @@ m_input = new ctInput(this);
     SetDefault();
 }
 
-ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
 {
 m_input = new ctInput(this);
 
@@ -63,7 +63,7 @@ m_input = new ctInput(this);
 //    SetDefault(t_context);
 //}
 
-ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *parent) :QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp)
+ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *parent) :QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
@@ -164,6 +164,9 @@ void ctWindow::initialize()
     {
         m_scene->Init();
     }
+	
+	if(!m_input)
+		m_input = new ctInput(this);
     //Initialization;
 }
 
@@ -210,7 +213,7 @@ void ctWindow::renderNow11()
     if (needsInitialize) {
         needsInitialize = false;
         initializeOpenGLFunctions();
-        initialize();        //GLuint depthRenderbuffer;
+        //initialize();        //GLuint depthRenderbuffer;
 
         //QString tmp((const char*)glGetString(GL_VERSION));
         //GL_VENDOR, GL_RENDERER, GL_VERSION, or GL_SHADING_LANGUAGE_VERSION
@@ -345,11 +348,11 @@ qDebug()<<"SetDefault";
 
 void ctWindow::DrawText(QPointF t_pos, QString t_str)
 {
-//    QPainter painter;//(m_device);
-//    painter.begin(m_GLWidget);
-//    painter.setPen(Qt::green);
-//    painter.drawText(t_pos, t_str);
-//    painter.end();
+    QPainter painter(m_device);
+    //painter.begin(m_GLWidget);
+    painter.setPen(Qt::green);
+    painter.drawText(t_pos, t_str);
+    //painter.end();
 }
 
 QVector2D ctWindow::GetStartupResolution() const
