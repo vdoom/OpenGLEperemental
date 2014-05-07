@@ -75,7 +75,7 @@ void testScene::Init()
     //m_plane->SetTexture(":/texture/txture.png");//("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
     //m_back->SetTexture(":/texture/back.jpg");
     m_resetButton->SetTexture(":/texture/reset.png",true);
-	m_undoButton->SetTexture(":/texture/reset.png", true);
+    m_undoButton->SetTexture(":/texture/undo.png", true);
     m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
 	m_undoButton->GetOnPush()->AppendConnect(m_bricks, &hBricks::UndoStep);
 

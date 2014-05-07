@@ -50,7 +50,7 @@ m_input = new ctInput(this);
   //  setCentralWidget(m_GLWidget);
 
     QTimer *timer = new QTimer(this);
-    timer->setInterval(16);
+    timer->setInterval(25);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow11()));
     timer->start();
 

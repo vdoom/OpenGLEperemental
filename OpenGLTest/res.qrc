@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/texture">
         <file alias="txture.png">txture.png</file>
-        <file alias="back.jpg">back.jpg</file>
         <file alias="blue_7.png">hanoj/hanoj_art/blue_block7.png</file>
         <file alias="blue_6.png">hanoj/hanoj_art/blue_block6.png</file>
         <file alias="blue_5.png">hanoj/hanoj_art/blue_block5.png</file>
@@ -59,6 +58,7 @@
         <file alias="yellow_6.png">hanoj/hanoj_art/yellow_block6.png</file>
         <file alias="yellow_7.png">hanoj/hanoj_art/yellow_block7.png</file>
         <file alias="reset.png">hanoj/hanoj_art/button_restart.png</file>
+        <file alias="undo.png">hanoj/hanoj_art/button_UNDO.png</file>
     </qresource>
     <qresource prefix="/texture/circles">
         <file alias="blue1.png">hanoj/hanoj_art/circles/blue1.png</file>

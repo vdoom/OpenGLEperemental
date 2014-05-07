@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="292.82953"
+     inkscape:cx="354.59249"
      inkscape:cy="708.58787"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#ff9d00;fill-opacity:1;stroke:#000000;stroke-width:7.56218767000000010;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#1da4ff;fill-opacity:1;stroke:#000000;stroke-width:7.56218767000000010;stroke-linecap:butt;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect2985"
        width="548.1521"
        height="153.86638"
@@ -64,15 +64,15 @@
        ry="11.32317" />
     <text
        xml:space="preserve"
-       style="font-size:126.23398590000001000px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#4f0000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="117.73561"
-       y="368.12939"
+       style="font-size:153.38804625999998000px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#735a00;fill-opacity:1;stroke:none;font-family:Sans"
+       x="111.16328"
+       y="450.23892"
        id="text2987"
        sodipodi:linespacing="125%"
-       transform="scale(0.84153881,1.1882993)"><tspan
+       transform="scale(1.0225614,0.97793639)"><tspan
          sodipodi:role="line"
          id="tspan2989"
-         x="117.73561"
-         y="368.12939">RESTART</tspan></text>
+         x="111.16328"
+         y="450.23892">UNDO</tspan></text>
   </g>
 </svg>
