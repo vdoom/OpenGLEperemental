@@ -150,9 +150,9 @@ void hBricks::ManageCollide()
 void hBricks::ResetBlocks()
 {
     //qDebug()<<"Try Reset!!!";
-    UndoStep();
-	//ReinitColumns();//(m_blocks);
-    //AligneBlocks();
+	ReinitColumns();//(m_blocks);
+    AligneBlocks();
+	m_savedSteps.clear();
 }
 
 void hBricks::GenerateBlocks()
@@ -425,7 +425,6 @@ void hBricks::SetWinPlane(ctPlane *t_plane)
     m_winText = t_plane;
 }
 
-
 void hBricks::SaveStep()
 {
 	qDebug()<<"SaveStep";
@@ -448,7 +447,7 @@ void hBricks::SaveStep()
 
 void hBricks::UndoStep()
 {
-	if(m_savedSteps.count()>=1)
+	if(m_savedSteps.count()>=1 && !IsWin())
 	{
 		qDebug()<<"RealUndo";
 		//QVector<QVector<Block*>*> m_blockSlots;
