@@ -25,7 +25,6 @@ void ctButton::Update()
     static bool prevStatePush = false;
     if(m_input && Input.IsMouseLeftButtonPush() && IsIntersect(Input.GetMousePos3D()) && !prevStatePush)
     {
-		qDebug()<<"pressbutton";
         m_OnPush.Call();
         prevStatePush = true;
     }

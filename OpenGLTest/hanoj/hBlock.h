@@ -67,6 +67,8 @@ public:
             return "yellow";
         }
     }
+	
+    int G_indexqqq;
 };
 
 #endif // BLOCK_H

@@ -2,7 +2,7 @@
 #define HBRICKS_H
 
 #include "ctObject.h"
-
+#include <QPoint>
 class Block;
 class ctInput;
 class ctPlane;
@@ -10,7 +10,7 @@ class ctPlane;
 class hBricks : public ctObject
 {
 private:
-    QVector <Block*> m_blocks;
+    QVector<Block*> m_blocks;
     QVector<QVector<Block*>*> m_blockSlots;
     QVector<Block*> m_movingStash;
     //QVector<Block*> m_reservedContainer;
@@ -19,6 +19,8 @@ private:
     const float m_horisontalAligneBlock;
     int m_prevColumn;
     ctPlane * m_winText;
+	//----------------------------------------
+	QVector<QVector<QVector<QPoint> > > m_savedSteps;
 public:
     hBricks();
     explicit hBricks(ctShaderManager *);
@@ -50,37 +52,10 @@ public:
     int Partition(QVector <Block*>* m, int a, int b);
     void Quicksort( QVector <Block*>* m, int a, int b);
     void SetWinPlane(ctPlane* t_plane);
-
-    /*
-int partition<T>( T[] m, int a, int b) where T :IComparable<T>
-{
-    int i = a;
-    for (int j = a; j <= b; j++)         // просматриваем с a по b
-    {
-        if (m[j].CompareTo( m[b]) <= 0)  // если элемент m[j] не превосходит m[b],
-        {
-            T t = m[i];                  // меняем местами m[j] и m[a], m[a+1], m[a+2] и так далее...
-            m[i] = m[j];                 // то есть переносим элементы меньшие m[b] в начало,
-            m[j] = t;                    // а затем и сам m[b] «сверху»
-            i++;                         // таким образом последний обмен: m[b] и m[i], после чего i++
-        }
-    }
-    return i - 1;                        // в индексе i хранится <новая позиция элемента m[b]> + 1
-}
-
-void quicksort<T>( T[] m, int a, int b) where T : IComparable<T>// a - начало подмножества, b - конец
-{                                        // для первого вызова: a = 0, b = <элементов в массиве> - 1
-    if (a >= b) return;
-    int c = partition( m, a, b);
-    quicksort( m, a, c - 1);
-    quicksort( m, c + 1, b);
-}
-
-//Пример вызова
-//double[] arr = {9,1.5,34.4,234,1,56.5};
-//quicksort<double>(arr,0,arr.Length-1);
-//
-     */
+//------------------------------------------------------------------------------------
+	void SaveStep();
+	void UndoStep();
+	int FindeBlockIndex(QPoint);
 };
 
 #endif // HBRICKS_H

@@ -149,9 +149,10 @@ void hBricks::ManageCollide()
 
 void hBricks::ResetBlocks()
 {
-    qDebug()<<"Try Reset!!!";
-    ReinitColumns();//(m_blocks);
-    AligneBlocks();
+    //qDebug()<<"Try Reset!!!";
+    UndoStep();
+	//ReinitColumns();//(m_blocks);
+    //AligneBlocks();
 }
 
 void hBricks::GenerateBlocks()
@@ -162,7 +163,7 @@ void hBricks::GenerateBlocks()
         for(int j = 0; j < 7; ++j)
         {
            // m_blockSlots.last()->push_back();
-            m_blocks.push_back(new Block(GetShaderManager(), GetScene(), GetOpenGLContext(), QVector3D(50,10,-10), QVector3D(-50,-10,-10), ctPlane::Textured, j+1, i));
+            m_blocks.push_back(new Block(GetShaderManager(), GetScene(), GetOpenGLContext(), QVector3D(50,10,-10), QVector3D(-50,-10,-10), ctPlane::Textured, j, i));
             m_blocks.last()->SetTexture(QString(":/texture/")+Block::GetColor(i)+QString("_")+QString::number(j+1)+QString(".png"),true);
             m_blocks.last()->Init();
             //m_reservedContainer.last()->
@@ -171,11 +172,19 @@ void hBricks::GenerateBlocks()
 
             //if(i==2 && j==2){qDebug()<<m_blockSlots.last()->last()->GetTransform()->GetLocalTransformMatrix().GetMatrix().column(3);}
             m_blocks.last()->GetTransform()->Scale(QVector3D(0.17f, 0.25f, 1));
+            //m_blocks.last()->G_indexqqq = m_blocks.count()-1;
+			//qDebug()<<m_blocks.last()->G_indexqqq;
             //AddObject(m_reservedContainer.last());
             //AddCollider(m_reservedContainer.last());
             //m_reservedContainer.last()->GetTransform()->SetParent(rootTransform->GetTransform());
         }
     }
+//	for(int i = 0; i < m_blocks.count(); ++i)
+//	{
+//		m_blocks.value(i)->G_indexqqq=i;
+//		//m_blocks.last()->G_indexqqq = m_blocks.count()-1;
+//		qDebug()<<"BlockIndex: "<<m_blocks.value(i)->G_indexqqq;
+//	}
     ReinitColumns();
 }
 
@@ -186,6 +195,7 @@ void hBricks::ReinitColumns()//(QVector<Block *> t_blocks)
     //tmp = t_blocks;
     for(int i = 0; i<8; ++i)m_blockSlots[i]->clear();
 
+	int counter = 0;
     int tmpsize = m_blocks.size();
     for(int i = 0; i < tmpsize; ++i)
     {
@@ -198,6 +208,7 @@ void hBricks::ReinitColumns()//(QVector<Block *> t_blocks)
         //ON Qt 5.1
         tmp.remove(rnd2);
     }
+	SaveStep();
 }
 
 bool hBricks::IsWin()
@@ -247,6 +258,7 @@ void hBricks::DropBlock(int t_col)
             m_blockSlots[t_col]->push_back(m_movingStash[i]);
         }
         m_movingStash.clear();
+		SaveStep();
     }
     else if(m_blockSlots[t_col]->last()->GetBlockColor() == m_movingStash.last()->GetBlockColor() &&
             m_blockSlots[t_col]->last()->GetBlockSize() > m_movingStash.first()->GetBlockSize())
@@ -256,6 +268,7 @@ void hBricks::DropBlock(int t_col)
             m_blockSlots[t_col]->push_back(m_movingStash[i]);
         }
         m_movingStash.clear();
+		SaveStep();
     }
     else
     {
@@ -264,6 +277,7 @@ void hBricks::DropBlock(int t_col)
             m_blockSlots[m_prevColumn]->push_back(m_movingStash[i]);
         }
         m_movingStash.clear();
+		SaveStep();
     }
 }
 
@@ -368,10 +382,16 @@ void hBricks::Quicksort(QVector<Block *>* m, int a, int b)
         for (j = i - 1; j >= 0 &&
 			 m->at(j)->GetTransform()->GetLocalPos().z() > tmp->GetTransform()->GetLocalPos().z(); --j)
 		{
+			m->value(j)->G_indexqqq = j+1;
 			m->replace(j+1, m->at(j));
 		}
+		tmp->G_indexqqq = j+1;
 		m->replace(j+1, tmp);
     }
+	for(int i = 0; i < m->count(); ++i)
+	{
+		m->value(i)->G_indexqqq = i;
+	}
 //    if (a >= b) return;
 //    int c = Partition( m, a, b);
 //
@@ -403,4 +423,62 @@ int hBricks::Partition(QVector<Block *>* m, int a, int b)
 void hBricks::SetWinPlane(ctPlane *t_plane)
 {
     m_winText = t_plane;
+}
+
+
+void hBricks::SaveStep()
+{
+	qDebug()<<"SaveStep";
+	QVector<QVector<QPoint> > tmpGrid;
+	QVector<QPoint> tmpCol;
+	tmpCol.clear();
+	tmpGrid.clear();
+	for(int i = 0; i < m_blockSlots.count(); ++i)
+	{
+		tmpCol.clear();
+		for(int j = 0; j < m_blockSlots.at(i)->count(); ++j)
+		{
+			//int qq =m_blockSlots.at(i)->at(j)->G_indexqqq;
+			tmpCol.push_back(QPoint(m_blockSlots.at(i)->at(j)->GetBlockSize(), m_blockSlots.at(i)->at(j)->GetBlockColor()));
+		}
+		tmpGrid.push_back(tmpCol);
+	}
+	m_savedSteps.push_back(tmpGrid);
+}
+
+void hBricks::UndoStep()
+{
+	if(m_savedSteps.count()>=1)
+	{
+		qDebug()<<"RealUndo";
+		//QVector<QVector<Block*>*> m_blockSlots;
+		for(int i = 0; i < m_blockSlots.count(); ++i)
+		{
+			//for(int j = 0; j < m_blockSlots.at(i)->count(); ++j)
+			//{
+				m_blockSlots.value(i)->clear();
+			//}
+		}
+		//m_savedSteps.takeLast();
+		QVector<QVector<QPoint> > prevStep = m_savedSteps.takeLast();
+		for(int i = 0; i < m_blockSlots.count(); ++i)
+		{
+			for(int j = 0; j < prevStep.at(i).count(); ++j)
+			{
+				m_blockSlots.value(i)->push_back(m_blocks.value(FindeBlockIndex(prevStep.at(i).at(j))));
+			}
+		}
+		AligneBlocks();
+	}
+}
+
+int hBricks::FindeBlockIndex(QPoint t_stat)
+{
+	for(int i = 0; i < m_blocks.count(); ++i)
+	{
+		if(t_stat.x() == m_blocks.at(i)->GetBlockSize() &&
+		   t_stat.y() == m_blocks.at(i)->GetBlockColor())
+			return i;
+	}
+	return -1;
 }

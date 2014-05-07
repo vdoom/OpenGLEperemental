@@ -36,6 +36,10 @@ Block::~Block()
 void Block::Update()
 {
     ctClickablePlane::Update();
+//	if(m_blockColor == 2 && m_blockSize == 2)
+//	{
+//		qDebug()<<G_indexqqq;
+//	}
 }
 void Block::Draw()
 {

@@ -449,7 +449,7 @@ int testScene::GetColByPos(QVector2D t_pos)
 
 void testScene::ResetBlocks()
 {
-    qDebug()<<"Try Reset!!!";
+    //qDebug()<<"Try Reset!!!";
     m_winSprite->Hide();
     if(m_bricks)
     {
