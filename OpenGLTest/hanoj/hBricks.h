@@ -50,7 +50,7 @@ public:
     int MoreThen(Block* t_block1, Block* t_block2);
     void Swap(Block* t_block1, Block* t_block2);
     int Partition(QVector <Block*>* m, int a, int b);
-    void Quicksort( QVector <Block*>* m, int a, int b);
+    void Quicksort( QVector <Block*>* m);//, int a, int b);
     void SetWinPlane(ctPlane* t_plane);
 //------------------------------------------------------------------------------------
 	void SaveStep();

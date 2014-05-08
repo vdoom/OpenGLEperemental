@@ -153,6 +153,7 @@ void hBricks::ResetBlocks()
 	ReinitColumns();//(m_blocks);
     AligneBlocks();
 	m_savedSteps.clear();
+	SaveStep();
 }
 
 void hBricks::GenerateBlocks()
@@ -319,7 +320,7 @@ void hBricks::TakeBlock(int t_col, int t_row)
     }
     //qDebug()<<"StartSort";
     //qSort(m_blocks);
-    Quicksort(&m_blocks,0,m_blocks.count()-1);
+    Quicksort(&m_blocks);//0,m_blocks.count()-1);
     //qDebug()<<"EndSort";
 //-----------------------------------------------
       for(int i = 0; i < counter; ++i)
@@ -364,6 +365,7 @@ int hBricks::MoreThen(Block *t_block1, Block *t_block2)
     if(t_block1->GetTransform()->GetLocalPos().z() < t_block2->GetTransform()->GetLocalPos().z()) return -1;
     else if(t_block1->GetTransform()->GetLocalPos().z() > t_block2->GetTransform()->GetLocalPos().z()) return 1;
     else if(t_block1->GetTransform()->GetLocalPos().z() == t_block2->GetTransform()->GetLocalPos().z()) return 0;
+	return 0;
 }
 
 void hBricks::Swap(Block* t_block1, Block* t_block2)
@@ -373,7 +375,7 @@ void hBricks::Swap(Block* t_block1, Block* t_block2)
     t_block1 = tmp;
 }
 
-void hBricks::Quicksort(QVector<Block *>* m, int a, int b)
+void hBricks::Quicksort(QVector<Block *>* m)//, int a, int b)
 {
 	Block* tmp;
     for (int i = 1, j; i < m->size(); ++i) // цикл проходов, i - номер прохода
@@ -442,6 +444,34 @@ void hBricks::SaveStep()
 		}
 		tmpGrid.push_back(tmpCol);
 	}
+//	bool isLikePrev = true;
+//	if(m_savedSteps.count()>0)
+//	{
+//		for(int i = 0; i < tmpGrid.count(); ++i)
+//		{
+//			if(m_savedSteps.last().at(i).count()!= tmpGrid.at(i).count())
+//			{
+//				isLikePrev = false;
+//				break;
+//			}
+//			if(isLikePrev)
+//			{
+//				for(int j = 0; j < tmpGrid.at(i).count(); ++j )
+//				{
+//					if(tmpGrid.at(i).at(j) != m_savedSteps.last().at(i).at(j))
+//					{
+//						isLikePrev = false;
+//						break;
+//					}
+//				}
+//			}
+//		}
+//	}
+//	else
+//	{
+//		isLikePrev = false;
+//	}
+//	if(!isLikePrev)
 	m_savedSteps.push_back(tmpGrid);
 }
 
@@ -449,25 +479,65 @@ void hBricks::UndoStep()
 {
 	if(m_savedSteps.count()>=1 && !IsWin())
 	{
-		qDebug()<<"RealUndo";
-		//QVector<QVector<Block*>*> m_blockSlots;
-		for(int i = 0; i < m_blockSlots.count(); ++i)
+		bool isLikePrev = true;
+		//---------------------------------------
+		while (isLikePrev && m_savedSteps.count()>0)
 		{
-			//for(int j = 0; j < m_blockSlots.at(i)->count(); ++j)
-			//{
-				m_blockSlots.value(i)->clear();
-			//}
-		}
-		//m_savedSteps.takeLast();
-		QVector<QVector<QPoint> > prevStep = m_savedSteps.takeLast();
-		for(int i = 0; i < m_blockSlots.count(); ++i)
-		{
-			for(int j = 0; j < prevStep.at(i).count(); ++j)
+			for(int i = 0; i < m_savedSteps.last().count(); ++i)
 			{
-				m_blockSlots.value(i)->push_back(m_blocks.value(FindeBlockIndex(prevStep.at(i).at(j))));
+				if(m_savedSteps.last().at(i).count()!= m_blockSlots.at(i)->count())
+				{
+					isLikePrev = false;
+					break;
+				}
+				if(isLikePrev)
+				{
+					for(int j = 0; j < m_savedSteps.last().at(i).count(); ++j )
+					{
+						qDebug()<<m_blockSlots.at(i)->count()<<m_savedSteps.last().at(i).count();
+						QPoint tmpPoint(m_blockSlots.at(i)->at(j)->GetBlockSize(),
+										m_blockSlots.at(i)->at(j)->GetBlockColor());
+						if(tmpPoint != m_savedSteps.last().at(i).at(j))
+						{
+							isLikePrev = false;
+							break;
+						}
+					}
+				}
+				if(!isLikePrev) break;
 			}
+			if(isLikePrev)
+			{
+				m_savedSteps.takeLast();
+			}
+			else
+			{break;}
 		}
-		AligneBlocks();
+		
+		if(m_savedSteps.count()>0)
+		{
+			//---------------------------------------
+			qDebug()<<"RealUndo";
+			//QVector<QVector<Block*>*> m_blockSlots;
+			for(int i = 0; i < m_blockSlots.count(); ++i)
+			{
+				//for(int j = 0; j < m_blockSlots.at(i)->count(); ++j)
+				//{
+					m_blockSlots.value(i)->clear();
+				//}
+			}
+			//m_savedSteps.takeLast();
+			QVector<QVector<QPoint> > prevStep = m_savedSteps.takeLast();
+			for(int i = 0; i < m_blockSlots.count(); ++i)
+			{
+				for(int j = 0; j < prevStep.at(i).count(); ++j)
+				{
+					m_blockSlots.value(i)->push_back(m_blocks.value(FindeBlockIndex(prevStep.at(i).at(j))));
+				}
+			}
+			AligneBlocks();
+		}
+		SaveStep();
 	}
 }
 
