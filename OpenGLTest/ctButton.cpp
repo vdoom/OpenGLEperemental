@@ -21,17 +21,20 @@ ctFastDelegat* ctButton::GetOnPush()
 
 void ctButton::Update()
 {
-    ctClickablePlane::Update();
-    static bool prevStatePush = false;
-    if(m_input && Input.IsMouseLeftButtonPush() && IsIntersect(Input.GetMousePos3D()) && !prevStatePush)
+    if(IsVisible())
     {
-        m_OnPush.Call();
-        prevStatePush = true;
-    }
-    if(m_input && Input.IsMouseLeftButtonRelease())
-    {
-        prevStatePush = false;
-    }
+        ctClickablePlane::Update();
+        static bool prevStatePush = false;
+        if(m_input && Input.IsMouseLeftButtonPush() && IsIntersect(Input.GetMousePos3D()) && !prevStatePush)
+        {
+            m_OnPush.Call();
+            prevStatePush = true;
+        }
+        if(m_input && Input.IsMouseLeftButtonRelease())
+        {
+            prevStatePush = false;
+        }
 
-    //TODO: Check click & call OnPush || OnClick
+        //TODO: Check click & call OnPush || OnClick
+    }
 }

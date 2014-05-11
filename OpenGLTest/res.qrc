@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/texture">
-        <file alias="txture.png">txture.png</file>
         <file alias="blue_7.png">hanoj/hanoj_art/blue_block7.png</file>
         <file alias="blue_6.png">hanoj/hanoj_art/blue_block6.png</file>
         <file alias="blue_5.png">hanoj/hanoj_art/blue_block5.png</file>
@@ -80,5 +79,10 @@
     </qresource>
     <qresource prefix="/texture/GUI">
         <file alias="win.png">hanoj/hanoj_art/wintxt.png</file>
+        <file alias="credits.png">hanoj/hanoj_art/main/credits.png</file>
+        <file alias="menu.png">hanoj/hanoj_art/main/menu.png</file>
+        <file alias="new_game.png">hanoj/hanoj_art/main/new_game.png</file>
+        <file alias="sound_button_atlas.png">hanoj/hanoj_art/main/sound_button_atlas.png</file>
+        <file alias="credits_txt.png">hanoj/hanoj_art/credits.png</file>
     </qresource>
 </RCC>

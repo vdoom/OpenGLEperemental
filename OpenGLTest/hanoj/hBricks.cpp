@@ -37,20 +37,26 @@ hBricks::~hBricks()
 void hBricks::Update()
 {
     ctObject::Update();
-    ManageCollide();
-    for(int i = 0; i < m_blocks.count(); ++i)
+    if(this->IsVisible())
     {
-        m_blocks.at(i)->Update();
+        ManageCollide();
+        for(int i = 0; i < m_blocks.count(); ++i)
+        {
+            m_blocks.at(i)->Update();
+        }
     }
 }
 void hBricks::Draw()
 {
     glDisable(GL_DEPTH_TEST);
     ctObject::Draw();
-    for(int i = 0; i < m_blocks.count(); i++)
+    if(this->IsVisible())
     {
-        //m_blocks.at(i)->SetProjectionMatrix(GetProjectionMatrix());
-        m_blocks.at(i)->Draw();
+        for(int i = 0; i < m_blocks.count(); i++)
+        {
+            //m_blocks.at(i)->SetProjectionMatrix(GetProjectionMatrix());
+            m_blocks.at(i)->Draw();
+        }
     }
     glEnable(GL_DEPTH_TEST);
 }
@@ -147,11 +153,11 @@ void hBricks::ManageCollide()
     }
 }
 
-void hBricks::ResetBlocks()
+void hBricks::ResetBlocks(bool t_fast)
 {
     //qDebug()<<"Try Reset!!!";
 	ReinitColumns();//(m_blocks);
-    AligneBlocks();
+    AligneBlocks(t_fast);
 	m_savedSteps.clear();
 	SaveStep();
 }

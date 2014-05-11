@@ -52,8 +52,12 @@ void testScene::Init()
     m_timer = new ctTimer();
     m_back->SetColor(QVector3D(0.61f, 1.0f, 0.85f));
     m_bricks = new hBricks(GetShaderManager(), this, GetOpenGLContext(), 0);
-    ctButton* m_resetButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
-	ctButton* m_undoButton = new ctButton(GetShaderManager(), this,GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_resetButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_undoButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_menuButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_newGameButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512,384,1), QVector3D(-512, -384, 1), ctPlane::Textured, GetWindow()->GetInput());
+    m_creditsButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512, -384,1), ctPlane::Textured, GetWindow()->GetInput());
+    m_credits_txt = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured);
     m_winSprite = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(10,10,1), QVector3D(-10,-10,1), ctPlane::Textured);
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
@@ -63,7 +67,7 @@ void testScene::Init()
     //t_mover->Start();
     m_timer->SetTimer(5000, true);
     m_timer->GetDelegat()->AppendConnect(this, &testScene::TimerTest);
-    hCircles * t_circles = new hCircles(GetShaderManager(), this, GetOpenGLContext());
+    t_circles = new hCircles(GetShaderManager(), this, GetOpenGLContext());
     t_circles->GetTransform()->Move(QVector3D(0,0,0));
     t_circles->Init();
     m_bricks->Init();
@@ -76,8 +80,15 @@ void testScene::Init()
     //m_back->SetTexture(":/texture/back.jpg");
     m_resetButton->SetTexture(":/texture/reset.png",true);
     m_undoButton->SetTexture(":/texture/undo.png", true);
+    m_menuButton->SetTexture(":/texture/GUI/menu.png", true);
+    m_newGameButton->SetTexture(":/texture/GUI/new_game.png", true);
+    m_creditsButton->SetTexture(":/texture/GUI/credits.png", true);
+    m_credits_txt->SetTexture(":/texture/GUI/credits_txt.png", true);
     m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
 	m_undoButton->GetOnPush()->AppendConnect(m_bricks, &hBricks::UndoStep);
+    m_menuButton->GetOnPush()->AppendConnect(this, &testScene::ShowMainMenu);
+    m_newGameButton->GetOnPush()->AppendConnect(this, &testScene::ShowGame);
+    m_creditsButton->GetOnPush()->AppendConnect(this, &testScene::ShowCredits);
 
     m_winSprite->SetTexture(":/texture/GUI/win.png",true);
     //m_block->SetTexture(":/texture/blue_7.png");
@@ -87,13 +98,25 @@ void testScene::Init()
     m_back->Init();
     m_resetButton->Init();
 	m_undoButton->Init();
+    m_menuButton->Init();
+    m_newGameButton->Init();
+    m_creditsButton->Init();
     m_winSprite->Init();
+    m_credits_txt->Init();
     m_winSprite->Hide();
 
     m_resetButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
     m_resetButton->GetTransform()->Move(QVector3D(-400,-320,0));
 	m_undoButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
     m_undoButton->GetTransform()->Move(QVector3D(-200,-320,0));
+    m_menuButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
+    m_menuButton->GetTransform()->Move(QVector3D(400, -320, 0));
+    m_newGameButton->GetTransform()->Scale(QVector3D(1,1,1));
+    m_newGameButton->GetTransform()->Move(QVector3D(0,-100,1));
+    m_creditsButton->GetTransform()->Scale(QVector3D(1,1,1));
+    m_creditsButton->GetTransform()->Move(QVector3D(0,100,1));
+    m_credits_txt->GetTransform()->Scale(QVector3D(1.5f,1.5f,1));
+    m_credits_txt->GetTransform()->Move(QVector3D(0,0,1));
     //rootTransform->Hide();
     glClearColor(1.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -105,13 +128,18 @@ void testScene::Init()
     {qDebug()<<"Fuck\n";}
     m_frame = 0;
 
+    SetGameState(GS_MAINMENU);
 
     AddObject(t_circles);
     AddObject(m_back);
     AddObject(m_resetButton);
 	AddObject(m_undoButton);
+    AddObject(m_menuButton);
+    AddObject(m_newGameButton);
+    AddObject(m_creditsButton);
     AddObject(m_bricks);
     AddObject(m_winSprite);
+    AddObject(m_credits_txt);
 }
 
 void testScene::TimerTest()
@@ -186,11 +214,70 @@ void testScene::Update()
     ctTime::GetTime()->Update();
 }
 
-void testScene::ResetBlocks()
+void testScene::ResetBlocks(bool t_fast)
 {
     m_winSprite->Hide();
     if(m_bricks)
     {
-        m_bricks->ResetBlocks();
+        m_bricks->ResetBlocks(t_fast);
     }
+}
+
+int testScene::GetGameState()
+{ return m_gameState;}
+
+void testScene::SetGameState(int t_gstate)
+{
+    switch(t_gstate)
+    {
+        case GS_CREDITS:
+        {
+            ShowCredits();
+            break;
+        }
+        case GS_GAME:
+        {
+            ShowGame();
+            break;
+        }
+        case GS_MAINMENU:
+        {
+            ShowMainMenu();
+            break;
+        }
+    }
+}
+
+void testScene::ShowCredits()
+{
+    m_credits_txt->Show();
+    m_resetButton->Hide();
+    m_undoButton->Hide();
+    m_menuButton->Show();
+    m_newGameButton->Hide();
+    m_creditsButton->Hide();
+    m_bricks->Hide();
+}
+
+void testScene::ShowGame()
+{
+    m_credits_txt->Hide();
+    m_resetButton->Show();
+    m_undoButton->Show();
+    m_menuButton->Show();
+    m_newGameButton->Hide();
+    m_creditsButton->Hide();
+    m_bricks->Show();
+    ResetBlocks(true);
+}
+
+void testScene::ShowMainMenu()
+{
+    m_credits_txt->Hide();
+    m_resetButton->Hide();
+    m_undoButton->Hide();
+    m_menuButton->Hide();
+    m_newGameButton->Show();
+    m_creditsButton->Show();
+    m_bricks->Hide();
 }

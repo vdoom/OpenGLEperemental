@@ -32,6 +32,7 @@ m_input = new ctInput(this);
 
 
     SetDefault();
+    screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
 }
 
 ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
@@ -55,6 +56,7 @@ m_input = new ctInput(this);
     timer->start();
 
     SetDefault();
+    screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
 }
 
 //ctWindow::ctWindow(QOpenGLContext *t_context, QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0)
@@ -78,6 +80,7 @@ m_input = new ctInput(this);
 //layout->addWidget(m_GLWidget,1,0,8,1);
 //groupBox->setLayout(layout);
      SetDefault(t_context);
+     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
 }
 
 ctWindow::~ctWindow()
@@ -95,6 +98,7 @@ ctWindow::~ctWindow()
 bool ctWindow::event(QEvent *event)
 {
     //event->type();
+    //return true;
     if(m_input)
         m_input->event(event);
 //    switch (event->type()) {
@@ -156,6 +160,10 @@ void ctWindow::render(QPainter *painter)
 
 void ctWindow::initialize()
 {
+//    screen()->setOrientationUpdateMask(Qt::LandscapeOrientation);
+//    contentOrientationChanged(Qt::LandscapeOrientation);
+//    reportContentOrientationChange(Qt::LandscapeOrientation);
+//    screen()->orientationChanged(Qt::LandscapeOrientation);
     if (!m_device)
         m_device = new QOpenGLPaintDevice;
     m_device->setSize(size());

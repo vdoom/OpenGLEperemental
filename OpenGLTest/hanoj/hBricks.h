@@ -35,7 +35,7 @@ public:
     void SetInput(ctInput*);
     void AligneBlocks(bool t_fast = false);
     void ManageCollide();
-    void ResetBlocks();
+    void ResetBlocks(bool t_fast = false);
     void ReinitColumns();//(QVector<Block *> t_blocks);
     int GetColByPos(QVector2D t_pos);
     void DropBlock(int t_col);
