@@ -4,11 +4,26 @@ SOURCES += \
     main.cpp \
     ctLoger.cpp
 
-TARGET = dreamgymf2p
+TARGET = Hanoj
+
+
 
 target.path = $$[QT_INSTALL_EXAMPLES]/gui/openglwindow
 INSTALLS += target
 
+targ.files = assets/muse.mp3
+targ.path = /assets
+    # android platform
+    # From: http://community.kde.org/Necessitas/Assets
+    //SAMPLES_INSTALL_PATH=/assets
+
+
+# - setup the 'make install' step
+#samples.path = $$SAMPLES_INSTALL_PATH
+#samples.files += $$SAMPLE_FILES
+#samples.depends += FORCE
+
+INSTALLS += targ
 QT += opengl
 QT += core
 QT += multimedia
@@ -17,6 +32,7 @@ HEADERS += \
     ctLoger.h
 #CONFIG += c++11
 #QMAKE_CXXFLAGS += -std=c++11
+
 
 OTHER_FILES += \
     android/AndroidManifest.xml \
@@ -46,4 +62,6 @@ OTHER_FILES += \
     android/src/org/kde/necessitas/ministro/IMinistroCallback.aidl \
     android/src/org/qtproject/qt5/android/bindings/QtActivity.java \
     android/src/org/qtproject/qt5/android/bindings/QtApplication.java \
-    android/version.xml
+    android/version.xml \
+    assets/Samples/muse.mp3 \
+    android/assets/Samples/muse.mp3

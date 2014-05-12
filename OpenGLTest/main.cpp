@@ -67,6 +67,7 @@
 #include <functional>
 #include <iostream>
 #include "ctRand.h"
+#include <QMediaPlayer>
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -75,175 +76,6 @@ void ShowMatrix(QMatrix4x4 t_mat)
     qDebug()<<t_mat(2,0)<<" "<<t_mat(2,1)<<" "<<t_mat(2,2)<<" "<<t_mat(2,3);
     qDebug()<<t_mat(3,0)<<" "<<t_mat(3,1)<<" "<<t_mat(3,2)<<" "<<t_mat(3,3);
 }
-//class TriangleWindow : public OpenGLWindow
-//{
-//public:
-//    TriangleWindow(QWindow* parent=0);
-//    //~TriangleWindow();
-////    {
-////        delete m_newShaderManager;
-////        delete m_shaderManager;
-////    }
-//    void initialize();
-//    void render();
-
-//private:
-//    ShaderManager *m_shaderManager;
-//    ctShaderManager *m_newShaderManager;
-
-//    GLuint m_posAttr;
-//    GLuint m_colAttr;
-//    GLuint m_matrixUniform;
-
-//    QOpenGLShaderProgram *m_program;
-//    int m_frame;
-//    //Axis** axis;
-//    //BoxTextured* box;
-//    //Plane* plane;
-//    ctPlane * trPlane;
-//    ctPlane * secondPlane;
-//    int frameCounter;
-//    int msecsCounter;
-//    ctInput* m_input;
-//    bool event(QEvent *event)
-//    {
-//        m_input->event(event);
-//        OpenGLWindow::event(event);
-//    }
-
-//    int m_lastFPS;
-
-//    //ctTime time;
-//};
-
-//TriangleWindow::TriangleWindow(QWindow* parent)
-//    : m_program(0)
-//    , m_frame(0), msecsCounter(0), frameCounter(0)//, OpenGLWindow(parent)
-//{
-//    m_input = new ctInput();//((QWidget*)this);
-//    m_lastFPS = 0;
-//}
-////TriangleWindow::~TriangleWindow()
-////{
-////    delete m_newShaderManager;
-////    delete m_shaderManager;
-////}
-//void TriangleWindow::initialize()
-//{
-//    if (!m_device)
-//        m_device = new QOpenGLPaintDevice;
-//    m_device->setSize(size());
-
-//    m_newShaderManager = new ctShaderManager(m_context);
-//    m_shaderManager = new ShaderManager();
-//    m_newShaderManager->AddFragmentShader(fragmentShaderSource, "fragmentShaderSource");
-//    m_shaderManager->AddFragmentShader(fragmentShaderSource);
-//    m_newShaderManager->AddVertexShader(vertexShaderSource, "vertexShaderSource");
-//    m_shaderManager->AddVertexShader(vertexShaderSource);
-//    m_newShaderManager->AddFragmentShader(texturedFragmentShaderSource, "texturedFragmentShaderSource");
-//    m_shaderManager->AddFragmentShader(texturedFragmentShaderSource);
-//    m_newShaderManager->AddVertexShader(texturedVertexShaderSource, "texturedVertexShaderSource");
-//    m_shaderManager->AddVertexShader(texturedVertexShaderSource);
-//    m_newShaderManager->AddVertexShader(texturedModelVertexShaderSource, "texturedModelVertexShaderSource");
-//    m_shaderManager->AddVertexShader(texturedModelVertexShaderSource);
-//    m_newShaderManager->SetUpShaderProgram("texturedModelVertexShaderSource", "texturedFragmentShaderSource", "texturedPlaneShader");
-//    //m_shaderManager->AddFragmentShader(materialFragmentShaderSource);
-//   // m_shaderManager->AddVertexShader(materialVertexShaderSource);
-
-//    //m_shaderManager->SetUpShaderProgram(0, 0);
-//    //m_matrixUniform = m_shaderManager->GetCurrentShaderProgram()->uniformLocation("matrix");
-//    //axis = new Axis * [3];
-////    axis[0] = new Axis(QVector3D(2.0f, 0.0f, 0.0f), QVector3D(1.0f, 0.3f, 0.3f), m_shaderManager);
-////    axis[1] = new Axis(QVector3D(0.0f, 2.0f, 0.0f), QVector3D(0.3f, 1.0f, 0.3f), m_shaderManager);
-////    axis[2] = new Axis(QVector3D(0.0f, 0.0f, 2.0f), QVector3D(0.3f, 0.3f, 1.0f), m_shaderManager);
-////    axis[0]->InitShaders();
-////    axis[1]->InitShaders();
-////    axis[2]->InitShaders();
-////    box = new BoxTextured(m_shaderManager);
-////    box->LoadTexture("/Users/volodymyrkuksynok/Downloads/texturen.tga");
-////    box->InitShaderProgram();
-//    //-----------------------------------------------------------------------------
-//    secondPlane = new ctPlane(m_newShaderManager, 0, m_context, QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
-//    secondPlane->InitShader("texturedPlaneShader");
-//    //secondPlane->InitShader();
-//    secondPlane->SetTexture("/Users/volodymyrkuksynok/Downloads/cat_hungry.png");
-//    secondPlane->GetTransform()->RotateByZ(0.2f);
-//    secondPlane->GetTransform()->Move(QVector3D(2,2,3));
-//    secondPlane->GenerateCompleteBuffer();
-//    //-----------------------------------------------------------------------------
-
-//    //tmp.Move(QVector3D(2,3,2));
-//    //::ShowMatrix(trPlane->GetTransform()->GetGlobalTransformMatrix().GetMatrix());
-//    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-//    //glClearDepth(1.0f);
-//    //glClearDepth(2000.0);
-////    glEnable(GL_DEPTH_TEST);  // Enables Depth Testing
-////    glDepthFunc(GL_LESS);     // The Type Of Depth Test To Do
-////    glShadeModel(GL_SMOOTH);  // Enables Smooth Color Shading
-////     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-//    //glDisable(GL_DEPTH_TEST);
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable(GL_DEPTH_TEST);
-//    //glEnable(GL_CULL_FACE);
-//    glViewport(0, 0, width(), height());
-//    if(!ctTime::GetTime())
-//    {qDebug()<<"Fuck\n";}
-
-//    //ctTime::GetTime()->Update();
-//}
-
-//void TriangleWindow::render()
-//{
-////    if(!m_painter)
-////    {
-////        m_painter = new QPainter(m_device);
-////    }
-//    QPainter painter(m_device);
-////    glEnable(GL_BLEND);
-////    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-////    glEnable(GL_DEPTH_TEST);
-//    //render(&painter);
-
-//    //m_device->paintEngine()->painter()->drawText(QPointF(30,30),QString("FUCK ITS WORKING!!!!"));
-
-////        glEnable(GL_BLEND);
-////        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-////        glEnable(GL_DEPTH_TEST);
-
-//    ++frameCounter;
-//    if(msecsCounter<1000)msecsCounter+=ctTime::GetTime()->GetDeltaTime();
-//    else {m_lastFPS=frameCounter; msecsCounter = 0;frameCounter=0;}
-//    //float ttt = (ctTime::GetTime()->GetDeltaTime());
-//    //if(ttt!=0)
-//    //{ttt = 1000/ttt;}
-//    //qDebug()<<"real FPS: "<<ttt;
-
-
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-//    painter.setPen(Qt::green);
-//    painter.drawText(QPointF(30,30),QString("FPS: ") + QString::number(m_lastFPS));
-
-//    glEnable(GL_BLEND);
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);//GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable(GL_DEPTH_TEST);
-
-//    QMatrix4x4 matrix;
-//    matrix.perspective(60, 4.0/3.0, 0.1, 100.0);
-//    matrix.translate(0, -1.5f , -5);
-//    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
-
-//    //box->Draw(matrix);
-//    for(int i = 0; i < 3; ++i)
-//    {
-//        axis[i]->Draw(matrix);
-//    }
-//    secondPlane->DrawTextured(matrix);
-
-//    ++m_frame;
-//    ctTime::GetTime()->Update();
-//}
 
 int main(int argc, char **argv)
 {
@@ -251,11 +83,23 @@ int main(int argc, char **argv)
     ctRand::RandomReset();
 //ctDelegat* tt;
     QResource::registerResource("res.rcc");
+    QResource::registerResource("muse.rcc");
     //QSurfaceFormat format;
     //format.setSamples(16);
     //format.setDepthBufferSize(24);
     //format.setStereo(true);
-
+    QMediaPlayer* player = new QMediaPlayer;
+    // ...
+    //QUrl tmpL("qrc:/muse.mp3");
+    //qDebug()<<tmpL.path();
+    //QMediaContent tmRes(tmpL);
+    //qDebug()<<"codec"<<tmRes.audioBitRate();
+    player->setMedia(QUrl("assets:/muse.mp3"));//(QUrl("qrc:/muse/muse.mp3"));
+    qDebug()<<"!!!111";
+    player->setVolume(50);
+    qDebug()<<"!!!333";
+    player->play();
+    qDebug()<<"!!!";
     //QDesktopWidget *desk = QApplication::desktop();
 
     //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
@@ -269,8 +113,8 @@ int main(int argc, char **argv)
     qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
-    //m_testWindow.showMaximized();
-    m_testWindow.show();
+    m_testWindow.showFullScreen();//showMaximized();
+    //m_testWindow.show();
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);
 
