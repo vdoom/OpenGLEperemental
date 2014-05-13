@@ -81,6 +81,7 @@ public:
 public slots:
     void renderLater();
     void renderNow11();
+    void StateChange(Qt::ApplicationState state);
 };
 
 #endif // CTWINDOW_H

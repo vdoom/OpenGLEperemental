@@ -5,6 +5,7 @@
 //#include <QMediaPlayer>
 #include <QVector>
 #include <QPoint>
+#include <QMediaPlayer>
 
 class ctPlane;
 class ctButton;
@@ -32,6 +33,10 @@ private:
     ctTimer * m_timer;
     QString m_isClicked;
     hCircles* t_circles;
+    //------------------------------------
+    QMediaPlayer* player;
+    bool m_isMusicPlay;
+    //------------------------------------
     int m_gameState;
     //--------------------------------
     ctButton* m_resetButton;
@@ -41,6 +46,8 @@ private:
     ctButton* m_creditsButton;
     ctPlane * m_credits_txt;
     hBricks * m_bricks;
+
+    ctButton* m_soundButton;
     //--------------------------------
 
 protected:
@@ -57,17 +64,26 @@ public:
     virtual void Draw();
     virtual void EndDraw();
 
+    virtual void Freeze();
+    virtual void Unfreeze();
+
     virtual void Update();
 
     void TimerTest();
 
     void ResetBlocks(bool t_fast = false);
+    void ResetButtonOnPres();
 
     int GetGameState();
     void SetGameState(int);
     void ShowCredits();
     void ShowGame();
     void ShowMainMenu();
+
+    bool IsMusicPlay();
+    void PauseMusic();
+    void PlayMusic();
+    void SwitchMusic();
 };
 
 #endif // TESTSCENE_H

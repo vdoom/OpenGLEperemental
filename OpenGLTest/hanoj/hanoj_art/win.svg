@@ -14,7 +14,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="Новий документ 1">
+   sodipodi:docname="win.svg"
+   inkscape:export-filename="D:\OpenGLEperemental\OpenGLTest\hanoj\hanoj_art\win.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.71"
-     inkscape:cx="145.42254"
-     inkscape:cy="864.4668"
+     inkscape:zoom="1.0040916"
+     inkscape:cx="393.14502"
+     inkscape:cy="729.57853"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -64,5 +67,5 @@
            y="315.21933"
            style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold;fill:#1a3c9b;fill-opacity:1" /></flowRegion><flowPara
          id="flowPara2991"
-         style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold;fill:#1a3c9b;fill-opacity:1">YOU WIN!</flowPara></flowRoot>  </g>
+         style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold;fill:#1a3c9b;fill-opacity:1;stroke:#000055;stroke-opacity:1">YOU WIN!</flowPara></flowRoot>  </g>
 </svg>

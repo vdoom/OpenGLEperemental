@@ -67,7 +67,6 @@
 #include <functional>
 #include <iostream>
 #include "ctRand.h"
-#include <QMediaPlayer>
 
 void ShowMatrix(QMatrix4x4 t_mat)
 {
@@ -88,18 +87,10 @@ int main(int argc, char **argv)
     //format.setSamples(16);
     //format.setDepthBufferSize(24);
     //format.setStereo(true);
-    QMediaPlayer* player = new QMediaPlayer;
-    // ...
-    //QUrl tmpL("qrc:/muse.mp3");
-    //qDebug()<<tmpL.path();
-    //QMediaContent tmRes(tmpL);
-    //qDebug()<<"codec"<<tmRes.audioBitRate();
-    player->setMedia(QUrl("assets:/muse.mp3"));//(QUrl("qrc:/muse/muse.mp3"));
-    qDebug()<<"!!!111";
-    player->setVolume(50);
-    qDebug()<<"!!!333";
-    player->play();
-    qDebug()<<"!!!";
+    //QMediaPlayer* player = new QMediaPlayer;
+   // player->setMedia(QUrl::fromLocalFile("C:\\muse.mp3"));//(QUrl("assets:/muse.mp3"));
+    //player->setVolume(50);
+    //player->play();
     //QDesktopWidget *desk = QApplication::desktop();
 
     //qDebug()<<QApplication::desktop()->width()<<QApplication::desktop()->height();
@@ -113,8 +104,8 @@ int main(int argc, char **argv)
     qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
-    m_testWindow.showFullScreen();//showMaximized();
-    //m_testWindow.show();
+    //m_testWindow.showFullScreen();//showMaximized();
+    m_testWindow.show();
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);
 

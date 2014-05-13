@@ -19,13 +19,18 @@
 
 testScene::testScene()
 {
+    SetIsFreezable(true);
 }
 
 testScene::testScene(ctShaderManager * t_shaderManager) : ctScene(t_shaderManager)
-{}
+{
+    SetIsFreezable(true);
+}
 
 testScene::testScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext)
-{}
+{
+    SetIsFreezable(true);
+}
 
 testScene::~testScene()
 {
@@ -44,6 +49,15 @@ void testScene::Init()
     m_isClicked = "not";
 
     qDebug()<<"init testScene";
+
+    //-------------------------------------------------
+    player = new QMediaPlayer;//((QObject*)this);
+    player->setMedia(QUrl("assets:/muse.mp3"));
+    player->setVolume(50);
+    player->play();
+    m_isMusicPlay = true;
+    //-------------------------------------------------
+
     //GetWindow()->GetOpenGLContext()->makeCurrent();
     SetDefault(GetShaderManager(), 0, GetWindow()->GetOpenGLContext());//GetOpenGLContext());
     //m_plane2 = new ctPlane(GetShaderManager(), 0, GetOpenGLContext(), QVector3D(2,0,2), QVector3D(-2,0,-2), ctPlane::Textured);
@@ -59,6 +73,7 @@ void testScene::Init()
     m_creditsButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512, -384,1), ctPlane::Textured, GetWindow()->GetInput());
     m_credits_txt = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured);
     m_winSprite = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(10,10,1), QVector3D(-10,-10,1), ctPlane::Textured);
+    m_soundButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured, GetWindow()->GetInput());
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
    // ctMover * t_mover = new ctMover();
@@ -84,12 +99,13 @@ void testScene::Init()
     m_newGameButton->SetTexture(":/texture/GUI/new_game.png", true);
     m_creditsButton->SetTexture(":/texture/GUI/credits.png", true);
     m_credits_txt->SetTexture(":/texture/GUI/credits_txt.png", true);
-    m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetBlocks);
+    m_soundButton->SetTexture(":/texture/GUI/sound_button_atlas.png", true);
+    m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetButtonOnPres);
 	m_undoButton->GetOnPush()->AppendConnect(m_bricks, &hBricks::UndoStep);
     m_menuButton->GetOnPush()->AppendConnect(this, &testScene::ShowMainMenu);
     m_newGameButton->GetOnPush()->AppendConnect(this, &testScene::ShowGame);
     m_creditsButton->GetOnPush()->AppendConnect(this, &testScene::ShowCredits);
-
+    m_soundButton->GetOnPush()->AppendConnect(this, &testScene::SwitchMusic);
     m_winSprite->SetTexture(":/texture/GUI/win.png",true);
     //m_block->SetTexture(":/texture/blue_7.png");
 
@@ -104,10 +120,11 @@ void testScene::Init()
     m_winSprite->Init();
     m_credits_txt->Init();
     m_winSprite->Hide();
+    m_soundButton->Init();
 
-    m_resetButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
+    m_resetButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
     m_resetButton->GetTransform()->Move(QVector3D(-400,-320,0));
-	m_undoButton->GetTransform()->Scale(QVector3D(0.3f, 0.3f, 1.0f));
+    m_undoButton->GetTransform()->Scale(QVector3D(0.6f, 0.65f, 1.0f));
     m_undoButton->GetTransform()->Move(QVector3D(-200,-320,0));
     m_menuButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
     m_menuButton->GetTransform()->Move(QVector3D(400, -320, 0));
@@ -117,6 +134,8 @@ void testScene::Init()
     m_creditsButton->GetTransform()->Move(QVector3D(0,100,1));
     m_credits_txt->GetTransform()->Scale(QVector3D(1.5f,1.5f,1));
     m_credits_txt->GetTransform()->Move(QVector3D(0,0,1));
+    m_soundButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
+    m_soundButton->GetTransform()->Move(QVector3D(200, -320, 0));
     //rootTransform->Hide();
     glClearColor(1.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -135,6 +154,7 @@ void testScene::Init()
     AddObject(m_resetButton);
 	AddObject(m_undoButton);
     AddObject(m_menuButton);
+    AddObject(m_soundButton);
     AddObject(m_newGameButton);
     AddObject(m_creditsButton);
     AddObject(m_bricks);
@@ -216,11 +236,17 @@ void testScene::Update()
 
 void testScene::ResetBlocks(bool t_fast)
 {
+    qDebug()<<"Reset";
     m_winSprite->Hide();
     if(m_bricks)
     {
         m_bricks->ResetBlocks(t_fast);
     }
+}
+
+void testScene::ResetButtonOnPres()
+{
+    ResetBlocks(false);
 }
 
 int testScene::GetGameState()
@@ -280,4 +306,47 @@ void testScene::ShowMainMenu()
     m_newGameButton->Show();
     m_creditsButton->Show();
     m_bricks->Hide();
+}
+
+bool testScene::IsMusicPlay()
+{
+    return m_isMusicPlay;
+}
+
+void testScene::PauseMusic()
+{
+    player->pause();
+}
+
+void testScene::PlayMusic()
+{
+    player->play();
+}
+
+void testScene::SwitchMusic()
+{
+    qDebug()<<"Switch";
+    if(IsMusicPlay())
+    {
+        m_isMusicPlay = false;
+        PauseMusic();
+    }
+    else
+    {
+        m_isMusicPlay = true;
+        PlayMusic();
+    }
+}
+
+void testScene::Freeze()
+{
+    PauseMusic();
+}
+
+void testScene::Unfreeze()
+{
+    if(IsMusicPlay())
+    {
+        PlayMusic();
+    }
 }

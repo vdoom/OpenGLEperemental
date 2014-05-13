@@ -55,6 +55,8 @@ m_input = new ctInput(this);
     QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow11()));
     timer->start();
 
+    connect(m_QApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(StateChange(Qt::ApplicationState)));
+
     SetDefault();
     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
 }
@@ -79,8 +81,9 @@ m_input = new ctInput(this);
 //QGridLayout *layout = new QGridLayout(groupBox);
 //layout->addWidget(m_GLWidget,1,0,8,1);
 //groupBox->setLayout(layout);
-     SetDefault(t_context);
-     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
+    connect(m_QApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(StateChange(Qt::ApplicationState)));
+    SetDefault(t_context);
+    screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
 }
 
 ctWindow::~ctWindow()
@@ -99,6 +102,13 @@ bool ctWindow::event(QEvent *event)
 {
     //event->type();
     //return true;
+    if(event->type() == QEvent::KeyPress)
+    {
+
+        QKeyEvent* tmp = static_cast<QKeyEvent *>(event);
+        if(tmp->key() == Qt::Key_Back)
+        {qDebug()<<"\n\n\n\nAPP deactivate\n\n\n";}
+    }
     if(m_input)
         m_input->event(event);
 //    switch (event->type()) {
@@ -393,4 +403,40 @@ float ctWindow::GetWidthScale() const
 float ctWindow::GetHeightScale() const
 {
     return ((float)GetDefaultHeight() / (float)(GetHeight()));
+}
+
+void ctWindow::StateChange(Qt::ApplicationState state)
+{
+    qDebug()<<"StateChange";
+    switch(state)
+    {
+        case Qt::ApplicationSuspended:
+        {
+            qDebug()<<"ApplicationSuspended";
+            if(m_scene)
+            {m_scene->Freeze();}
+            break;
+        }
+        case Qt::ApplicationHidden:
+        {
+            qDebug()<<"ApplicationHidden";
+            if(m_scene)
+            {m_scene->Freeze();}
+            break;
+        }
+        case Qt::ApplicationInactive:
+        {
+            qDebug()<<"ApplicationInactive";
+            if(m_scene)
+            {m_scene->Freeze();}
+            break;
+        }
+        case Qt::ApplicationActive:
+        {
+            qDebug()<<"ApplicationActive";
+            if(m_scene)
+            {m_scene->Unfreeze();}
+            break;
+        }
+    }
 }
