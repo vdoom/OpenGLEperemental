@@ -38,6 +38,13 @@ private:
     //TODO: NEED REMOVE planeColor
     float* planeColor;
     ctTexture* m_texture;
+
+    int m_frame;
+    int m_rows;
+    int m_cols;
+    QVector2D m_offset;
+    QVector2D m_texCoords[4];
+    float planeTextureCoords[8];
     void GettingAttributes(QOpenGLShaderProgram * t_shaderProgram);
 protected:
     virtual void SetDefault(ctShaderManager *, ctScene *, QOpenGLContext *);
@@ -63,7 +70,7 @@ public:
     //void DrawTexturedOld(QMatrix4x4);
     void DrawColored(QMatrix4x4);
     void DrawTextured(QMatrix4x4);
-    void GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB);
+    void GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB, bool t_selfGeneredTextureCoord = true);
     //GLuint CreateTexture(const char *fileName, const char *fileFormat);
 
     //----Overload-functions----
@@ -73,6 +80,11 @@ public:
     virtual ctEntity* Clone();
     //--------------------------
 
+    void SetTextureGrid(int t_rows, int t_cols);
+    void SetupTextureCoords();
+    void SetFrame(int t_frame);
+    int GetFrame();
+    void SetTextureOffset(QVector2D t_offset);
 };
 
 #endif // CTPLANE_H

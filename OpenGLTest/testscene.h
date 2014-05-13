@@ -5,7 +5,6 @@
 //#include <QMediaPlayer>
 #include <QVector>
 #include <QPoint>
-#include <QMediaPlayer>
 
 class ctPlane;
 class ctButton;
@@ -34,7 +33,6 @@ private:
     QString m_isClicked;
     hCircles* t_circles;
     //------------------------------------
-    QMediaPlayer* player;
     bool m_isMusicPlay;
     //------------------------------------
     int m_gameState;

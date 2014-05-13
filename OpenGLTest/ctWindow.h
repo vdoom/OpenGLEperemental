@@ -7,6 +7,7 @@
 //#include <QGLContext>
 #include <QPainter>
 #include <QVector2D>
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -31,6 +32,7 @@ private:
     QVector2D m_startupResolution;
     int m_defaultWidth, m_defaultHeight;
     bool m_update_pending;
+    QMediaPlayer* m_player;
 
 protected:
     QOpenGLContext * m_context;
@@ -78,10 +80,13 @@ public:
     float GetWidthScale() const;
     float GetHeightScale() const;
 
+    QMediaPlayer* GetMediaPlayer();
+
 public slots:
     void renderLater();
     void renderNow11();
     void StateChange(Qt::ApplicationState state);
+    void MusickStoped(QMediaPlayer::State);
 };
 
 #endif // CTWINDOW_H

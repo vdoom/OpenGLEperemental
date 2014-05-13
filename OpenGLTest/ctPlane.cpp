@@ -21,12 +21,46 @@
 //    //m_transform = new ctTransform();
 //}
 
+//-----------------------------------------------------------------
+//public void ResizeUV()
+//	{
+//		MeshFilter filter = GetComponent<MeshFilter>();
+//		float tw = 1.0f / colsCount;
+//		float th = 1.0f / rowsCount;
+
+//		filter.sharedMesh.uv = new Vector2[]
+//		{
+//			new Vector2(0, 1.0f - th),
+//			new Vector2(0, 1.0f),
+//			new Vector2(tw, 1.0f),
+//			new Vector2(tw, 1.0f - th)
+//		};
+//	}
+
+//	//--------------------------------------------------------------------------
+//	public void ScrollUV()
+//	{
+//		int nCols = colsCount;
+//		int nRows = rowsCount;
+
+//		float u = nCols > 1 ? ((float)(m_frame % nCols)) / nCols : 0;
+//		float v = nRows > 1 && nCols > 0 ? ((float)(m_frame / nCols)) / nRows : 0;
+
+//		material.SetTextureOffset("_MainTex", new Vector2(u, -v));
+//	}
+//-----------------------------------------------------------------
+
 ctPlane::ctPlane(ctShaderManager * t_shaderManager, ctScene * t_scene, QOpenGLContext * t_OpenGLContext, QVector3D t_AA, QVector3D t_BB, PlaneType t_type)
 {
     SetDefault(t_shaderManager, t_scene, t_OpenGLContext);
     m_currentType = t_type;
     m_AA = t_AA;
     m_BB = t_BB;
+
+    m_rows = 1;
+    m_cols = 1;
+    m_offset = QVector2D(1,1);
+    m_frame = 0;
     //SetupPlaneCoords(t_AA, t_BB);
 }
 
@@ -45,7 +79,7 @@ ctPlane::~ctPlane()
     if(m_texture) delete m_texture;
 }
 
-void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB)
+void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB, bool t_selfGeneredTextureCoord)
 {
     float* planePositions = new float[12];
 
@@ -78,15 +112,19 @@ void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB)
     planeIndexes[5] = 0;
 
 
-    float* planeTextureCoords = new float[8];
-    planeTextureCoords[0] = 1;
-    planeTextureCoords[1] = 1;
-    planeTextureCoords[2] = 0;
-    planeTextureCoords[3] = 1;
-    planeTextureCoords[4] = 0;
-    planeTextureCoords[5] = 0;
-    planeTextureCoords[6] = 1;
-    planeTextureCoords[7] = 0;
+    //float* planeTextureCoords = new float[8];
+    if(m_rows == 1 && m_cols == 1)
+    {
+        planeTextureCoords[0] = 1;
+        planeTextureCoords[1] = 1;
+        planeTextureCoords[2] = 0;
+        planeTextureCoords[3] = 1;
+        planeTextureCoords[4] = 0;
+        planeTextureCoords[5] = 0;
+        planeTextureCoords[6] = 1;
+        planeTextureCoords[7] = 0;
+    }
+    //SetupTextureCoords();
 
     const int positionsOffset = 12;
     const int texCoordOffset = 8;
@@ -114,7 +152,7 @@ void ctPlane::GenerateCompleteBuffer(QVector3D t_AA, QVector3D t_BB)
 
     delete[] planePositions;
     //delete[] planeIndexes;
-    delete[] planeTextureCoords;
+    //delete[] planeTextureCoords;
 }
 
 void ctPlane::SetTexture(QString t_textureFileName, bool t_needResize)
@@ -139,8 +177,8 @@ void ctPlane::SetTexture(const char* t_textureFileName, bool t_needResize)
 
     if(t_needResize)
     {
-        m_AA = QVector3D((m_texture->GetWidth()/2), (m_texture->GetHeight()/2), m_AA.z());
-        m_BB = QVector3D(-(m_texture->GetWidth()/2), -(m_texture->GetHeight()/2), m_BB.z());
+        m_AA = QVector3D((m_texture->GetWidth()/2)/m_cols, (m_texture->GetHeight()/2)/m_rows, m_AA.z());
+        m_BB = QVector3D((-(m_texture->GetWidth()/2))/m_cols, (-(m_texture->GetHeight()/2))/m_rows, m_BB.z());
         ResizeMesh(m_AA, m_BB);
     }
 }
@@ -399,4 +437,55 @@ void ctPlane::SetTexture(ctTexture *t_texture)
     {delete m_texture;}
 
     m_texture = t_texture;
+}
+
+void ctPlane::SetTextureGrid(int t_rows, int t_cols)
+{
+    m_rows = t_rows;
+    m_cols = t_cols;
+    SetupTextureCoords();
+}
+void ctPlane::SetupTextureCoords()
+{
+    float tw = 1.0f / m_cols;//colsCount;
+    float th = 1.0f / m_rows;//rowsCount;
+
+    m_texCoords[0] = QVector2D(0, 1.0f - th); // 0 0
+    m_texCoords[1] = QVector2D(0, 1.0f);      // 0 1
+    m_texCoords[2] = QVector2D(tw, 1.0f);     // 1 1
+    m_texCoords[3] = QVector2D(tw, 1.0f - th);// 1 0
+
+    for(int i = 0; i < 4; ++i) m_texCoords[i]+=m_offset;
+
+    planeTextureCoords[0] = m_texCoords[2].x();//1;
+    planeTextureCoords[1] = m_texCoords[2].y();//1;
+    planeTextureCoords[2] = m_texCoords[1].x();//0;
+    planeTextureCoords[3] = m_texCoords[1].y();//1;
+    planeTextureCoords[4] = m_texCoords[0].x();//0;
+    planeTextureCoords[5] = m_texCoords[0].y();//0;
+    planeTextureCoords[6] = m_texCoords[3].x();//1;
+    planeTextureCoords[7] = m_texCoords[3].y();//0;
+
+    GenerateCompleteBuffer(m_AA, m_BB, false);
+}
+void ctPlane::SetFrame(int t_frame)
+{
+    m_frame = t_frame;
+    int nCols = m_cols;
+    int nRows = m_rows;
+
+    float u = nCols > 1 ? ((float)(m_frame % nCols)) / nCols : 0;
+    float v = nRows > 1 && nCols > 0 ? ((float)(m_frame / nCols)) / nRows : 0;
+
+    //material.SetTextureOffset("_MainTex", new Vector2(u, -v));
+    SetTextureOffset(QVector2D(u,-v));
+}
+int ctPlane::GetFrame()
+{
+    return m_frame;
+}
+void ctPlane::SetTextureOffset(QVector2D t_offset)
+{
+    m_offset = t_offset;
+    SetupTextureCoords();
 }

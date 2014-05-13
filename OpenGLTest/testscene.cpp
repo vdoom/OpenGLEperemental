@@ -51,10 +51,11 @@ void testScene::Init()
     qDebug()<<"init testScene";
 
     //-------------------------------------------------
-    player = new QMediaPlayer;//((QObject*)this);
-    player->setMedia(QUrl("assets:/muse.mp3"));
-    player->setVolume(50);
-    player->play();
+    //((QObject*)this);
+    GetWindow()->GetMediaPlayer()->setMedia(QUrl("assets:/muse.mp3"));//(QUrl::fromLocalFile("c:\\muse.mp3"));//(QUrl("assets:/muse.mp3"));
+    //GetWindow()->GetMediaPlayer()->setMedia(QUrl::fromLocalFile("c:\\muse.mp3"));
+    GetWindow()->GetMediaPlayer()->setVolume(50);
+    GetWindow()->GetMediaPlayer()->play();
     m_isMusicPlay = true;
     //-------------------------------------------------
 
@@ -74,6 +75,8 @@ void testScene::Init()
     m_credits_txt = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured);
     m_winSprite = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(10,10,1), QVector3D(-10,-10,1), ctPlane::Textured);
     m_soundButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured, GetWindow()->GetInput());
+    m_soundButton->SetTextureGrid(2,1);
+    m_soundButton->SetFrame(1);
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
    // ctMover * t_mover = new ctMover();
@@ -315,12 +318,14 @@ bool testScene::IsMusicPlay()
 
 void testScene::PauseMusic()
 {
-    player->pause();
+    GetWindow()->GetMediaPlayer()->pause();
+    m_soundButton->SetFrame(0);
 }
 
 void testScene::PlayMusic()
 {
-    player->play();
+    GetWindow()->GetMediaPlayer()->play();
+    m_soundButton->SetFrame(1);
 }
 
 void testScene::SwitchMusic()

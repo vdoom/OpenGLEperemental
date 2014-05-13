@@ -20,7 +20,8 @@ ctWindow::ctWindow(QWindow *parent) : QWindow(parent), m_context(0), m_device(0)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
-
+m_player = new QMediaPlayer(this);
+connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
 
 //    m_GLWidget = new ctGLWidget();
  //   QGroupBox * groupBox = new QGroupBox(this);
@@ -38,7 +39,8 @@ m_input = new ctInput(this);
 ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
 {
 m_input = new ctInput(this);
-
+m_player = new QMediaPlayer(this);
+connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
 //m_GLWidget = new ctGLWidget();
 //QGroupBox * groupBox = new QGroupBox(this);
 //setCentralWidget(groupBox);
@@ -71,6 +73,8 @@ ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *p
 {
     //setSurfaceType(QWindow::OpenGLSurface);
 m_input = new ctInput(this);
+m_player = new QMediaPlayer(this);
+connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
 //    m_GLWidget = new ctGLWidget();
 
 //    setCentralWidget(m_GLWidget);
@@ -438,5 +442,18 @@ void ctWindow::StateChange(Qt::ApplicationState state)
             {m_scene->Unfreeze();}
             break;
         }
+    }
+}
+
+QMediaPlayer* ctWindow::GetMediaPlayer()
+{
+    return m_player;
+}
+
+void ctWindow::MusickStoped(QMediaPlayer::State state)
+{
+    if(state == QMediaPlayer::StoppedState)
+    {
+        m_player->play();
     }
 }
