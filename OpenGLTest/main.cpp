@@ -47,7 +47,7 @@
 #include <QOpenGLPaintDevice>
 
 #include <QtCore/qmath.h>
-#include <QGLWidget>
+#include <QProcess>//QGLWidget>
 #include "shadermanager.h"
 #include <QDesktopWidget>
 #include <QResource>
@@ -78,11 +78,14 @@ void ShowMatrix(QMatrix4x4 t_mat)
 
 int main(int argc, char **argv)
 {
+    //QT_ANDROID_VOLUME_KEYS
     QApplication app(argc, argv);
     ctRand::RandomReset();
+    QProcess tmp;
+    tmp.processEnvironment().insert(QString("QT_ANDROID_VOLUME_KEYS"), QString("true"));
 //ctDelegat* tt;
     QResource::registerResource("res.rcc");
-    QResource::registerResource("muse.rcc");
+    //QResource::registerResource("muse.rcc");
     //QSurfaceFormat format;
     //format.setSamples(16);
     //format.setDepthBufferSize(24);
@@ -98,14 +101,14 @@ int main(int argc, char **argv)
     testAppWindow m_testWindow(&app);
 
     //m_testWindow.setFormat(format);
-   // m_testWindow.SetResolution(1024, 768);
-   // m_testWindow.resize(160,120);
+    //m_testWindow.SetResolution(1024, 768);
+    m_testWindow.resize(1024,500);
     qDebug()<<"default width: "<<m_testWindow.GetDefaultWidth()<<"default height: "<<m_testWindow.GetDefaultHeight();
     qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
-    m_testWindow.showFullScreen();//showMaximized();
-    //m_testWindow.show();
+    //m_testWindow.showFullScreen();//showMaximized();
+    m_testWindow.show();
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);
 

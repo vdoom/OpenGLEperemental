@@ -43,10 +43,13 @@ private:
     ctButton* m_newGameButton;
     ctButton* m_creditsButton;
     ctPlane * m_credits_txt;
+    ctPlane * m_name_txt;
     hBricks * m_bricks;
 
     ctButton* m_soundButton;
     //--------------------------------
+
+    bool m_isInit;
 
 protected:
 public:

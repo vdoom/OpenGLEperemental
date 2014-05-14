@@ -20,16 +20,19 @@
 testScene::testScene()
 {
     SetIsFreezable(true);
+    m_isInit = false;
 }
 
 testScene::testScene(ctShaderManager * t_shaderManager) : ctScene(t_shaderManager)
 {
     SetIsFreezable(true);
+    m_isInit = false;
 }
 
 testScene::testScene(ctShaderManager * t_shaderManager, QOpenGLContext * t_OpenGLContext) : ctScene(t_shaderManager, t_OpenGLContext)
 {
     SetIsFreezable(true);
+    m_isInit = false;
 }
 
 testScene::~testScene()
@@ -54,7 +57,7 @@ void testScene::Init()
     //((QObject*)this);
     GetWindow()->GetMediaPlayer()->setMedia(QUrl("assets:/muse.mp3"));//(QUrl::fromLocalFile("c:\\muse.mp3"));//(QUrl("assets:/muse.mp3"));
     //GetWindow()->GetMediaPlayer()->setMedia(QUrl::fromLocalFile("c:\\muse.mp3"));
-    GetWindow()->GetMediaPlayer()->setVolume(50);
+    //GetWindow()->GetMediaPlayer()->setVolume(50);
     GetWindow()->GetMediaPlayer()->play();
     m_isMusicPlay = true;
     //-------------------------------------------------
@@ -77,6 +80,7 @@ void testScene::Init()
     m_soundButton = new ctButton(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512, 384, 1), QVector3D(-512,-384,1), ctPlane::Textured, GetWindow()->GetInput());
     m_soundButton->SetTextureGrid(2,1);
     m_soundButton->SetFrame(1);
+    m_name_txt = new ctPlane(GetShaderManager(), this, GetOpenGLContext(), QVector3D(512,512,1), QVector3D(-512,-512,1), ctPlane::Textured);
     //m_resetButton->SetColor(QVector3D(0.0f, 1.0f, 0));
     //m_block = new Block(GetShaderManager(), this, GetOpenGLContext(), QVector3D(50,10,1), QVector3D(-50,-10,1), ctPlane::Textured, 7,Block::BC_BLUE);
    // ctMover * t_mover = new ctMover();
@@ -103,6 +107,7 @@ void testScene::Init()
     m_creditsButton->SetTexture(":/texture/GUI/credits.png", true);
     m_credits_txt->SetTexture(":/texture/GUI/credits_txt.png", true);
     m_soundButton->SetTexture(":/texture/GUI/sound_button_atlas.png", true);
+    m_name_txt->SetTexture(":/texture/GUI/name.png",true);
     m_resetButton->GetOnPush()->AppendConnect(this, &testScene::ResetButtonOnPres);
 	m_undoButton->GetOnPush()->AppendConnect(m_bricks, &hBricks::UndoStep);
     m_menuButton->GetOnPush()->AppendConnect(this, &testScene::ShowMainMenu);
@@ -124,6 +129,7 @@ void testScene::Init()
     m_credits_txt->Init();
     m_winSprite->Hide();
     m_soundButton->Init();
+    m_name_txt->Init();
 
     m_resetButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
     m_resetButton->GetTransform()->Move(QVector3D(-400,-320,0));
@@ -132,13 +138,15 @@ void testScene::Init()
     m_menuButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
     m_menuButton->GetTransform()->Move(QVector3D(400, -320, 0));
     m_newGameButton->GetTransform()->Scale(QVector3D(1,1,1));
-    m_newGameButton->GetTransform()->Move(QVector3D(0,-100,1));
+    m_newGameButton->GetTransform()->Move(QVector3D(0,-50,1));
     m_creditsButton->GetTransform()->Scale(QVector3D(1,1,1));
-    m_creditsButton->GetTransform()->Move(QVector3D(0,100,1));
+    m_creditsButton->GetTransform()->Move(QVector3D(0,150,1));
     m_credits_txt->GetTransform()->Scale(QVector3D(1.5f,1.5f,1));
     m_credits_txt->GetTransform()->Move(QVector3D(0,0,1));
     m_soundButton->GetTransform()->Scale(QVector3D(0.6f, 0.6f, 1.0f));
     m_soundButton->GetTransform()->Move(QVector3D(200, -320, 0));
+    m_name_txt->GetTransform()->Scale(QVector3D(1.5f,1.5f,1));
+    m_name_txt->GetTransform()->Move(QVector3D(0,-200,1));
     //rootTransform->Hide();
     glClearColor(1.3f, 0.3f, 0.3f, 1.0f);
     glEnable(GL_BLEND);
@@ -158,11 +166,13 @@ void testScene::Init()
 	AddObject(m_undoButton);
     AddObject(m_menuButton);
     AddObject(m_soundButton);
+    AddObject(m_name_txt);
     AddObject(m_newGameButton);
     AddObject(m_creditsButton);
     AddObject(m_bricks);
     AddObject(m_winSprite);
     AddObject(m_credits_txt);
+    m_isInit = true;
 }
 
 void testScene::TimerTest()
@@ -222,11 +232,11 @@ void testScene::EndDraw()
     if(m_frame > 360) m_frame = m_frame - 360;
 
 
-    GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
-    GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
+    //GetWindow()->DrawText(QPointF(30,30), QString::number(m_lastFPS));
+    //GetWindow()->DrawText(QPointF(30, 60), m_isClicked);
 	
-    GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().x()));
-    GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().y()));
+    //GetWindow()->DrawText(QPointF(30, 90), QString("X: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().x()));
+    //GetWindow()->DrawText(QPointF(30, 120), QString("Y: ") + QString::number(GetWindow()->GetInput()->GetInputHelper().GetMousePos3D().y()));
 	
     //glViewport(0, 0, GetWindow()->width(), GetWindow()->height());
 }
@@ -286,6 +296,7 @@ void testScene::ShowCredits()
     m_newGameButton->Hide();
     m_creditsButton->Hide();
     m_bricks->Hide();
+    m_name_txt->Hide();
 }
 
 void testScene::ShowGame()
@@ -297,6 +308,7 @@ void testScene::ShowGame()
     m_newGameButton->Hide();
     m_creditsButton->Hide();
     m_bricks->Show();
+    m_name_txt->Hide();
     ResetBlocks(true);
 }
 
@@ -309,6 +321,7 @@ void testScene::ShowMainMenu()
     m_newGameButton->Show();
     m_creditsButton->Show();
     m_bricks->Hide();
+    m_name_txt->Show();
 }
 
 bool testScene::IsMusicPlay()
@@ -319,13 +332,15 @@ bool testScene::IsMusicPlay()
 void testScene::PauseMusic()
 {
     GetWindow()->GetMediaPlayer()->pause();
-    m_soundButton->SetFrame(0);
+    if(m_isInit)
+        m_soundButton->SetFrame(0);
 }
 
 void testScene::PlayMusic()
 {
     GetWindow()->GetMediaPlayer()->play();
-    m_soundButton->SetFrame(1);
+    if(m_isInit)
+        m_soundButton->SetFrame(1);
 }
 
 void testScene::SwitchMusic()

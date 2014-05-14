@@ -68,7 +68,7 @@ void ctInputHelper::ProcessingEvent(QEvent *event)
 //            }
             m_mousePos.setX(tmp->x());
             m_mousePos.setY(tmp->y());
-			qDebug()<<"X: "<<tmp->x()<<" Y: "<<tmp->y();
+            //qDebug()<<"X: "<<tmp->x()<<" Y: "<<tmp->y();
             break;//return true;
         }
         case QEvent::MouseButtonRelease:

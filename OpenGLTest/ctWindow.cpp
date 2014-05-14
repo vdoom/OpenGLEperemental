@@ -111,7 +111,7 @@ bool ctWindow::event(QEvent *event)
 
         QKeyEvent* tmp = static_cast<QKeyEvent *>(event);
         if(tmp->key() == Qt::Key_Back)
-        {qDebug()<<"\n\n\n\nAPP deactivate\n\n\n";}
+        {qDebug()<<"\n\n\n\nKeyBack\n\n\n";}
     }
     if(m_input)
         m_input->event(event);

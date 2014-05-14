@@ -4,7 +4,7 @@ SOURCES += \
     main.cpp \
     ctLoger.cpp
 
-TARGET = Hanoj
+TARGET = HardHanoi
 
 
 
@@ -65,3 +65,5 @@ OTHER_FILES += \
     android/version.xml \
     assets/Samples/muse.mp3 \
     android/assets/Samples/muse.mp3
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

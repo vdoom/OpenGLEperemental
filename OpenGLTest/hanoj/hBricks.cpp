@@ -208,7 +208,7 @@ void hBricks::ReinitColumns()//(QVector<Block *> t_blocks)
     {
         int rnd = ctRand::intRandom(0, 7);
         int rnd2 = ctRand::intRandom(0,tmp.size()-1);
-        qDebug()<< i << " "<< rnd;
+        //qDebug()<< i << " "<< rnd;
         m_blockSlots[rnd]->push_back(tmp[rnd2]);
         //ON Qt 5.2
         //tmp.removeAt(rnd2);
@@ -298,7 +298,7 @@ void hBricks::TakeBlock(int t_col, int t_row)
 
     QVector3D tmp = m_blockSlots[t_col]->last()->GetTransform()->GetLocalPos();
     tmp.setZ(3);
-    qDebug()<<"blockTaked";
+    //qDebug()<<"blockTaked";
     m_blockSlots[t_col]->last()->GetTransform()->Move(tmp);
 
     int counter = 1;
@@ -500,7 +500,7 @@ void hBricks::UndoStep()
 				{
 					for(int j = 0; j < m_savedSteps.last().at(i).count(); ++j )
 					{
-						qDebug()<<m_blockSlots.at(i)->count()<<m_savedSteps.last().at(i).count();
+                        //qDebug()<<m_blockSlots.at(i)->count()<<m_savedSteps.last().at(i).count();
 						QPoint tmpPoint(m_blockSlots.at(i)->at(j)->GetBlockSize(),
 										m_blockSlots.at(i)->at(j)->GetBlockColor());
 						if(tmpPoint != m_savedSteps.last().at(i).at(j))

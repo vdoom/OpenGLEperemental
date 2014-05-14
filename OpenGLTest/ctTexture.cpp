@@ -14,7 +14,7 @@ ctTexture::ctTexture(const char *t_fileName, const char *t_fileFormat) : m_textu
 
 ctTexture::~ctTexture()
 {
-    qDebug()<<"DestroyTexture";
+    //qDebug()<<"DestroyTexture";
     if(m_textureIndex > 0)
         glDeleteTextures(1, &m_textureIndex);
 }
@@ -33,11 +33,11 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     QFile tmp(strFileName);
     if(tmp.exists())
     {
-        qDebug()<<"Texture: "<< strFileName<< " finded";
+       // qDebug()<<"Texture: "<< strFileName<< " finded";
     }
     else
     {
-        qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
+        //qDebug()<<"Errore: "<< strFileName<<" NOT FOUNDED!!!";
         return;
     }
     //QString strFileFormat(fileFormat);
@@ -46,7 +46,7 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     m_width = image->width();
     m_height = image->height();
 
-    qDebug()<<strFileName<<"width: "<< m_width<< " height: "<<m_height;
+    //qDebug()<<strFileName<<"width: "<< m_width<< " height: "<<m_height;
 
     //uint8_t   *buffer;
     //uint32_t  size;
@@ -79,7 +79,7 @@ void ctTexture::LoadImageToTexture(const char *t_fileName, const char *t_fileFor
     delete image;
 
     m_textureIndex = texture;
-    qDebug()<<"textureIndex: "<<m_textureIndex;
+    //qDebug()<<"textureIndex: "<<m_textureIndex;
     //return texture;
 }
 
