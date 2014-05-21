@@ -6,7 +6,7 @@ void Block::SetDefault(ctShaderManager * t_shaders, ctScene * t_scene, QOpenGLCo
     ctClickablePlane::SetDefault(t_shaders, t_scene, t_OGLcontext);
     m_blockColor = BC_BLUE;
     m_blockSize = 7;
-    qDebug()<<"Block";
+    //qDebug()<<"Block";
     m_mover = 0;
     m_mover = new ctMover();
 

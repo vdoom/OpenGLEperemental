@@ -85,6 +85,7 @@ public:
     void PauseMusic();
     void PlayMusic();
     void SwitchMusic();
+    void OnPressBack();
 };
 
 #endif // TESTSCENE_H

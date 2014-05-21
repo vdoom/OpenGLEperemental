@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.0040916"
-     inkscape:cx="393.14502"
-     inkscape:cy="729.57853"
+     inkscape:cx="316.62494"
+     inkscape:cy="892.87467"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -57,15 +57,15 @@
     <flowRoot
        xml:space="preserve"
        id="flowRoot2985"
-       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#1a3c9b;fill-opacity:1;stroke:none;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold"
-       transform="translate(201.40845,-100)"><flowRegion
+       style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#3b55d1;fill-opacity:1;stroke:#00243c;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold"
+       transform="matrix(1.7769711,0,0,1.7769711,-62.79742,-384.26796)"><flowRegion
          id="flowRegion2987"><rect
            id="rect2989"
            width="528.57141"
            height="217.14285"
            x="102.85714"
            y="315.21933"
-           style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold;fill:#1a3c9b;fill-opacity:1" /></flowRegion><flowPara
+           style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#3b55d1;fill-opacity:1;stroke:#00243c;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold" /></flowRegion><flowPara
          id="flowPara2991"
-         style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold;fill:#1a3c9b;fill-opacity:1;stroke:#000055;stroke-opacity:1">YOU WIN!</flowPara></flowRoot>  </g>
+         style="font-size:64px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#3b55d1;fill-opacity:1;stroke:#00243c;stroke-width:2.5;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;font-family:Arial Rounded MT Bold;-inkscape-font-specification:Arial Rounded MT Bold">YOU WIN!</flowPara></flowRoot>  </g>
 </svg>

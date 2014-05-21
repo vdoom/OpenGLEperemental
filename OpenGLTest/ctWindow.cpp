@@ -31,36 +31,28 @@ connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickSt
  //   layout->addWidget(m_GLWidget,1,0,8,1);
  //   groupBox->setLayout(layout);
 
-
     SetDefault();
     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
+
+    m_settings = new QSettings(QString("Kuksynok_v"), QString("Hard_Hanoi"));
 }
 
 ctWindow::ctWindow(QApplication * t_QApp, QWindow *parent) : QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
 {
-m_input = new ctInput(this);
-m_player = new QMediaPlayer(this);
-connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
-//m_GLWidget = new ctGLWidget();
-//QGroupBox * groupBox = new QGroupBox(this);
-//setCentralWidget(groupBox);
-//groupBox->setTitle("OpenGL ES Example");
-//QGridLayout *layout = new QGridLayout(groupBox);
-//layout->addWidget(m_GLWidget,1,0,8,1);
-//groupBox->setLayout(layout);
-
- //   m_GLWidget = new ctGLWidget();
-  //  setCentralWidget(m_GLWidget);
+    m_input = new ctInput(this);
+    m_player = new QMediaPlayer(this);
+    connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
 
     QTimer *timer = new QTimer(this);
     timer->setInterval(18);
-    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow11()));
+    QObject::connect(timer, SIGNAL(timeout()), this, SLOT(renderNow()));
     timer->start();
 
     connect(m_QApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(StateChange(Qt::ApplicationState)));
 
     SetDefault();
     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
+    m_settings = new QSettings(QString("Kuksynok_v"), QString("Hard_Hanoi"));
 }
 
 //ctWindow::ctWindow(QOpenGLContext *t_context, QWindow *parent) : QWindow(parent), m_context(t_context), m_device(0)
@@ -72,22 +64,14 @@ connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickSt
 ctWindow::ctWindow(QOpenGLContext *t_context, QApplication * t_QApp,  QWindow *parent) :QWindow(parent), m_context(0), m_device(0), m_QApp(t_QApp), m_input(0)
 {
     //setSurfaceType(QWindow::OpenGLSurface);
-m_input = new ctInput(this);
-m_player = new QMediaPlayer(this);
-connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
-//    m_GLWidget = new ctGLWidget();
+    m_input = new ctInput(this);
+    m_player = new QMediaPlayer(this);
+    connect(m_player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(MusickStoped(QMediaPlayer::State)));
 
-//    setCentralWidget(m_GLWidget);
-//m_GLWidget = new ctGLWidget();
-//QGroupBox * groupBox = new QGroupBox(this);
-//setCentralWidget(groupBox);
-//groupBox->setTitle("OpenGL ES Example");
-//QGridLayout *layout = new QGridLayout(groupBox);
-//layout->addWidget(m_GLWidget,1,0,8,1);
-//groupBox->setLayout(layout);
     connect(m_QApp, SIGNAL(applicationStateChanged(Qt::ApplicationState)), this, SLOT(StateChange(Qt::ApplicationState)));
     SetDefault(t_context);
     screen()->setOrientationUpdateMask(Qt::LandscapeOrientation|Qt::InvertedLandscapeOrientation);
+    m_settings = new QSettings(QString("Kuksynok_v"), QString("Hard_Hanoi"));
 }
 
 ctWindow::~ctWindow()
@@ -104,35 +88,18 @@ ctWindow::~ctWindow()
 
 bool ctWindow::event(QEvent *event)
 {
-    //event->type();
-    //return true;
     if(event->type() == QEvent::KeyPress)
     {
 
         QKeyEvent* tmp = static_cast<QKeyEvent *>(event);
         if(tmp->key() == Qt::Key_Back)
-        {qDebug()<<"\n\n\n\nKeyBack\n\n\n";}
+        {
+            qDebug()<<"\n\n\n\nKeyBack\n\n\n";
+            m_onPressBack.Call();
+        }
     }
     if(m_input)
         m_input->event(event);
-//    switch (event->type()) {
-//    case QEvent::UpdateRequest:
-//        //renderNow11();
-//        break;
-//    }
-//        m_update_pending = false;
-//        //m_GLWidget->updateGL();
-//        QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
-
-//        //qDebug()<<"UpdateRequest";
-
-//         renderNow11();
-//        break;//return true;
-//    default:
-//        break;//return true;
-//    }
-     //QCoreApplication::postEvent(this, event);
-    //QMainWindow::event(event);
 }
 
 void ctWindow::exposeEvent(QExposeEvent *event)
@@ -140,7 +107,7 @@ void ctWindow::exposeEvent(QExposeEvent *event)
     Q_UNUSED(event);
 
     if (isExposed())
-        renderNow11();
+        renderNow();
 }
 
 void ctWindow::render()
@@ -157,7 +124,7 @@ void ctWindow::render()
     //QPainter painter(m_device);
     //render(&painter);
     Draw();//RenderScene();
-    renderLater();
+    //renderLater();
 
     static bool ss = false;
     if(!ss)
@@ -174,22 +141,17 @@ void ctWindow::render(QPainter *painter)
 
 void ctWindow::initialize()
 {
-//    screen()->setOrientationUpdateMask(Qt::LandscapeOrientation);
-//    contentOrientationChanged(Qt::LandscapeOrientation);
-//    reportContentOrientationChange(Qt::LandscapeOrientation);
-//    screen()->orientationChanged(Qt::LandscapeOrientation);
-    if (!m_device)
-        m_device = new QOpenGLPaintDevice;
-    m_device->setSize(size());
+        if (!m_device)
+            m_device = new QOpenGLPaintDevice;
+        m_device->setSize(size());
 
-    if(m_scene)
-    {
-        m_scene->Init();
-    }
-	
-	if(!m_input)
-		m_input = new ctInput(this);
-    //Initialization;
+        if(!m_input)
+            m_input = new ctInput(this);
+
+        if(m_scene)
+        {
+            m_scene->Init();
+        }
 }
 
 QOpenGLContext * ctWindow::GetOpenGLContext()
@@ -197,17 +159,17 @@ QOpenGLContext * ctWindow::GetOpenGLContext()
     return m_context;
 }
 
-void ctWindow::renderLater()
-{
-    if (!m_update_pending)
-    {
-        m_update_pending = true;
-        QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
-        //()<<"UpdateRequest";
-    }
-}
+//void ctWindow::renderLater()
+//{
+//    if (!m_update_pending)
+//    {
+//        m_update_pending = true;
+//        QCoreApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
+//        //()<<"UpdateRequest";
+//    }
+//}
 
-void ctWindow::renderNow11()
+void ctWindow::renderNow()
 {
     //qDebug()<<"RenderNow";
     if (!isExposed())
@@ -215,15 +177,10 @@ void ctWindow::renderNow11()
 
     static bool needsInitialize = false;
 
-    if (!m_context) {
+    if (!m_context)
+    {
         m_context = new QOpenGLContext(this);
-
-        //QGLFormat format = QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer);
-        //QGLFormat::setDefaultFormat(format);
         QSurfaceFormat t_format = requestedFormat();
-        //t_format.setSamples(16);
-        //t_format.setDepthBufferSize(24);
-        //setFormat(t_format);
         m_context->setFormat(t_format);
         m_context->create();
 
@@ -232,26 +189,15 @@ void ctWindow::renderNow11()
 
     m_context->makeCurrent(this);
 
-    if (needsInitialize) {
+    if (needsInitialize)
+    {
         needsInitialize = false;
-        initializeOpenGLFunctions();
-        //initialize();        //GLuint depthRenderbuffer;
-
-        //QString tmp((const char*)glGetString(GL_VERSION));
-        //GL_VENDOR, GL_RENDERER, GL_VERSION, or GL_SHADING_LANGUAGE_VERSION
+        //initializeOpenGLFunctions();
         qDebug()<<"Version: "<<(const char*)glGetString(GL_VERSION);//tmp;
         qDebug()<<"Renderer: "<<(const char*)glGetString(GL_RENDERER);
         qDebug()<<"Shaders: "<<(const char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
         qDebug()<<"Vendor: "<<(const char*)glGetString(GL_VENDOR);
         initialize();
-        //        glGenRenderbuffers(1, &depthRenderbuffer);
-        //                glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
-
-        //                // GL_DEPTH24_STENCIL8_OES: Set a depth buffer and a stencil buffer.
-        //                // GL_DEPTH_COMPONENT16: Set a 16bits depth buffer.
-        //                // GL_DEPTH_COMPONENT24_OES: Set a 24bits depth buffer.
-        //                glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, 800, 600);
-        //                glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
     }
 
     //if(m_GLWidget) m_GLWidget->updateGL();
@@ -260,7 +206,7 @@ void ctWindow::renderNow11()
     m_context->swapBuffers(this);
 
     //if (m_animating)
-        renderLater();
+        //renderLater();
 }
 
 void ctWindow::SetScene(ctScene* t_scene)
@@ -456,4 +402,14 @@ void ctWindow::MusickStoped(QMediaPlayer::State state)
     {
         m_player->play();
     }
+}
+
+QSettings* ctWindow::GetSettings()
+{
+    return m_settings;
+}
+
+ctFastDelegat* ctWindow::GetDelegatOnPressBack()
+{
+    return &m_onPressBack;
 }

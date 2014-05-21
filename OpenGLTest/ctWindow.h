@@ -8,6 +8,8 @@
 #include <QPainter>
 #include <QVector2D>
 #include <QMediaPlayer>
+#include <QSettings>
+#include "ctFastDelegat.h"
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -21,7 +23,7 @@ class ctShaderManager;
 class ctInput;
 //class ctGLWidget;
 
-class ctWindow : public QWindow, protected QOpenGLFunctions
+class ctWindow : public QWindow//, protected QOpenGLFunctions
 {
     Q_OBJECT
 private:
@@ -33,7 +35,9 @@ private:
     int m_defaultWidth, m_defaultHeight;
     bool m_update_pending;
     QMediaPlayer* m_player;
+    QSettings* m_settings;
 
+    ctFastDelegat m_onPressBack;
 protected:
     QOpenGLContext * m_context;
     QOpenGLPaintDevice *m_device;
@@ -81,10 +85,13 @@ public:
     float GetHeightScale() const;
 
     QMediaPlayer* GetMediaPlayer();
+    QSettings* GetSettings();
+
+    ctFastDelegat* GetDelegatOnPressBack();
 
 public slots:
-    void renderLater();
-    void renderNow11();
+    //void renderLater();
+    void renderNow();
     void StateChange(Qt::ApplicationState state);
     void MusickStoped(QMediaPlayer::State);
 };

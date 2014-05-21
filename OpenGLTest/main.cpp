@@ -51,6 +51,7 @@
 #include "shadermanager.h"
 #include <QDesktopWidget>
 #include <QResource>
+#include <QSplashScreen>
 //#include "axis.h"
 //#include "boxtextured.h"
 //#include "plane.h"
@@ -64,8 +65,8 @@
 #include "QDebug"
 #include "ctDelegat.h"
 #include "ctFastDelegat.h"
-#include <functional>
-#include <iostream>
+//#include <functional>
+//#include <iostream>
 #include "ctRand.h"
 
 void ShowMatrix(QMatrix4x4 t_mat)
@@ -80,6 +81,7 @@ int main(int argc, char **argv)
 {
     //QT_ANDROID_VOLUME_KEYS
     QApplication app(argc, argv);
+
     ctRand::RandomReset();
     QProcess tmp;
     tmp.processEnvironment().insert(QString("QT_ANDROID_VOLUME_KEYS"), QString("true"));
@@ -102,13 +104,22 @@ int main(int argc, char **argv)
 
     //m_testWindow.setFormat(format);
     //m_testWindow.SetResolution(1024, 768);
-    m_testWindow.resize(1024,500);
+    //m_testWindow.resize(1024,500);
     qDebug()<<"default width: "<<m_testWindow.GetDefaultWidth()<<"default height: "<<m_testWindow.GetDefaultHeight();
     qDebug()<<"width: "<<m_testWindow.GetWidth()<<"height"<<m_testWindow.GetHeight();
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
-    //m_testWindow.showFullScreen();//showMaximized();
-    m_testWindow.show();
+
+    m_testWindow.showFullScreen();//showMaximized();
+    //m_testWindow.initialize();
+    //m_splashScreen.hide();
+    //m_splashScreen.close();
+
+    //m_testWindow.show();
+
+
+    //m_testWindow.setWindowState(Qt::WindowActive);//setWindowFlags(Qt::WindowStaysOnTopHint);
+    //m_splashScreen.finish(&m_testWindow);
     //std::function<void(ccc*, int)> f_add_display = &ccc::ddd;
     //f_add_display(ee, 1);
 
@@ -119,7 +130,8 @@ int main(int argc, char **argv)
 //    window.show();
 
 //    window.setAnimating(true);
-
+    //m_splashScreen.finish(&m_testWindow);//close();//hide();
+    //m_testWindow.renderNow11();
     return app.exec();
 }
 

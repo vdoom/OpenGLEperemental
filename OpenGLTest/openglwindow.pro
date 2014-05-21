@@ -23,6 +23,8 @@ targ.path = /assets
 #samples.files += $$SAMPLE_FILES
 #samples.depends += FORCE
 
+#LIBS += D:\OpenGLEperemental\OpenGLTest\lib\armeabi-v7a\libgpg.a
+
 INSTALLS += targ
 QT += opengl
 QT += core

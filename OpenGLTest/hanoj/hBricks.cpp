@@ -242,8 +242,13 @@ bool hBricks::IsWin()
     return true;
 }
 
-int hBricks::GetColByPos(QVector2D t_pos)
+int hBricks::GetColByPos(QVector2D t_posit)
 {
+    QVector3D t_pos = t_posit;
+    if(t_pos.x()>(1024/2)) t_pos.setX(1024/2);
+    if(t_pos.x()<(-(1024/2))) t_pos.setX(-(1024/2));
+    if(t_pos.y()>(768/2)) t_pos.setX(768/2);
+    if(t_pos.y()<(-(768/2))) t_pos.setX(-(768/2));
     for(int i = 0; i < 8; ++i)
     {
         if(t_pos.x() >= (128 * i)-512 && t_pos.x() <= (128 * (i + 1))-512)

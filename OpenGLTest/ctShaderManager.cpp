@@ -85,7 +85,7 @@ QOpenGLShaderProgram* ctShaderManager::GetShaderProgram(QString t_name)
 {
     if(m_shaderPrograms.contains(t_name))
     {
-        qDebug()<<"Shader: "<<t_name<<"Finded!";
+        //qDebug()<<"Shader: "<<t_name<<"Finded!";
         return m_shaderPrograms[t_name];
     }
     else
