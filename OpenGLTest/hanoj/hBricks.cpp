@@ -230,7 +230,7 @@ bool hBricks::IsWin()
             for(int j = 1; j < m_blockSlots.at(i)->size(); ++j)
             {
                 if(m_blockSlots.at(i)->at(j-1)->GetBlockColor() != m_blockSlots.at(i)->at(j)->GetBlockColor() ||
-                        m_blockSlots.at(i)->at(j-1)->GetBlockColor() > m_blockSlots.at(i)->at(j)->GetBlockColor())
+                        m_blockSlots.at(i)->at(j-1)->GetBlockSize() < m_blockSlots.at(i)->at(j)->GetBlockSize())
                     return false;
             }
         }

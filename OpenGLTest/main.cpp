@@ -82,11 +82,14 @@ int main(int argc, char **argv)
     //QT_ANDROID_VOLUME_KEYS
     QApplication app(argc, argv);
 
+
     ctRand::RandomReset();
-    QProcess tmp;
-    tmp.processEnvironment().insert(QString("QT_ANDROID_VOLUME_KEYS"), QString("true"));
+    //QProcess tmp;
+    //tmp.processEnvironment().insert(QString("QT_ANDROID_VOLUME_KEYS"), QString("true"));
 //ctDelegat* tt;
     QResource::registerResource("res.rcc");
+    //QSplashScreen m_scr(QPixmap(":/texture/GUI/loading.png"));
+    //m_scr.show();
     //QResource::registerResource("muse.rcc");
     //QSurfaceFormat format;
     //format.setSamples(16);
@@ -110,7 +113,11 @@ int main(int argc, char **argv)
     qDebug()<<"widthScale: "<<m_testWindow.GetWidthScale()<<"heightScale"<<m_testWindow.GetHeightScale();
     //m_testWindow.showMaximized();
 
+
     m_testWindow.showFullScreen();//showMaximized();
+    //m_scr.hide();
+    //m_scr.close();
+    //delete m_scr;
     //m_testWindow.initialize();
     //m_splashScreen.hide();
     //m_splashScreen.close();

@@ -85,5 +85,6 @@
         <file alias="sound_button_atlas.png">hanoj/hanoj_art/main/sound_button_atlas.png</file>
         <file alias="credits_txt.png">hanoj/hanoj_art/credits.png</file>
         <file alias="name.png">hanoj/hanoj_art/name.png</file>
+        <file alias="loading.png">hanoj/hanoj_art/loading.png</file>
     </qresource>
 </RCC>

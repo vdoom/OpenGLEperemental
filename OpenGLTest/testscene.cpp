@@ -61,7 +61,7 @@ void testScene::Init()
     m_isMusicPlay = GetWindow()->GetSettings()->value(QString("MusicIsON"), true).toBool();
     GetWindow()->GetMediaPlayer()->setMedia(QUrl("assets:/muse.mp3"));//(QUrl::fromLocalFile("c:\\muse.mp3"));//(QUrl("assets:/muse.mp3"));
     //GetWindow()->GetMediaPlayer()->setMedia(QUrl::fromLocalFile("c:\\muse.mp3"));
-    GetWindow()->GetMediaPlayer()->setVolume(70);
+    //GetWindow()->GetMediaPlayer()->setVolume(70);
     //if(m_isMusicPlay)
 
     //m_isMusicPlay = true;
